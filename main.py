@@ -55,7 +55,7 @@ class FEExamSimulator(tk.Tk):
         
         # Software title and username
         title_label = ttk.Label(top_frame, 
-                              text="FE Simulator ~ v0.0: PROTOTYPE! - - - Guest User",
+                              text="The FE Simulator ~ PROTOTYPE! - - - Guest User",
                               style='TopBar.TLabel')
         title_label.pack(side=tk.LEFT, padx=15, pady=3)  # Reduced padding
         
@@ -115,9 +115,9 @@ class FEExamSimulator(tk.Tk):
         main_frame = ttk.Frame(self)
         main_frame.grid(row=2, column=0, sticky="nsew", padx=10, pady=5)
         
-        # Configure column weights for 40% handbook, 60% problem area
-        main_frame.grid_columnconfigure(0, weight=2, uniform="column")  # Reference handbook
-        main_frame.grid_columnconfigure(1, weight=3, uniform="column")  # Problem area
+        # Configure column weights for 50% handbook, 50% problem area
+        main_frame.grid_columnconfigure(0, weight=1, uniform="column")  # Reference handbook
+        main_frame.grid_columnconfigure(1, weight=1, uniform="column")  # Problem area
         main_frame.grid_rowconfigure(0, weight=1)  # Make content expand vertically
         
         # Reference Handbook (left side)
