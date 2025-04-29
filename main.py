@@ -7,8 +7,11 @@ from problem_manager import ProblemManager, Problem
 from calculator import ScientificCalculator
 import os
 
+print("Starting program...")  # Debug print
+
 class FEExamSimulator(tk.Tk):
     def __init__(self):
+        print("Initializing FEExamSimulator...")  # Debug print
         super().__init__()
         self.title("FE Exam Practice Software")
         self.state('zoomed')
@@ -275,6 +278,7 @@ class FEExamSimulator(tk.Tk):
 
 class Dashboard(tk.Tk):
     def __init__(self):
+        print("Initializing Dashboard...")  # Debug print
         super().__init__()
         self.title("FE Exam Practice Dashboard")
         self.state('zoomed')
@@ -345,5 +349,8 @@ class Dashboard(tk.Tk):
         exam.mainloop()
 
 if __name__ == "__main__":
+    print("Creating Dashboard...")  # Debug print
     dashboard = Dashboard()
-    dashboard.mainloop() 
+    print("Starting mainloop...")  # Debug print
+    dashboard.mainloop()
+    print("Program finished.")  # Debug print 
