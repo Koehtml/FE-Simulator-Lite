@@ -21,19 +21,20 @@ class FEExamSimulator(tk.Tk):
     def __init__(self):
         super().__init__()
         
-        # Initialize but don't show the main window yet
+        # Hide main window
         self.withdraw()
         
-        # Configure the main window
-        self.title("FE Exam Practice Software")
-        
-        # Show the dashboard
-        dashboard = Dashboard(self)
-        self.wait_window(dashboard)  # Wait for dashboard to close
-        
-        # Now show and configure the main window
+        # Create and wait for dashboard
+        try:
+            dashboard = Dashboard(self)
+            self.wait_window(dashboard)
+        except Exception as e:
+            print(f"Dashboard error: {e}")
+            
+        # Show main window
         self.deiconify()
-        self.state('zoomed')  # Start maximized
+        self.title("FE Exam Practice Software")
+        self.state('zoomed')
         
         # Set color scheme
         self.configure(bg='#f0f0f0')
