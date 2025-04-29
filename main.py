@@ -5,12 +5,25 @@ import json
 import time
 from problem_manager import ProblemManager, Problem
 from calculator import ScientificCalculator
+from dashboard import Dashboard
 import os
 
 class FEExamSimulator(tk.Tk):
     def __init__(self):
         super().__init__()
 
+        # Hide the main window initially
+        self.withdraw()
+        
+        # Show the dashboard first
+        dashboard = Dashboard(self)
+        dashboard.protocol("WM_DELETE_WINDOW", self.on_dashboard_close)
+        
+        # Wait for the dashboard to be closed
+        self.wait_window(dashboard)
+        
+        # Now show the main exam window
+        self.deiconify()
         self.title("FE Exam Practice Software")
         self.state('zoomed')  # Start maximized
         
@@ -273,6 +286,11 @@ class FEExamSimulator(tk.Tk):
         
         # Make the window modal
         self.wait_window(viewer_window)
+
+    def on_dashboard_close(self):
+        # Handle the event when the dashboard is closed
+        # This is a placeholder and should be replaced with the actual implementation
+        pass
 
 if __name__ == "__main__":
     app = FEExamSimulator()
