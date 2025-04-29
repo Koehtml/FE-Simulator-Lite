@@ -5,34 +5,11 @@ import json
 import time
 from problem_manager import ProblemManager, Problem
 from calculator import ScientificCalculator
-from dashboard import Dashboard
 import os
-
-def main():
-    # Show dashboard first
-    dashboard = Dashboard()
-    dashboard.mainloop()
-    
-    # After dashboard is closed, show the main exam window
-    app = FEExamSimulator()
-    app.mainloop()
 
 class FEExamSimulator(tk.Tk):
     def __init__(self):
         super().__init__()
-        
-        # Hide main window
-        self.withdraw()
-        
-        # Create and wait for dashboard
-        try:
-            dashboard = Dashboard(self)
-            self.wait_window(dashboard)
-        except Exception as e:
-            print(f"Dashboard error: {e}")
-            
-        # Show main window
-        self.deiconify()
         self.title("FE Exam Practice Software")
         self.state('zoomed')
         
@@ -40,11 +17,11 @@ class FEExamSimulator(tk.Tk):
         self.configure(bg='#f0f0f0')
         style = ttk.Style()
         style.configure('TopBar.TFrame', background='#FF8C00')  # Dark Orange
-        style.configure('TopBar.TLabel', background='#FF8C00', foreground='white', font=('Arial', 9))  # Reduced font size
+        style.configure('TopBar.TLabel', background='#FF8C00', foreground='white', font=('Arial', 9))
         style.configure('SecondaryBar.TFrame', background='#FFB366')  # Lighter Orange
-        style.configure('Tool.TButton', padding=2, font=('Arial', 12))  # Increased font size for tool buttons
-        style.configure('Calculator.TButton', padding=2, font=('Arial', 11))  # Calculator button style
-        style.configure('Flag.TButton', padding=2, font=('Arial', 11))  # Flag button style
+        style.configure('Tool.TButton', padding=2, font=('Arial', 12))
+        style.configure('Calculator.TButton', padding=2, font=('Arial', 11))
+        style.configure('Flag.TButton', padding=2, font=('Arial', 11))
         
         # Initialize the problem manager
         self.problem_manager = ProblemManager()
@@ -296,6 +273,77 @@ class FEExamSimulator(tk.Tk):
         # Make the window modal
         self.wait_window(viewer_window)
 
+class Dashboard(tk.Tk):
+    def __init__(self):
+        super().__init__()
+        self.title("FE Exam Practice Dashboard")
+        self.state('zoomed')
+        
+        # Configure the main window grid
+        self.grid_columnconfigure(0, weight=1)  # Left pane
+        self.grid_columnconfigure(1, weight=1)  # Right pane
+        self.grid_rowconfigure(0, weight=1)
+        self.grid_rowconfigure(1, weight=0)  # Button row
+        
+        # Create left pane (Statistics)
+        self.create_stats_pane()
+        
+        # Create right pane (Test Settings)
+        self.create_settings_pane()
+        
+        # Create start button
+        self.create_start_button()
+
+    def create_stats_pane(self):
+        stats_frame = ttk.LabelFrame(self, text="Your Progress")
+        stats_frame.grid(row=0, column=0, sticky="nsew", padx=10, pady=10)
+        
+        # Statistics labels
+        ttk.Label(stats_frame, text="Practice Exams Taken: 0").pack(anchor="w", padx=10, pady=5)
+        ttk.Label(stats_frame, text="Correct Answers: 0").pack(anchor="w", padx=10, pady=5)
+        ttk.Label(stats_frame, text="Incorrect Answers: 0").pack(anchor="w", padx=10, pady=5)
+        ttk.Label(stats_frame, text="Average Score: 0%").pack(anchor="w", padx=10, pady=5)
+
+    def create_settings_pane(self):
+        settings_frame = ttk.LabelFrame(self, text="Test Settings")
+        settings_frame.grid(row=0, column=1, sticky="nsew", padx=10, pady=10)
+        
+        # Test type selection
+        ttk.Label(settings_frame, text="Test Type:").pack(anchor="w", padx=10, pady=5)
+        self.test_type = tk.StringVar(value="timed")
+        ttk.Radiobutton(settings_frame, text="Timed Test", variable=self.test_type, value="timed").pack(anchor="w", padx=20)
+        ttk.Radiobutton(settings_frame, text="Non-timed Test", variable=self.test_type, value="non-timed").pack(anchor="w", padx=20)
+        
+        # Number of questions selection
+        ttk.Label(settings_frame, text="\nNumber of Questions:").pack(anchor="w", padx=10, pady=5)
+        self.num_questions = tk.StringVar(value="5")
+        question_choices = ttk.Combobox(settings_frame, textvariable=self.num_questions, state="readonly")
+        question_choices['values'] = tuple(range(5, 35, 5))
+        question_choices.pack(anchor="w", padx=20)
+
+    def create_start_button(self):
+        style = ttk.Style()
+        style.configure(
+            "Start.TButton",
+            background="#FFB366",
+            foreground="white",
+            font=('Arial', 12, 'bold'),
+            padding=10
+        )
+        
+        start_button = ttk.Button(
+            self,
+            text="Take Practice Exam",
+            style="Start.TButton",
+            command=self.start_exam
+        )
+        start_button.grid(row=1, column=0, columnspan=2, pady=20)
+
+    def start_exam(self):
+        self.destroy()
+        exam = FEExamSimulator()
+        exam.mainloop()
+
 if __name__ == "__main__":
-    app = FEExamSimulator()
-    app.mainloop() 
+    dashboard = Dashboard()
+    dashboard.mainloop() 
