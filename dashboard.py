@@ -8,7 +8,11 @@ class Dashboard(tk.Toplevel):
     def __init__(self, parent):
         super().__init__(parent)
         self.title("FE Exam Practice Dashboard")
-        self.state('zoomed')
+        
+        # Make sure this window is shown and focused
+        self.lift()  # Lift the window to the top
+        self.focus_force()  # Force focus
+        self.state('zoomed')  # Maximize the window
         
         # Configure the main window grid
         self.grid_columnconfigure(0, weight=1)  # Left pane
@@ -24,6 +28,10 @@ class Dashboard(tk.Toplevel):
         
         # Create start button
         self.create_start_button()
+        
+        # Make sure this window stays on top
+        self.attributes('-topmost', True)
+        self.update()
 
     def create_stats_pane(self):
         stats_frame = ttk.LabelFrame(self, text="Your Progress")
@@ -66,15 +74,6 @@ class Dashboard(tk.Toplevel):
         question_choices.pack(anchor="w", padx=20)
 
     def create_start_button(self):
-        start_button = ttk.Button(
-            self,
-            text="Take Practice Exam",
-            style="Start.TButton",
-            command=self.start_exam
-        )
-        start_button.grid(row=1, column=0, columnspan=2, pady=20)
-        
-        # Create custom style for the button
         style = ttk.Style()
         style.configure(
             "Start.TButton",
@@ -83,7 +82,15 @@ class Dashboard(tk.Toplevel):
             font=('Arial', 12, 'bold'),
             padding=10
         )
+        
+        start_button = ttk.Button(
+            self,
+            text="Take Practice Exam",
+            style="Start.TButton",
+            command=self.start_exam
+        )
+        start_button.grid(row=1, column=0, columnspan=2, pady=20)
 
     def start_exam(self):
-        # This will be implemented later to start the actual exam
+        self.attributes('-topmost', False)  # Remove topmost attribute
         self.destroy()  # Close the dashboard 
