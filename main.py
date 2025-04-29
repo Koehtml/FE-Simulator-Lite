@@ -7,11 +7,14 @@ from problem_manager import ProblemManager, Problem
 from calculator import ScientificCalculator
 import os
 
-print("Starting program...")  # Debug print
+# Write to a log file to track execution
+with open("debug.log", "w") as f:
+    f.write("Starting program...\n")
 
 class FEExamSimulator(tk.Tk):
     def __init__(self):
-        print("Initializing FEExamSimulator...")  # Debug print
+        with open("debug.log", "a") as f:
+            f.write("Initializing FEExamSimulator...\n")
         super().__init__()
         self.title("FE Exam Practice Software")
         self.state('zoomed')
@@ -278,7 +281,8 @@ class FEExamSimulator(tk.Tk):
 
 class Dashboard(tk.Tk):
     def __init__(self):
-        print("Initializing Dashboard...")  # Debug print
+        with open("debug.log", "a") as f:
+            f.write("Initializing Dashboard...\n")
         super().__init__()
         self.title("FE Exam Practice Dashboard")
         self.state('zoomed')
@@ -349,8 +353,11 @@ class Dashboard(tk.Tk):
         exam.mainloop()
 
 if __name__ == "__main__":
-    print("Creating Dashboard...")  # Debug print
+    with open("debug.log", "a") as f:
+        f.write("In main block...\n")
     dashboard = Dashboard()
-    print("Starting mainloop...")  # Debug print
+    with open("debug.log", "a") as f:
+        f.write("Created Dashboard, starting mainloop...\n")
     dashboard.mainloop()
-    print("Program finished.")  # Debug print 
+    with open("debug.log", "a") as f:
+        f.write("Program finished.\n") 
