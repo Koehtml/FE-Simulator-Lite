@@ -12,25 +12,29 @@ with open("debug.log", "w") as f:
     f.write("Starting program...\n")
 
 class FEExamSimulator(tk.Tk):
-    def __init__(self):
+    def __init__(self, test_type="timed", num_questions=5):
         with open("debug.log", "a") as f:
             f.write("Initializing FEExamSimulator...\n")
         super().__init__()
         self.title("FE Exam Practice Software")
         self.state('zoomed')
         
+        # Store test settings
+        self.test_type = test_type
+        self.num_questions = num_questions
+        
         # Set color scheme
         self.configure(bg='#f0f0f0')
         style = ttk.Style()
-        style.configure('TopBar.TFrame', background='#FF8C00')  # Dark Orange
-        style.configure('TopBar.TLabel', background='#FF8C00', foreground='white', font=('Arial', 9))
-        style.configure('SecondaryBar.TFrame', background='#FFB366')  # Lighter Orange
+        style.configure('TopBar.TFrame', background='#C64F00')  # Dark Orange
+        style.configure('TopBar.TLabel', background='#C64F00', foreground='white', font=('Arial', 9))
+        style.configure('SecondaryBar.TFrame', background='#E25A00')  # Lighter Orange
         style.configure('Tool.TButton', padding=2, font=('Arial', 12))
         style.configure('Calculator.TButton', padding=2, font=('Arial', 11))
         style.configure('Flag.TButton', padding=2, font=('Arial', 11))
         
         # Initialize the problem manager
-        self.problem_manager = ProblemManager()
+        self.problem_manager = ProblemManager(num_questions=self.num_questions)
         
         # Configure the main window grid
         self.grid_columnconfigure(0, weight=1)
@@ -47,9 +51,13 @@ class FEExamSimulator(tk.Tk):
         # Create the main content area
         self.create_main_content()
 
-        # Initialize timer
-        self.remaining_time = 6 * 60 * 60  # 6 hours in seconds
-        self.update_timer()
+        # Initialize timer if test is timed
+        if self.test_type == "timed":
+            self.remaining_time = 3 * 60 * self.num_questions  # 3 minutes per question
+            self.grace_period = 5  # 5 second grace period
+            self.update_grace_period()
+        else:
+            self.timer_label.config(text="Non-timed Test")
 
         # Load the first problem
         self.load_current_problem()
@@ -252,7 +260,23 @@ class FEExamSimulator(tk.Tk):
     def mark_for_review(self):
         messagebox.showinfo("Flagged", "Question marked for review")
 
+    def update_grace_period(self):
+        """Update the grace period countdown."""
+        if self.grace_period > 0:
+            self.timer_label.config(text=f"Starting in {self.grace_period} seconds...")
+            self.grace_period -= 1
+            self.after(1000, self.update_grace_period)
+        else:
+            self.start_timer()
+
+    def start_timer(self):
+        """Start the timer countdown after the grace period."""
+        self.update_timer()
+
     def update_timer(self):
+        if self.test_type != "timed":
+            return
+            
         hours = self.remaining_time // 3600
         minutes = (self.remaining_time % 3600) // 60
         seconds = self.remaining_time % 60
@@ -264,6 +288,12 @@ class FEExamSimulator(tk.Tk):
             self.after(1000, self.update_timer)
         else:
             messagebox.showinfo("Time's Up", "Your exam session has ended!")
+            self.return_to_dashboard()
+
+    def return_to_dashboard(self):
+        self.destroy()
+        dashboard = Dashboard()
+        dashboard.mainloop()
 
     def open_reference_manual(self):
         # Create a new window for the PDF viewer
@@ -326,30 +356,44 @@ class Dashboard(tk.Tk):
         ttk.Label(settings_frame, text="\nNumber of Questions:").pack(anchor="w", padx=10, pady=5)
         self.num_questions = tk.StringVar(value="5")
         question_choices = ttk.Combobox(settings_frame, textvariable=self.num_questions, state="readonly")
-        question_choices['values'] = tuple(range(5, 35, 5))
+        question_choices['values'] = tuple(range(5, 55, 5))  # 5 to 50 in steps of 5
         question_choices.pack(anchor="w", padx=20)
 
     def create_start_button(self):
-        style = ttk.Style()
-        style.configure(
-            "Start.TButton",
-            background="#FFB366",
-            foreground="white",
-            font=('Arial', 12, 'bold'),
-            padding=10
-        )
-        
-        start_button = ttk.Button(
+        start_button = tk.Button(
             self,
             text="Take Practice Exam",
-            style="Start.TButton",
+            font=('Arial', 12, 'bold'),
+            bg='#C64F00',  # Dark Orange
+            fg='white',    # White text
+            activebackground='#E25A00',  # Lighter Orange on hover
+            activeforeground='white',    # Keep text white on hover
+            relief=tk.RAISED,
+            padx=20,
+            pady=10,
             command=self.start_exam
         )
+        
+        # Add hover effects
+        def on_enter(e):
+            start_button['background'] = '#E25A00'
+            
+        def on_leave(e):
+            start_button['background'] = '#C64F00'
+            
+        start_button.bind("<Enter>", on_enter)
+        start_button.bind("<Leave>", on_leave)
+        
         start_button.grid(row=1, column=0, columnspan=2, pady=20)
 
     def start_exam(self):
+        # Get test settings
+        test_type = self.test_type.get()
+        num_questions = int(self.num_questions.get())
+        
+        # Create and start the exam with the selected settings
         self.destroy()
-        exam = FEExamSimulator()
+        exam = FEExamSimulator(test_type=test_type, num_questions=num_questions)
         exam.mainloop()
 
 if __name__ == "__main__":
