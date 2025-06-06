@@ -50,7 +50,7 @@ class PDFViewer(ttk.Frame):
         ttk.Button(self.search_frame, text="✕", width=3, command=self.hide_search).pack(side=tk.LEFT, padx=2)
         
         # Create canvas for PDF display
-        self.canvas = tk.Canvas(self, bg='white', cursor="fleur")  # Change cursor to indicate draggable
+        self.canvas = tk.Canvas(self, bg='white', cursor="arrow")
         self.canvas.grid(row=2, column=0, sticky="nsew", padx=(5,0), pady=5)
         
         # Create scrollbars
@@ -66,9 +66,13 @@ class PDFViewer(ttk.Frame):
         self.canvas.bind('<Configure>', self.on_canvas_configure)
         self.canvas.bind('<Button-1>', self.on_canvas_click)
         self.canvas.bind('<Button-3>', self.on_right_click)
-        self.canvas.bind_all('<MouseWheel>', self.on_mousewheel)
         
-        # Add drag events
+        # Mouse wheel for page navigation
+        self.canvas.bind_all('<MouseWheel>', self.on_mousewheel)
+        # Ctrl + Mouse wheel for zooming
+        self.canvas.bind_all('<Control-MouseWheel>', self.on_ctrl_mousewheel)
+        
+        # Add drag events for left mouse button
         self.canvas.bind('<ButtonPress-1>', self.start_drag)
         self.canvas.bind('<B1-Motion>', self.drag)
         self.canvas.bind('<ButtonRelease-1>', self.stop_drag)
@@ -245,8 +249,42 @@ class PDFViewer(ttk.Frame):
             self.display_page()
 
     def on_mousewheel(self, event):
-        # Windows mousewheel
-        self.canvas.yview_scroll(int(-1 * (event.delta / 120)), "units")
+        """Handle mouse wheel for page navigation"""
+        if not self.pdf_document:
+            return
+            
+        if event.delta > 0:  # Scroll up
+            self.prev_page()
+        else:  # Scroll down
+            self.next_page()
+
+    def on_ctrl_mousewheel(self, event):
+        """Handle Ctrl + mouse wheel for zooming"""
+        if not self.pdf_document:
+            return
+            
+        # Calculate the current page dimensions
+        page = self.pdf_document[self.current_page]
+        page_width = page.rect.width
+        page_height = page.rect.height
+        
+        # Calculate the canvas dimensions
+        canvas_width = self.canvas.winfo_width()
+        canvas_height = self.canvas.winfo_height()
+        
+        # Calculate the minimum zoom level needed to fit the page
+        min_zoom_x = canvas_width / page_width
+        min_zoom_y = canvas_height / page_height
+        min_zoom = min(min_zoom_x, min_zoom_y)
+            
+        if event.delta > 0:  # Zoom in
+            if self.zoom_level < 3.0:  # Limit maximum zoom
+                self.zoom_level += 0.1
+                self.update_page()
+        else:  # Zoom out
+            if self.zoom_level > min_zoom:  # Limit minimum zoom to fit page
+                self.zoom_level -= 0.1
+                self.update_page()
 
     def on_left_click(self, event):
         self.zoom_in()
@@ -386,7 +424,7 @@ class PDFViewer(ttk.Frame):
             dy = event.y - self.last_y
             
             # Scale down the movement for smoother panning
-            scale_factor = 0.1  # Reduce sensitivity to 10%
+            scale_factor = 0.3  # Moderate sensitivity reduction
             dx = int(dx * scale_factor)
             dy = int(dy * scale_factor)
             
@@ -401,4 +439,13 @@ class PDFViewer(ttk.Frame):
     def stop_drag(self, event):
         """Stop dragging the canvas"""
         self.is_dragging = False
-        self.canvas.config(cursor="fleur")  # Keep the fleur cursor for draggable area 
+        self.canvas.config(cursor="arrow")
+
+    def zoom_in_at_position(self, x, y):
+        """Zoom in at the specified position"""
+        if self.zoom_level < 3.0:  # Limit maximum zoom
+            self.zoom_level += 0.5
+            self.update_page()
+
+    def update_page(self):
+        self.display_page() 
