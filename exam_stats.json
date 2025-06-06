@@ -6,6 +6,34 @@
             "score": 60.0,
             "time_taken": 61.23360848426819,
             "test_type": "non-timed"
+        },
+        {
+            "date": "2025-06-05 20:22:03",
+            "num_questions": 20,
+            "score": 0.0,
+            "time_taken": 44.86126232147217,
+            "test_type": "timed"
+        },
+        {
+            "date": "2025-06-05 20:25:11",
+            "num_questions": 5,
+            "score": 0.0,
+            "time_taken": 5.102243661880493,
+            "test_type": "timed"
+        },
+        {
+            "date": "2025-06-05 20:51:34",
+            "num_questions": 5,
+            "score": 40.0,
+            "time_taken": 132.40451407432556,
+            "test_type": "timed"
+        },
+        {
+            "date": "2025-06-05 20:52:51",
+            "num_questions": 5,
+            "score": 0.0,
+            "time_taken": 60.419811487197876,
+            "test_type": "timed"
         }
     ]
 }

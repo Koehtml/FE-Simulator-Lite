@@ -7,6 +7,11 @@ from problem_manager import ProblemManager, Problem
 from calculator import ScientificCalculator
 from exam_stats import ExamStats
 import os
+import matplotlib.pyplot as plt
+import matplotlib
+matplotlib.use('Agg')  # Use non-interactive backend
+import re
+from io import BytesIO
 
 # Write to a log file to track execution
 with open("debug.log", "w") as f:
@@ -112,7 +117,7 @@ class FEExamSimulator(tk.Tk):
         
         # Question navigator button
         ttk.Button(progress_container,
-                  text="☰",
+                  text=":::",
                   width=2,  # Reduced width
                   command=self.show_question_navigator).pack(side=tk.LEFT, padx=(8,0))  # Reduced padding
 
@@ -248,7 +253,52 @@ class FEExamSimulator(tk.Tk):
 
         # Clear and update problem text
         self.problem_text.delete(1.0, tk.END)
-        self.problem_text.insert(tk.END, problem.question)
+        
+        # Process the question text to render LaTeX expressions
+        question_text = problem.question
+        latex_expressions = re.findall(r'\\\(.*?\\\)', question_text)
+        
+        # Replace LaTeX expressions with placeholders
+        for i, expr in enumerate(latex_expressions):
+            question_text = question_text.replace(expr, f'[LATEX_{i}]')
+        
+        # Insert the text with placeholders
+        self.problem_text.insert(tk.END, question_text)
+        
+        # Render and insert LaTeX expressions
+        for i, expr in enumerate(latex_expressions):
+            # Remove the \( and \) delimiters
+            latex = expr[2:-2]
+            
+            # Create a figure for the LaTeX expression
+            plt.figure(figsize=(1, 0.5))
+            plt.text(0.5, 0.5, f'${latex}$', 
+                    horizontalalignment='center',
+                    verticalalignment='center',
+                    transform=plt.gca().transAxes)
+            plt.axis('off')
+            
+            # Save the figure to a BytesIO object
+            buf = BytesIO()
+            plt.savefig(buf, format='png', bbox_inches='tight', pad_inches=0.1)
+            plt.close()
+            
+            # Convert to PhotoImage
+            buf.seek(0)
+            img = Image.open(buf)
+            photo = ImageTk.PhotoImage(img)
+            
+            # Find the placeholder position
+            start_index = self.problem_text.search(f'[LATEX_{i}]', '1.0', tk.END)
+            if start_index:
+                # Delete the placeholder
+                end_index = f"{start_index}+{len(f'[LATEX_{i}]')}c"
+                self.problem_text.delete(start_index, end_index)
+                
+                # Insert the image
+                self.problem_text.image_create(start_index, image=photo)
+                # Keep a reference to prevent garbage collection
+                self.problem_text.image = photo
 
         # Reset the answer variable to clear any previous selection
         self.answer_var.set("")

@@ -3,7 +3,7 @@
         {
             "number": "1",
             "category": "Math",
-            "question": "The equation \\( (x-3)^2 + \\frac{y^2}{16} = 1 \\) defines what kind of shape?",
+            "question": "The following equation defines what kind of shape? \\( (x-3)^2 + \\frac{y^2}{16} = 1 \\)",
             "media": "",
             "choices": [
                 "Circle",
@@ -68,7 +68,7 @@
         {
             "number": "6",
             "category": "Strength",
-            "question": "A composite rod consists of two segments: Segment A is 1.5 m long with a cross-sectional area of 0.0004 m\u00b2 and Young's modulus of 150 GPa, and Segment B is 2.5 m long with a cross-sectional area of 0.0006 m\u00b2 and Young's modulus of 200 GPa. The rod is subjected to a tensile force of 75 kN. Calculate the total elongation (\u03b4_total) of the rod, considering each segment separately using the equation \u03b4 = PL/AE, and then summing the elongations.",
+            "question": "A composite rod consists of two segments: Segment A is 1.5 m long with a cross-sectional area of 0.0004 m\u00b2 and Young's modulus of 150 GPa, and Segment B is 2.5 m long with a cross-sectional area of 0.0006 m\u00b2 and Young's modulus of 200 GPa. The rod is subjected to a tensile force of 75 kN. Calculate the total elongation of the rod.",
             "media": "",
             "choices": [
                 "2.1 mm",
