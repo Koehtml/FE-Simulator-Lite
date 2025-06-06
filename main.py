@@ -300,6 +300,39 @@ class FEExamSimulator(tk.Tk):
                 # Keep a reference to prevent garbage collection
                 self.problem_text.image = photo
 
+        # Display media if present
+        if problem.media:
+            try:
+                # Add a newline before the media
+                self.problem_text.insert(tk.END, "\n\n")
+                
+                # Load and display the media file
+                media_path = os.path.join("media", problem.media)
+                if os.path.exists(media_path):
+                    # Open and resize the image to fit the text widget width
+                    img = Image.open(media_path)
+                    text_width = self.problem_text.winfo_width() - 20  # Account for padding
+                    
+                    # Calculate new dimensions while maintaining aspect ratio
+                    width_ratio = text_width / img.width
+                    new_width = int(img.width * width_ratio)
+                    new_height = int(img.height * width_ratio)
+                    
+                    # Resize the image
+                    img = img.resize((new_width, new_height), Image.Resampling.LANCZOS)
+                    
+                    # Convert to PhotoImage
+                    photo = ImageTk.PhotoImage(img)
+                    
+                    # Insert the image
+                    self.problem_text.image_create(tk.END, image=photo)
+                    # Keep a reference to prevent garbage collection
+                    self.problem_text.media_image = photo
+                else:
+                    self.problem_text.insert(tk.END, f"\n[Media file not found: {problem.media}]")
+            except Exception as e:
+                self.problem_text.insert(tk.END, f"\n[Error loading media: {str(e)}]")
+
         # Reset the answer variable to clear any previous selection
         self.answer_var.set("")
 

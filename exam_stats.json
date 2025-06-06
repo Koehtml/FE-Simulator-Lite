@@ -41,6 +41,13 @@
             "score": 0.0,
             "time_taken": 174.07223463058472,
             "test_type": "timed"
+        },
+        {
+            "date": "2025-06-06 13:04:16",
+            "num_questions": 5,
+            "score": 0.0,
+            "time_taken": 10.291400909423828,
+            "test_type": "timed"
         }
     ]
 }
