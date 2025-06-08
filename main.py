@@ -309,16 +309,11 @@ class FEExamSimulator(tk.Tk):
                 # Load and display the media file
                 media_path = os.path.join("media", problem.media)
                 if os.path.exists(media_path):
-                    # Open and resize the image to fit the text widget width
                     img = Image.open(media_path)
-                    text_width = self.problem_text.winfo_width() - 20  # Account for padding
                     
-                    # Calculate new dimensions while maintaining aspect ratio
-                    width_ratio = text_width / img.width
-                    new_width = int(img.width * width_ratio)
-                    new_height = int(img.height * width_ratio)
-                    
-                    # Resize the image
+                    # Scale image to 50% of original size
+                    new_width = int(img.width * 0.35)
+                    new_height = int(img.height * 0.35)
                     img = img.resize((new_width, new_height), Image.Resampling.LANCZOS)
                     
                     # Convert to PhotoImage
