@@ -152,9 +152,9 @@ class FEExamSimulator(tk.Tk):
         main_frame = ttk.Frame(self)
         main_frame.grid(row=2, column=0, sticky="nsew", padx=10, pady=5)
         
-        # Configure column weights for 50% handbook, 50% problem area
-        main_frame.grid_columnconfigure(0, weight=1, uniform="column")  # Reference handbook
-        main_frame.grid_columnconfigure(1, weight=1, uniform="column")  # Problem area
+        # Configure column weights for 35% handbook, 65% problem area
+        main_frame.grid_columnconfigure(0, weight=40, uniform="column")  # Reference handbook
+        main_frame.grid_columnconfigure(1, weight=60, uniform="column")  # Problem area
         main_frame.grid_rowconfigure(0, weight=1)  # Make content expand vertically
         
         # Reference Handbook (left side)
@@ -321,53 +321,6 @@ class FEExamSimulator(tk.Tk):
                     self.problem_text.image_create(tk.END, image=photo)
                     # Keep a reference to prevent garbage collection
                     self.problem_text.media_image = photo
-                    
-                    # Add click handler for the image
-                    def show_large_image(event):
-                        # Create a new window for the large image
-                        img_window = tk.Toplevel(self)
-                        img_window.title("Image Preview")
-                        
-                        # Load and resize the image to fit the screen
-                        screen_width = self.winfo_screenwidth() * 0.8
-                        screen_height = self.winfo_screenheight() * 0.8
-                        
-                        # Calculate scaling factor to fit the screen
-                        width_ratio = screen_width / img.width
-                        height_ratio = screen_height / img.height
-                        scale_factor = min(width_ratio, height_ratio)
-                        
-                        new_width = int(img.width * scale_factor)
-                        new_height = int(img.height * scale_factor)
-                        
-                        large_img = img.resize((new_width, new_height), Image.Resampling.LANCZOS)
-                        large_photo = ImageTk.PhotoImage(large_img)
-                        
-                        # Create label to hold the image
-                        img_label = ttk.Label(img_window, image=large_photo)
-                        img_label.image = large_photo  # Keep a reference
-                        img_label.pack(padx=10, pady=10)
-                        
-                        # Add close button
-                        close_btn = ttk.Button(img_window, text="Close", command=img_window.destroy)
-                        close_btn.pack(pady=10)
-                        
-                        # Center the window
-                        img_window.update_idletasks()
-                        width = img_window.winfo_width()
-                        height = img_window.winfo_height()
-                        x = (img_window.winfo_screenwidth() // 2) - (width // 2)
-                        y = (img_window.winfo_screenheight() // 2) - (height // 2)
-                        img_window.geometry(f'{width}x{height}+{x}+{y}')
-                        
-                        # Make window modal
-                        img_window.transient(self)
-                        img_window.grab_set()
-                    
-                    # Bind click event to the image
-                    self.problem_text.tag_bind("image", "<Button-1>", show_large_image)
-                    # Add cursor change on hover
-                    self.problem_text.tag_configure("image", cursor="hand2")
                 else:
                     self.problem_text.insert(tk.END, f"\n[Media file not found: {problem.media}]")
             except Exception as e:
@@ -386,12 +339,11 @@ class FEExamSimulator(tk.Tk):
             choice_frame = ttk.Frame(self.answers_frame)
             choice_frame.pack(fill=tk.X, pady=2)
             
-            # Create the radio button with larger font
+            # Create the radio button
             btn = ttk.Radiobutton(choice_frame,
                                 text=choice,
                                 variable=self.answer_var,
-                                value=choice,
-                                style='Large.TRadiobutton')
+                                value=choice)
             btn.pack(anchor=tk.W, padx=5)
             self.answer_buttons.append(btn)
             
