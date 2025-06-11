@@ -51,6 +51,12 @@ class FEExamSimulator(tk.Tk):
         style.configure('Current.TButton', background='#4CAF50', foreground='black')  # Green for current question with black text
         style.configure('Flagged.TButton', background='#FFC107', foreground='black')  # Yellow for flagged questions with black text
         
+        # Configure the large radio button style
+        style.configure('Large.TRadiobutton', font=('Arial', 11))
+        
+        # Configure the large navigation button style
+        style.configure('Large.TButton', font=('Arial', 12))
+        
         # Initialize the problem manager
         self.problem_manager = ProblemManager(num_questions=self.num_questions)
         
@@ -172,7 +178,7 @@ class FEExamSimulator(tk.Tk):
         # Problem text
         self.problem_text = tk.Text(problem_frame,
                                   wrap=tk.WORD,
-                                  font=('Arial', 14),
+                                  font=('Arial', 12),
                                   padx=10,
                                   pady=10)
         self.problem_text.grid(row=0, column=0, sticky="nsew", padx=5, pady=5)
@@ -194,11 +200,11 @@ class FEExamSimulator(tk.Tk):
         nav_frame.grid_columnconfigure(1, weight=1)  # Right side
         
         # Previous button on the left
-        self.prev_btn = ttk.Button(nav_frame, text="Previous Question", command=self.prev_question)
+        self.prev_btn = ttk.Button(nav_frame, text="Previous Question", command=self.prev_question, style='Large.TButton')
         self.prev_btn.grid(row=0, column=0, sticky="w", padx=5)
         
         # Next/Submit button on the right
-        self.next_btn = ttk.Button(nav_frame, text="Next Question", command=self.next_question)
+        self.next_btn = ttk.Button(nav_frame, text="Next Question", command=self.next_question, style='Large.TButton')
         self.next_btn.grid(row=0, column=1, sticky="e", padx=5)
         
         # Remove the old navigation buttons frame
@@ -380,11 +386,12 @@ class FEExamSimulator(tk.Tk):
             choice_frame = ttk.Frame(self.answers_frame)
             choice_frame.pack(fill=tk.X, pady=2)
             
-            # Create the radio button
+            # Create the radio button with larger font
             btn = ttk.Radiobutton(choice_frame,
                                 text=choice,
                                 variable=self.answer_var,
-                                value=choice)
+                                value=choice,
+                                style='Large.TRadiobutton')
             btn.pack(anchor=tk.W, padx=5)
             self.answer_buttons.append(btn)
             
@@ -650,7 +657,7 @@ class Dashboard(tk.Tk):
         start_button = tk.Button(
             self,
             text="Take Practice Exam",
-            font=('Arial', 12, 'bold'),
+            font=('Arial', 16, 'bold'),
             bg='#C64F00',  # Dark Orange
             fg='white',    # White text
             activebackground='#E25A00',  # Lighter Orange on hover
