@@ -3,6 +3,8 @@ import json
 import re
 
 def clean_text(text):
+    if not isinstance(text, str):
+        return ""
     # Remove any problematic characters and normalize whitespace
     text = text.strip()
     text = re.sub(r'\s+', ' ', text)  # Replace multiple spaces with single space
@@ -38,7 +40,7 @@ def convert_csv_to_json():
         "problems": problems
     }
     
-    # Write to JSON file
+    # Write to JSON file with proper encoding
     with open('problems_database.json', 'w', encoding='utf-8') as jsonfile:
         json.dump(json_data, jsonfile, indent=4, ensure_ascii=False)
 

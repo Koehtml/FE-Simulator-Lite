@@ -242,64 +242,22 @@ class FEExamSimulator(tk.Tk):
             self.load_current_problem()
 
     def load_current_problem(self):
+        # Clear the problem text
+        self.problem_text.delete(1.0, tk.END)
+        
+        # Get the current problem
         problem = self.problem_manager.get_current_problem()
         if not problem:
             return
-
+            
         # Update question number
         current = self.problem_manager.current_index + 1
         total = self.problem_manager.total_problems()
         self.question_number.config(text=f"Question {current} of {total}")
-
-        # Clear and update problem text
-        self.problem_text.delete(1.0, tk.END)
         
-        # Process the question text to render LaTeX expressions
-        question_text = problem.question
-        latex_expressions = re.findall(r'\\\(.*?\\\)', question_text)
+        # Display the question
+        self.problem_text.insert(tk.END, f"{problem.question}\n")
         
-        # Replace LaTeX expressions with placeholders
-        for i, expr in enumerate(latex_expressions):
-            question_text = question_text.replace(expr, f'[LATEX_{i}]')
-        
-        # Insert the text with placeholders
-        self.problem_text.insert(tk.END, question_text)
-        
-        # Render and insert LaTeX expressions
-        for i, expr in enumerate(latex_expressions):
-            # Remove the \( and \) delimiters
-            latex = expr[2:-2]
-            
-            # Create a figure for the LaTeX expression
-            plt.figure(figsize=(1, 0.5))
-            plt.text(0.5, 0.5, f'${latex}$', 
-                    horizontalalignment='center',
-                    verticalalignment='center',
-                    transform=plt.gca().transAxes)
-            plt.axis('off')
-            
-            # Save the figure to a BytesIO object
-            buf = BytesIO()
-            plt.savefig(buf, format='png', bbox_inches='tight', pad_inches=0.1)
-            plt.close()
-            
-            # Convert to PhotoImage
-            buf.seek(0)
-            img = Image.open(buf)
-            photo = ImageTk.PhotoImage(img)
-            
-            # Find the placeholder position
-            start_index = self.problem_text.search(f'[LATEX_{i}]', '1.0', tk.END)
-            if start_index:
-                # Delete the placeholder
-                end_index = f"{start_index}+{len(f'[LATEX_{i}]')}c"
-                self.problem_text.delete(start_index, end_index)
-                
-                # Insert the image
-                self.problem_text.image_create(start_index, image=photo)
-                # Keep a reference to prevent garbage collection
-                self.problem_text.image = photo
-
         # Display media if present
         if problem.media:
             try:
@@ -308,26 +266,87 @@ class FEExamSimulator(tk.Tk):
                 
                 # Load and display the media file
                 media_path = os.path.join("media", problem.media)
+                
+                # Handle case-insensitive file extension
+                if not os.path.exists(media_path):
+                    base, ext = os.path.splitext(media_path)
+                    # Try different case combinations
+                    for case_ext in [ext.lower(), ext.upper()]:
+                        alt_path = base + case_ext
+                        if os.path.exists(alt_path):
+                            media_path = alt_path
+                            break
+                
+                # Handle spaces in filename
+                if not os.path.exists(media_path):
+                    alt_path = media_path.replace("_", " ")
+                    if os.path.exists(alt_path):
+                        media_path = alt_path
+                
                 if os.path.exists(media_path):
                     img = Image.open(media_path)
-                    
-                    # Scale image to 50% of original size
+                    # Scale image to 35% of original size
                     new_width = int(img.width * 0.35)
                     new_height = int(img.height * 0.35)
                     img = img.resize((new_width, new_height), Image.Resampling.LANCZOS)
-                    
                     # Convert to PhotoImage
                     photo = ImageTk.PhotoImage(img)
-                    
                     # Insert the image
                     self.problem_text.image_create(tk.END, image=photo)
                     # Keep a reference to prevent garbage collection
                     self.problem_text.media_image = photo
+                    
+                    # Add click handler for the image
+                    def show_large_image(event):
+                        # Create a new window for the large image
+                        img_window = tk.Toplevel(self)
+                        img_window.title("Image Preview")
+                        
+                        # Load and resize the image to fit the screen
+                        screen_width = self.winfo_screenwidth() * 0.8
+                        screen_height = self.winfo_screenheight() * 0.8
+                        
+                        # Calculate scaling factor to fit the screen
+                        width_ratio = screen_width / img.width
+                        height_ratio = screen_height / img.height
+                        scale_factor = min(width_ratio, height_ratio)
+                        
+                        new_width = int(img.width * scale_factor)
+                        new_height = int(img.height * scale_factor)
+                        
+                        large_img = img.resize((new_width, new_height), Image.Resampling.LANCZOS)
+                        large_photo = ImageTk.PhotoImage(large_img)
+                        
+                        # Create label to hold the image
+                        img_label = ttk.Label(img_window, image=large_photo)
+                        img_label.image = large_photo  # Keep a reference
+                        img_label.pack(padx=10, pady=10)
+                        
+                        # Add close button
+                        close_btn = ttk.Button(img_window, text="Close", command=img_window.destroy)
+                        close_btn.pack(pady=10)
+                        
+                        # Center the window
+                        img_window.update_idletasks()
+                        width = img_window.winfo_width()
+                        height = img_window.winfo_height()
+                        x = (img_window.winfo_screenwidth() // 2) - (width // 2)
+                        y = (img_window.winfo_screenheight() // 2) - (height // 2)
+                        img_window.geometry(f'{width}x{height}+{x}+{y}')
+                        
+                        # Make window modal
+                        img_window.transient(self)
+                        img_window.grab_set()
+                    
+                    # Bind click event to the image
+                    self.problem_text.tag_bind("image", "<Button-1>", show_large_image)
+                    # Add cursor change on hover
+                    self.problem_text.tag_configure("image", cursor="hand2")
                 else:
                     self.problem_text.insert(tk.END, f"\n[Media file not found: {problem.media}]")
             except Exception as e:
                 self.problem_text.insert(tk.END, f"\n[Error loading media: {str(e)}]")
-
+        
         # Reset the answer variable to clear any previous selection
         self.answer_var.set("")
 
@@ -337,11 +356,16 @@ class FEExamSimulator(tk.Tk):
 
         self.answer_buttons = []
         for choice in problem.choices:
-            btn = ttk.Radiobutton(self.answers_frame,
+            # Create a frame for each answer choice
+            choice_frame = ttk.Frame(self.answers_frame)
+            choice_frame.pack(fill=tk.X, pady=2)
+            
+            # Create the radio button
+            btn = ttk.Radiobutton(choice_frame,
                                 text=choice,
                                 variable=self.answer_var,
                                 value=choice)
-            btn.pack(anchor=tk.W, pady=2)
+            btn.pack(anchor=tk.W, padx=5)
             self.answer_buttons.append(btn)
             
             # If this question was previously answered, restore the selection
@@ -471,10 +495,46 @@ class FEExamSimulator(tk.Tk):
                 message += f"\nYou have {flagged} flagged question(s) for review."
             message += "\n\nWould you like to review your answers before submitting?"
             
-            if messagebox.askyesno("Unanswered Questions", message):
+            # Create custom dialog
+            dialog = tk.Toplevel(self)
+            dialog.title("Unanswered Questions")
+            dialog.transient(self)  # Make dialog stay on top
+            dialog.grab_set()  # Make dialog modal
+            
+            # Center the dialog
+            dialog.geometry("400x200")
+            dialog.resizable(False, False)
+            
+            # Add message
+            msg_label = ttk.Label(dialog, text=message, wraplength=350, justify="center")
+            msg_label.pack(pady=20)
+            
+            # Add buttons frame
+            button_frame = ttk.Frame(dialog)
+            button_frame.pack(pady=20)
+            
+            # Add buttons
+            def on_review():
+                dialog.destroy()
                 return
-            else:
+                
+            def on_submit():
+                dialog.destroy()
                 self.submit_exam()
+            
+            ttk.Button(button_frame, text="Yes, review answers", command=on_review).pack(side=tk.LEFT, padx=10)
+            ttk.Button(button_frame, text="No, submit exam", command=on_submit).pack(side=tk.LEFT, padx=10)
+            
+            # Center the dialog on screen
+            dialog.update_idletasks()
+            width = dialog.winfo_width()
+            height = dialog.winfo_height()
+            x = (dialog.winfo_screenwidth() // 2) - (width // 2)
+            y = (dialog.winfo_screenheight() // 2) - (height // 2)
+            dialog.geometry(f'{width}x{height}+{x}+{y}')
+            
+            # Wait for dialog to close
+            self.wait_window(dialog)
         else:
             self.submit_exam()
 

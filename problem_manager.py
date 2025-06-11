@@ -47,9 +47,15 @@ class ProblemManager:
             self.problems = []
 
     def _shuffle_problems(self):
-        """Shuffle the problems list to randomize the order"""
+        """Shuffle and ensure exactly num_questions problems"""
+        # First shuffle the entire list
         random.shuffle(self.problems)
-        # Limit the number of problems based on num_questions
+        
+        # If we have fewer problems than requested, use all of them
+        if len(self.problems) <= self.num_questions:
+            return
+            
+        # Take exactly num_questions problems
         self.problems = self.problems[:self.num_questions]
         self.current_index = 0
 
@@ -77,6 +83,7 @@ class ProblemManager:
         return None
 
     def total_problems(self) -> int:
+        """Return the total number of problems in the current exam"""
         return len(self.problems)
 
     def reshuffle_problems(self):

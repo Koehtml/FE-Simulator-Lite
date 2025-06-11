@@ -134,7 +134,7 @@
             "number": "11",
             "category": "Struc",
             "question": "An interior floor system has W24X55 sections spaced 6 feet on center. The floor system supports a floor dead load of 40 PSF and a floor live load of 90 PSF. Find the governing load in lbs/ft that each beam must support. Ignore the beam’s self-weight and use ASD load combinations.",
-            "media": "Struc_25.png",
+            "media": "Struc_11.png",
             "choices": [
                 "780 lbs/ft",
                 "824 lbs/ft",
@@ -407,7 +407,7 @@
             "number": "32",
             "category": "Statics",
             "question": "A construction crane is lifting a wide flange member as shown in the diagram. Determine the tension force in each of the two cables supporting the load.",
-            "media": "Crane.jpg",
+            "media": "Statics_32.jpg",
             "choices": [
                 "990.1 lb",
                 "1,434 lb",
