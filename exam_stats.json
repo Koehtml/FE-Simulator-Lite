@@ -55,6 +55,20 @@
             "score": 0.0,
             "time_taken": 213.07035183906555,
             "test_type": "non-timed"
+        },
+        {
+            "date": "2025-06-11 12:21:56",
+            "num_questions": 5,
+            "score": 0.0,
+            "time_taken": 16.04626774787903,
+            "test_type": "timed"
+        },
+        {
+            "date": "2025-06-11 12:24:06",
+            "num_questions": 5,
+            "score": 0.0,
+            "time_taken": 7.700892210006714,
+            "test_type": "timed"
         }
     ]
 }

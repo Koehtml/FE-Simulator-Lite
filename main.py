@@ -167,13 +167,12 @@ class FEExamSimulator(tk.Tk):
         problem_frame.grid(row=0, column=1, sticky="nsew", padx=(2,5), pady=5)
         problem_frame.grid_rowconfigure(0, weight=1)  # Problem text
         problem_frame.grid_rowconfigure(1, weight=0)  # Answer choices
-        problem_frame.grid_rowconfigure(2, weight=0)  # Navigation buttons
         problem_frame.grid_columnconfigure(0, weight=1)
         
         # Problem text
         self.problem_text = tk.Text(problem_frame,
                                   wrap=tk.WORD,
-                                  font=('Arial', 11),
+                                  font=('Arial', 14),
                                   padx=10,
                                   pady=10)
         self.problem_text.grid(row=0, column=0, sticky="nsew", padx=5, pady=5)
@@ -185,12 +184,25 @@ class FEExamSimulator(tk.Tk):
         self.answer_var = tk.StringVar()
         self.answer_buttons = []
         
-        # Navigation buttons
-        self.nav_buttons_frame = ttk.Frame(problem_frame)
-        self.nav_buttons_frame.grid(row=2, column=0, pady=10)
-        
         # Add trace to track answer selection
         self.answer_var.trace_add("write", self.on_answer_selected)
+        
+        # Create a frame for navigation buttons at the bottom of the window
+        nav_frame = ttk.Frame(self)
+        nav_frame.grid(row=3, column=0, sticky="ew", padx=10, pady=5)
+        nav_frame.grid_columnconfigure(0, weight=1)  # Left side
+        nav_frame.grid_columnconfigure(1, weight=1)  # Right side
+        
+        # Previous button on the left
+        self.prev_btn = ttk.Button(nav_frame, text="Previous Question", command=self.prev_question)
+        self.prev_btn.grid(row=0, column=0, sticky="w", padx=5)
+        
+        # Next/Submit button on the right
+        self.next_btn = ttk.Button(nav_frame, text="Next Question", command=self.next_question)
+        self.next_btn.grid(row=0, column=1, sticky="e", padx=5)
+        
+        # Remove the old navigation buttons frame
+        self.nav_buttons_frame = None
 
     def show_question_navigator(self):
         # Create a popup window for question navigation
@@ -233,13 +245,21 @@ class FEExamSimulator(tk.Tk):
             if nav_window:
                 nav_window.destroy()
 
-    def next_question(self):
-        if self.problem_manager.next_problem():
+    def prev_question(self):
+        """Navigate to the previous question."""
+        if self.problem_manager.current_index > 0:
+            self.problem_manager.current_index -= 1
             self.load_current_problem()
+            self.update_navigation_buttons()
 
-    def previous_question(self):
-        if self.problem_manager.previous_problem():
+    def next_question(self):
+        """Navigate to the next question or submit the exam if on the last question."""
+        if self.problem_manager.current_index < self.problem_manager.total_problems() - 1:
+            self.problem_manager.current_index += 1
             self.load_current_problem()
+            self.update_navigation_buttons()
+        else:
+            self.check_exam_completion()
 
     def load_current_problem(self):
         # Clear the problem text
@@ -464,79 +484,71 @@ class FEExamSimulator(tk.Tk):
         self.wait_window(viewer_window)
 
     def update_navigation_buttons(self):
-        # Clear existing navigation buttons
-        for widget in self.nav_buttons_frame.winfo_children():
-            widget.destroy()
-            
-        # Add Previous button if not on first question
+        """Update the state of navigation buttons based on current question."""
+        # Update Previous button
         if self.problem_manager.current_index > 0:
-            ttk.Button(self.nav_buttons_frame,
-                      text="Previous Question",
-                      command=self.previous_question).pack(side=tk.LEFT, padx=5)
-        
-        # Add Next/Submit button
-        if self.problem_manager.current_index < self.problem_manager.total_problems() - 1:
-            ttk.Button(self.nav_buttons_frame,
-                      text="Next Question",
-                      command=self.next_question).pack(side=tk.LEFT, padx=5)
+            self.prev_btn.configure(state="normal")
         else:
-            ttk.Button(self.nav_buttons_frame,
-                      text="Submit Exam",
-                      command=self.check_exam_completion).pack(side=tk.LEFT, padx=5)
+            self.prev_btn.configure(state="disabled")
+            
+        # Update Next/Submit button
+        if self.problem_manager.current_index < self.problem_manager.total_problems() - 1:
+            self.next_btn.configure(text="Next Question")
+        else:
+            self.next_btn.configure(text="Submit Exam")
 
     def check_exam_completion(self):
-        total_questions = self.problem_manager.total_problems()
-        unanswered = total_questions - len(self.answered_questions)
-        flagged = len(self.flagged_questions)
+        """Check if all questions are answered and show appropriate message."""
+        # Check for unanswered questions
+        unanswered = []
+        for i in range(self.problem_manager.total_problems()):
+            if i not in self.user_answers:
+                unanswered.append(i + 1)  # Add 1 to make it 1-based for user display
         
-        if unanswered > 0:
-            message = f"You have {unanswered} unanswered question(s)."
-            if flagged > 0:
-                message += f"\nYou have {flagged} flagged question(s) for review."
-            message += "\n\nWould you like to review your answers before submitting?"
-            
-            # Create custom dialog
-            dialog = tk.Toplevel(self)
-            dialog.title("Unanswered Questions")
-            dialog.transient(self)  # Make dialog stay on top
-            dialog.grab_set()  # Make dialog modal
-            
-            # Center the dialog
-            dialog.geometry("400x200")
-            dialog.resizable(False, False)
-            
-            # Add message
-            msg_label = ttk.Label(dialog, text=message, wraplength=350, justify="center")
-            msg_label.pack(pady=20)
-            
-            # Add buttons frame
-            button_frame = ttk.Frame(dialog)
-            button_frame.pack(pady=20)
-            
-            # Add buttons
-            def on_review():
-                dialog.destroy()
-                return
-                
-            def on_submit():
-                dialog.destroy()
-                self.submit_exam()
-            
-            ttk.Button(button_frame, text="Yes, review answers", command=on_review).pack(side=tk.LEFT, padx=10)
-            ttk.Button(button_frame, text="No, submit exam", command=on_submit).pack(side=tk.LEFT, padx=10)
-            
-            # Center the dialog on screen
-            dialog.update_idletasks()
-            width = dialog.winfo_width()
-            height = dialog.winfo_height()
-            x = (dialog.winfo_screenwidth() // 2) - (width // 2)
-            y = (dialog.winfo_screenheight() // 2) - (height // 2)
-            dialog.geometry(f'{width}x{height}+{x}+{y}')
-            
-            # Wait for dialog to close
-            self.wait_window(dialog)
+        # Check for flagged questions
+        flagged = [i + 1 for i in self.flagged_questions]  # Add 1 to make it 1-based
+        
+        # Create message
+        message = []
+        if unanswered:
+            message.append(f"You have {'one unanswered question' if len(unanswered) == 1 else f'{len(unanswered)} unanswered questions'}")
+        if flagged:
+            message.append(f"You have {'one flagged question' if len(flagged) == 1 else f'{len(flagged)} flagged questions'}")
+        
+        if not message:
+            message.append("All questions have been answered and none are flagged.")
+        
+        message.append("\nAre you sure you want to submit?")
+        
+        # Show message
+        message_window = tk.Toplevel(self)
+        message_window.title("Exam Completion Check")
+        
+        # Create message label
+        msg_label = ttk.Label(message_window, text="\n".join(message), wraplength=400)
+        msg_label.pack(padx=20, pady=20)
+        
+        # Add buttons
+        button_frame = ttk.Frame(message_window)
+        button_frame.pack(pady=10)
+        
+        if unanswered or flagged:
+            ttk.Button(button_frame, text="Yes, review answers", command=message_window.destroy).pack(side=tk.LEFT, padx=5)
+            ttk.Button(button_frame, text="No, submit exam", command=lambda: [message_window.destroy(), self.submit_exam()]).pack(side=tk.LEFT, padx=5)
         else:
-            self.submit_exam()
+            ttk.Button(button_frame, text="Submit Exam", command=lambda: [message_window.destroy(), self.submit_exam()]).pack(padx=5)
+        
+        # Center the window
+        message_window.update_idletasks()
+        width = message_window.winfo_width()
+        height = message_window.winfo_height()
+        x = (message_window.winfo_screenwidth() // 2) - (width // 2)
+        y = (message_window.winfo_screenheight() // 2) - (height // 2)
+        message_window.geometry(f'{width}x{height}+{x}+{y}')
+        
+        # Make window modal
+        message_window.transient(self)
+        message_window.grab_set()
 
     def submit_exam(self):
         # Calculate score

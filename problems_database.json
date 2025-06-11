@@ -264,7 +264,7 @@
             "number": "21",
             "category": "Materials",
             "question": "A composite material with a strain of 0.12 and an elastic modulus of 300 kPa is composed of three materials listed in the table. Determine the strength of Component 3.",
-            "media": "",
+            "media": "Materials_21.jpg",
             "choices": [
                 "60 kPa",
                 "100 kPa",
@@ -495,7 +495,7 @@
             "correct_answer": "C"
         },
         {
-            "number": "40",
+            "number": "39",
             "category": "Struc",
             "question": "A concrete slab is upheld by four short reinforced concrete columns. Given the loading on the concrete slab and assuming that each reinforcing bar is the same size, determine the best size of bar to be used.",
             "media": "Struc_40.jpg",
@@ -508,7 +508,7 @@
             "correct_answer": "B"
         },
         {
-            "number": "41",
+            "number": "40",
             "category": "Geotech",
             "question": "A soil sample is analyzed and has a volume of 764.35 cubic inches with a weight of 49.9 lbs which decreases to 40.2 lbs after being placed in the oven. What is the saturated unit weight of the soil sample if the specific gravity is 3.2 and the void ratio is 0.9?",
             "media": "",
@@ -521,7 +521,7 @@
             "correct_answer": "D"
         },
         {
-            "number": "42",
+            "number": "41",
             "category": "Transp",
             "question": "A highway has a horizontal curve with a PI of sta 9+03, an intersection angle of 19°50’00”, and a radius of 1,545 ft. Where is PC located on the curve?",
             "media": "",
@@ -534,7 +534,7 @@
             "correct_answer": "C"
         },
         {
-            "number": "43",
+            "number": "42",
             "category": "Constr",
             "question": "What does the term \"critical path\" refer to?",
             "media": "",
@@ -547,7 +547,7 @@
             "correct_answer": "A"
         },
         {
-            "number": "44",
+            "number": "43",
             "category": "Math",
             "question": "Evaluate the integral ∫4^(x+2)+e^x dx",
             "media": "",
@@ -560,7 +560,7 @@
             "correct_answer": "D"
         },
         {
-            "number": "45",
+            "number": "44",
             "category": "Ethics",
             "question": "You are a licensed professional engineer (PE) working for a consulting firm. A client requests that you sign and seal engineering drawings for a project you did not personally prepare or supervise. The drawings were prepared by a junior engineer who is not licensed, and you have not had the opportunity to thoroughly review the work due to time constraints. The client insists that your seal is needed urgently to meet a permitting deadline. What should you do, and why?",
             "media": "",
@@ -573,7 +573,7 @@
             "correct_answer": "A"
         },
         {
-            "number": "46",
+            "number": "45",
             "category": "Econ",
             "question": "A person aims to save for a home down payment, targeting $80,000 in 4 years. How much must she invest each year in a standard index fund with a historical annual return of 8%? Ignore inflation.",
             "media": "",
@@ -586,7 +586,7 @@
             "correct_answer": "A"
         },
         {
-            "number": "47",
+            "number": "46",
             "category": "Statics",
             "question": "Find the vertical reactions at each end of the beam in pounds.",
             "media": "Statics_47.png",
@@ -599,7 +599,7 @@
             "correct_answer": "B"
         },
         {
-            "number": "48",
+            "number": "47",
             "category": "Dynamics",
             "question": "A 3-kg block slides on a frictionless surface under a constant force of 15 N. How long (in seconds) will it take for the block to reach a speed of 12 m/s?",
             "media": "",
@@ -612,7 +612,7 @@
             "correct_answer": "D"
         },
         {
-            "number": "49",
+            "number": "48",
             "category": "Strength",
             "question": "A simply supported beam has a variable distributed load applied to it. What is most nearly the maximum deflection in the beam in inches and how many feet along the beam does the maximum deflection occur? The beam has a Modulus of Elasticity of 29,000 ksi and a Moment of Inertia of 156 in^4. Ignore the beam’s self-weight.",
             "media": "Strength_49.png",
@@ -625,7 +625,7 @@
             "correct_answer": "D"
         },
         {
-            "number": "50",
+            "number": "49",
             "category": "Materials",
             "question": "For a plain carbon steel sample with a tensile strength of 8,500 psi, calculate its estimated Brinell hardness.",
             "media": "",
@@ -634,6 +634,19 @@
                 "17",
                 "18.9",
                 "20"
+            ],
+            "correct_answer": "B"
+        },
+        {
+            "number": "50",
+            "category": "Fluids",
+            "question": "A spherical object with a radius of 0.5 meters is fully submerged in a tank of water (density = 1000 kg/m³) and is tethered to the bottom of the tank with a cable. What is most nearly the tension in the cable? The object has a mass of 400 kg. Assume the acceleration due to gravity is 9.8 m/s².",
+            "media": "",
+            "choices": [
+                "1100 N",
+                "1200 N",
+                "1400 N",
+                "1500 N"
             ],
             "correct_answer": "B"
         }
