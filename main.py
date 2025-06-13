@@ -175,13 +175,16 @@ class FEExamSimulator(tk.Tk):
         problem_frame.grid_rowconfigure(1, weight=0)  # Answer choices
         problem_frame.grid_columnconfigure(0, weight=1)
         
-        # Problem text
-        self.problem_text = tk.Text(problem_frame,
-                                  wrap=tk.WORD,
-                                  font=('Arial', 12),
-                                  padx=10,
-                                  pady=10)
+        # Problem text area with scrollbar
+        self.problem_text = tk.Text(problem_frame, wrap=tk.WORD, width=50, height=10, font=('Arial', 11))
         self.problem_text.grid(row=0, column=0, sticky="nsew", padx=5, pady=5)
+        problem_frame.grid_rowconfigure(0, weight=1)
+        problem_frame.grid_columnconfigure(0, weight=1)
+        
+        # Add vertical scrollbar to problem_text
+        problem_scrollbar = ttk.Scrollbar(problem_frame, orient="vertical", command=self.problem_text.yview)
+        problem_scrollbar.grid(row=0, column=1, sticky="ns")
+        self.problem_text.configure(yscrollcommand=problem_scrollbar.set)
         
         # Answer choices
         self.answers_frame = ttk.Frame(problem_frame)
@@ -311,9 +314,10 @@ class FEExamSimulator(tk.Tk):
                 
                 if os.path.exists(media_path):
                     img = Image.open(media_path)
-                    # Scale image to 35% of original size
-                    new_width = int(img.width * 0.35)
-                    new_height = int(img.height * 0.35)
+                    # Scale image based on media_size value (default to 100 if not present)
+                    scale_factor = problem.media_size / 100 if hasattr(problem, 'media_size') else 1.0
+                    new_width = int(img.width * scale_factor)
+                    new_height = int(img.height * scale_factor)
                     img = img.resize((new_width, new_height), Image.Resampling.LANCZOS)
                     # Convert to PhotoImage
                     photo = ImageTk.PhotoImage(img)

@@ -9,13 +9,15 @@ class Problem:
                  question: str,
                  media: str,
                  choices: List[str],
-                 correct_answer: str):
+                 correct_answer: str,
+                 media_size: int = 100):  # Default to 100 if not specified
         self.number = number
         self.category = category
         self.question = question
         self.media = media
         self.choices = choices
         self.correct_answer = correct_answer
+        self.media_size = media_size
 
 class ProblemManager:
     def __init__(self, num_questions: int = 50):
@@ -36,7 +38,8 @@ class ProblemManager:
                         question=problem_data["question"],
                         media=problem_data["media"],
                         choices=problem_data["choices"],
-                        correct_answer=problem_data["correct_answer"]
+                        correct_answer=problem_data["correct_answer"],
+                        media_size=problem_data.get("media_size", 100)  # Use get() to default to 100 if not present
                     )
                     self.problems.append(problem)
         except FileNotFoundError:
