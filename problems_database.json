@@ -134,7 +134,7 @@
             "number": "11",
             "category": "Struc",
             "question": "An interior floor system has W24X55 sections spaced 6 feet on center. The floor system supports a floor dead load of 40 PSF and a floor live load of 90 PSF. Find the governing load in lbs/ft that each beam must support. Ignore the beam’s self-weight and use ASD load combinations.",
-            "media": "Struc_11.png",
+            "media": "Struc_11.jpg",
             "choices": [
                 "780 lbs/ft",
                 "824 lbs/ft",
@@ -251,7 +251,7 @@
             "number": "20",
             "category": "Strength",
             "question": "According to the shear diagram, find the maximum moment. None of the lines are parabolic.",
-            "media": "Strength_20.png",
+            "media": "Strength_20.jpg",
             "choices": [
                 "-6.25 kN",
                 "20 kN",
@@ -290,7 +290,7 @@
             "number": "23",
             "category": "Surveying",
             "question": "Earthwork for a roadway is cut and filled at the following stations. What is approximately the total volume of earthwork to be cut?",
-            "media": "Surveying_23.png",
+            "media": "Surveying_23.jpg",
             "choices": [
                 "9,000 ft^2",
                 "12,500 ft^2",
@@ -459,7 +459,7 @@
             "number": "36",
             "category": "Fluids",
             "question": "A tank is filled with water at height H of 50 ft. A hole is punched in one of the walls at a depth h of 12 ft below the water surface. What is most nearly the distance x from the foot of the tank at which the stream strikes the floor.",
-            "media": "Fluids_36.png",
+            "media": "Fluids_36.jpg",
             "choices": [
                 "24 ft",
                 "98 ft",
@@ -472,7 +472,7 @@
             "number": "37",
             "category": "Surveying",
             "question": "A surveyor is given the latitude and longitude coordinates for a trapezoidal portion of a parking lot. In this area of the lot, the length of one degree of latitude is 355,200 ft, and the length of one degree of longitude is 298,165 ft. Find the approximate area of the plot in square feet.",
-            "media": "Surveying_37.png",
+            "media": "Surveying_37.jpg",
             "choices": [
                 "14,500 ft^2",
                 "15,000 ft^2",
@@ -589,7 +589,7 @@
             "number": "46",
             "category": "Statics",
             "question": "Find the vertical reactions at each end of the beam in pounds.",
-            "media": "Statics_47.png",
+            "media": "Statics_47.jpg",
             "choices": [
                 "R_A = 1,111 lbs R_B = 389 lbs",
                 "R_A = 1,389 lbs R_B = 111 lbs",
@@ -615,7 +615,7 @@
             "number": "48",
             "category": "Strength",
             "question": "A simply supported beam has a variable distributed load applied to it. What is most nearly the maximum deflection in the beam in inches and how many feet along the beam does the maximum deflection occur? The beam has a Modulus of Elasticity of 29,000 ksi and a Moment of Inertia of 156 in^4. Ignore the beam’s self-weight.",
-            "media": "Strength_49.png",
+            "media": "Strength_49.jpg",
             "choices": [
                 "v_max = -2x10^-2 in x = 10.5 ft",
                 "v_max = -3.5x10^-5 in x = 6 ft",

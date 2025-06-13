@@ -327,7 +327,7 @@ class FEExamSimulator(tk.Tk):
                 self.problem_text.insert(tk.END, f"\n[Error loading media: {str(e)}]")
         
         # Reset the answer variable to clear any previous selection
-        self.answer_var.set("")
+        self.answer_var.set("_unset_")
 
         # Clear and update answer choices
         for widget in self.answers_frame.winfo_children():
@@ -339,12 +339,16 @@ class FEExamSimulator(tk.Tk):
             choice_frame = ttk.Frame(self.answers_frame)
             choice_frame.pack(fill=tk.X, pady=2)
             
-            # Create the radio button
-            btn = ttk.Radiobutton(choice_frame,
+            # Create the radio button with static wraplength using tk.Radiobutton
+            btn = tk.Radiobutton(choice_frame,
                                 text=choice,
                                 variable=self.answer_var,
-                                value=choice)
-            btn.pack(anchor=tk.W, padx=5)
+                                value=choice,
+                                wraplength=500,
+                                anchor='w',
+                                justify='left',
+                                font=('Arial', 11))
+            btn.pack(anchor=tk.W, padx=5, fill=tk.X)
             self.answer_buttons.append(btn)
             
             # If this question was previously answered, restore the selection
@@ -492,8 +496,9 @@ class FEExamSimulator(tk.Tk):
         button_frame.pack(pady=10)
         
         if unanswered or flagged:
-            ttk.Button(button_frame, text="Yes, review answers", command=message_window.destroy).pack(side=tk.LEFT, padx=5)
-            ttk.Button(button_frame, text="No, submit exam", command=lambda: [message_window.destroy(), self.submit_exam()]).pack(side=tk.LEFT, padx=5)
+            ttk.Button(button_frame, text="Yes, submit exam", command=lambda: [message_window.destroy(), self.submit_exam()]).pack(side=tk.LEFT, padx=5)
+            ttk.Button(button_frame, text="No, review answers", command=message_window.destroy).pack(side=tk.LEFT, padx=5)
+            
         else:
             ttk.Button(button_frame, text="Submit Exam", command=lambda: [message_window.destroy(), self.submit_exam()]).pack(padx=5)
         
@@ -546,9 +551,11 @@ class FEExamSimulator(tk.Tk):
     def on_answer_selected(self, *args):
         current_index = self.problem_manager.current_index
         selected_answer = self.answer_var.get()
-        if selected_answer:
+        if selected_answer and selected_answer != "_unset_":
             self.answered_questions.add(current_index)
             self.user_answers[current_index] = selected_answer
+        elif current_index in self.user_answers:
+            del self.user_answers[current_index]
 
 class Dashboard(tk.Tk):
     def __init__(self):
