@@ -164,8 +164,8 @@ class FEExamSimulator(tk.Tk):
         handbook_frame.grid_columnconfigure(0, weight=1)
         
         # Initialize PDF viewer without a default PDF
-        from pdf_viewer import PDFViewer
-        self.pdf_viewer = PDFViewer(handbook_frame)
+        from custom_pdf_viewer import CustomPDFViewer
+        self.pdf_viewer = CustomPDFViewer(handbook_frame)
         self.pdf_viewer.grid(row=0, column=0, sticky="nsew")
         
         # Problem Area (right side)

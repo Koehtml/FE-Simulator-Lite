@@ -339,7 +339,7 @@
     {
       "number": "25",
       "category": "Struc",
-      "question": "For the plate shown, find the effect net area for the sake of tension design. The plate is 3/4 inch thick and has holes to accomodate 1/2 inch diameter bolts.",
+      "question": "For the plate shown, find the effective net area for the sake of tension design. The plate is 3/4 inch thick and has holes to accomodate 1/2 inch diameter bolts.",
       "media": "Struc_25.jpg",
       "choices": [
         "12.5 in^2",
