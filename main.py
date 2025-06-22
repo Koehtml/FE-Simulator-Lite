@@ -6,10 +6,8 @@ import time
 from problem_manager import ProblemManager, Problem
 from calculator import ScientificCalculator
 from exam_stats import ExamStats
+from latex_renderer import LaTeXRenderer
 import os
-import matplotlib.pyplot as plt
-import matplotlib
-matplotlib.use('Agg')  # Use non-interactive backend
 import re
 from io import BytesIO
 
@@ -59,6 +57,9 @@ class FEExamSimulator(tk.Tk):
         
         # Initialize the problem manager
         self.problem_manager = ProblemManager(num_questions=self.num_questions)
+        
+        # Initialize LaTeX renderer
+        self.latex_renderer = LaTeXRenderer()
         
         # Configure the main window grid
         self.grid_columnconfigure(0, weight=1)
@@ -284,8 +285,9 @@ class FEExamSimulator(tk.Tk):
         total = self.problem_manager.total_problems()
         self.question_number.config(text=f"Question {current} of {total}")
         
-        # Display the question
-        self.problem_text.insert(tk.END, f"{problem.question}\n")
+        # Display the question with LaTeX rendering
+        question_text = self.latex_renderer.convert_latex_to_unicode(problem.question)
+        self.problem_text.insert(tk.END, f"{question_text}\n")
         
         # Display media if present
         if problem.media:
@@ -339,22 +341,19 @@ class FEExamSimulator(tk.Tk):
 
         self.answer_buttons = []
         for choice in problem.choices:
-            # Create a frame for each answer choice
-            choice_frame = ttk.Frame(self.answers_frame)
-            choice_frame.pack(fill=tk.X, pady=2)
-            
-            # Create the radio button with static wraplength using tk.Radiobutton
-            btn = tk.Radiobutton(choice_frame,
-                                text=choice,
-                                variable=self.answer_var,
-                                value=choice,
-                                wraplength=500,
-                                anchor='w',
-                                justify='left',
-                                font=('Arial', 11))
-            btn.pack(anchor=tk.W, padx=5, fill=tk.X)
+            # Convert LaTeX to Unicode for the answer text
+            answer_text = self.latex_renderer.convert_latex_to_unicode(choice)
+            btn = tk.Radiobutton(self.answers_frame,
+                                 text=answer_text,
+                                 variable=self.answer_var,
+                                 value=choice,
+                                 anchor='w',
+                                 justify='left',
+                                 font=('Arial', 11),
+                                 wraplength=500)
+            btn.pack(anchor=tk.W, padx=5, pady=2, fill=tk.X)
             self.answer_buttons.append(btn)
-            
+
             # If this question was previously answered, restore the selection
             if self.problem_manager.current_index in self.user_answers:
                 if choice == self.user_answers[self.problem_manager.current_index]:

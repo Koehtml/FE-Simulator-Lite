@@ -1,704 +1,654 @@
 {
-  "problems": [
-    {
-      "number": "1",
-      "category": "Math",
-      "question": "The following equation defines what kind of shape? \\( (x-3)^2 + \\frac{y^2}{16} = 1 \\)",
-      "media": "",
-      "choices": [
-        "Circle",
-        "Ellipse",
-        "Hyperbola",
-        "Parabola"
-      ],
-      "correct_answer": "B",
-      "media_size": 50
-    },
-    {
-      "number": "2",
-      "category": "Ethics",
-      "question": "Which of the following is NOT an Obligation of Licensees to the Public according to 2024-25 Model Rules, Section 240.15?",
-      "media": "",
-      "choices": [
-        "Licensees shall be cognizant that their first and foremost responsibility is to safeguard the health, safety, and welfare of the public when performing services for clients and employers.",
-        "Licensees shall express a professional opinion publicly only when it is founded upon an adequate knowledge of the facts and a competent evaluation of the subject matter.",
-        "Licensees shall not knowingly provide false or incomplete information regarding an applicant in obtaining licensure.",
-        "Licensees shall issue no statements, criticisms, or arguments on engineering and surveying matters that are inspired or paid for by interested parties especially when they explicitly identify the interested parties on whose behalf they are speaking and reveal any interest they have in the matters."
-      ],
-      "correct_answer": "D",
-      "media_size": 50
-    },
-    {
-      "number": "3",
-      "category": "Econ",
-      "question": "An engineer borrows $20,000 from the bank to purchase a piece of machinery. They must pay the lender $500 for each year the loan is in existence, what is the simple interest rate?",
-      "media": "",
-      "choices": [
-        "8%",
-        "4%",
-        "3.60%",
-        "2.50%"
-      ],
-      "correct_answer": "D",
-      "media_size": 50
-    },
-    {
-      "number": "4",
-      "category": "Statics",
-      "question": "If three nonparallel forces hold a rigid body in equilibrium, then",
-      "media": "",
-      "choices": [
-        "They are equal",
-        "They are concurrent",
-        "They form a triangle",
-        "They are colinear"
-      ],
-      "correct_answer": "B",
-      "media_size": 50
-    },
-    {
-      "number": "5",
-      "category": "Dynamics",
-      "question": "A train is traveling at 29 m/s along a railroad. The engineer suddenly applies the brakes and the train begins to decelerate at 1.6 m/s^2 . How long does it take for the train to come to a complete stop?",
-      "media": "",
-      "choices": [
-        "14 seconds",
-        "7.5 seconds",
-        "18 seconds",
-        "25 seconds"
-      ],
-      "correct_answer": "C",
-      "media_size": 50
-    },
-    {
-      "number": "6",
-      "category": "Strength",
-      "question": "A composite rod consists of two segments: Segment A is 1.5 m long with a cross-sectional area of 0.0004 m² and Young's modulus of 150 GPa, and Segment B is 2.5 m long with a cross-sectional area of 0.0006 m² and Young's modulus of 200 GPa. The rod is subjected to a tensile force of 75 kN. Calculate the total elongation of the rod.",
-      "media": "",
-      "choices": [
-        "2.1 mm",
-        "3.4375 mm",
-        "0.00789 m",
-        "12.5 mm"
-      ],
-      "correct_answer": "B",
-      "media_size": 50
-    },
-    {
-      "number": "7",
-      "category": "Materials",
-      "question": "An axial load is applied to a 20 centimeter long cylindrical piece of steel. Due to the axial load, the steel is stretched to 24.3 centimeters where it fractures. What is the percent elongation of the member?",
-      "media": "",
-      "choices": [
-        "23.40%",
-        "21.50%",
-        "18.90%",
-        "16%"
-      ],
-      "correct_answer": "B",
-      "media_size": 50
-    },
-    {
-      "number": "8",
-      "category": "Fluids",
-      "question": "A simple U-shaped manometer is attached to an air pipe and measures a pressure of 20 mmHg. The pressure in psi of the air is",
-      "media": "",
-      "choices": [
-        "0.387 psi",
-        "20 psi",
-        "9.783 psi",
-        "1.47 psi"
-      ],
-      "correct_answer": "C",
-      "media_size": 50
-    },
-    {
-      "number": "9",
-      "category": "Surveying",
-      "question": "A surveyor determines an azimuth of 135° 45' 30\". Calculate the bearing.",
-      "media": "",
-      "choices": [
-        "N45°25' 34\"W",
-        "S44° 14' 30\"E",
-        "S35° 16' 13\"W",
-        "N135° 45' 30\"E"
-      ],
-      "correct_answer": "B",
-      "media_size": 50
-    },
-    {
-      "number": "10",
-      "category": "Envir",
-      "question": "What is the flow rate (cfs) of a 35-acre parcel of land that has a rainfall intensity of 1.5 in/hr, and a rational method runoff coefficient of 0.2?",
-      "media": "",
-      "choices": [
-        "7.875 cfs",
-        "10.5 cfs",
-        "9 cfs",
-        "4.125 cfs"
-      ],
-      "correct_answer": "B",
-      "media_size": 50
-    },
-    {
-      "number": "11",
-      "category": "Struc",
-      "question": "An interior floor system has W24X55 sections spaced 6 feet on center. The floor system supports a floor dead load of 40 PSF and a floor live load of 90 PSF. Find the governing load in lbs/ft that each beam must support. Ignore the beam’s self-weight and use ASD load combinations.",
-      "media": "Struc_11.jpg",
-      "choices": [
-        "780 lbs/ft",
-        "824 lbs/ft",
-        "360 lbs/ft",
-        "130 lbs/ft"
-      ],
-      "correct_answer": "A",
-      "media_size": 50
-    },
-    {
-      "number": "12",
-      "category": "Geotech",
-      "question": "A shallow strip footing is being designed in a soil which has a density of 113.5 pcf. Assuming a sandy soil (cohesion is negligible), and given Nc=37.16, Nq=22.46, Nγ=19.12, and an allowable bearing capacity of 3,566.4 lbs with a factor of safety of 4, what is the best width of the footing that must be designed at 4 ft below the surface?",
-      "media": "",
-      "choices": [
-        "2’ - 0”",
-        "3’ - 9”",
-        "4’ - 2”",
-        "3’ - 6”"
-      ],
-      "correct_answer": "B",
-      "media_size": 50
-    },
-    {
-      "number": "13",
-      "category": "Transp",
-      "question": "Find the approximate value for demand flow rate on a 3-lane freeway situated on rolling terrain. The demand volume is 1,345 veh/h. Assume the peak-hour factor is 0.74 and the proportion of single unit trucks is 0.1.",
-      "media": "",
-      "choices": [
-        "655 pc/h/ln",
-        "712 pc/h/ln",
-        "725 pc/h/ln",
-        "749 pc/h/ln"
-      ],
-      "correct_answer": "C",
-      "media_size": 50
-    },
-    {
-      "number": "14",
-      "category": "Constr",
-      "question": "A hospital’s construction is budgeted around $1.5 million. At the end of the project, the actual cost of the project was found to be $1.24 million. What is most nearly the Cost Performance Index for the project?",
-      "media": "",
-      "choices": [
-        "1.49",
-        "1.21",
-        "2.5",
-        "12.09"
-      ],
-      "correct_answer": "B",
-      "media_size": 50
-    },
-    {
-      "number": "15",
-      "category": "Math",
-      "question": "What is the second derivative of f(x)=2x^3−5x+sin(x)",
-      "media": "",
-      "choices": [
-        "f’’(x)=18x^2−5",
-        "f’’(x)=0",
-        "f′′(x)=12x−sin(x)",
-        "6x^2+12x−5+cos(x)−sin(x)"
-      ],
-      "correct_answer": "C",
-      "media_size": 50
-    },
-    {
-      "number": "16",
-      "category": "Ethics",
-      "question": "Why is engineering considered a profession rather than an occupation?",
-      "media": "",
-      "choices": [
-        "It is based on a large knowledge base requiring extensive training.",
-        "It is self-regulating.",
-        "It is regulated by ethical standards.",
-        "All of the above"
-      ],
-      "correct_answer": "D",
-      "media_size": 50
-    },
-    {
-      "number": "17",
-      "category": "Econ",
-      "question": "A 3-year US Treasury bond has a monthly interest rate of 6.8%. If you invest $15,000 initially, what will be the bond's value at maturity?",
-      "media": "",
-      "choices": [
-        "$25,200.00",
-        "$36,912.69",
-        "$15,000.00",
-        "$48,000.00"
-      ],
-      "correct_answer": "B",
-      "media_size": 50
-    },
-    {
-      "number": "18",
-      "category": "Statics",
-      "question": "Determine the x-coordinate centroid of the area bounded by the x-axis, x=π, and the function y=sin(x).",
-      "media": "",
-      "choices": [
-        "π/5",
-        "π/4",
-        "π/2",
-        "π/8"
-      ],
-      "correct_answer": "C",
-      "media_size": 50
-    },
-    {
-      "number": "19",
-      "category": "Dynamics",
-      "question": "A radar tracking system is monitoring an aircraft flying in a circular path around a control tower. The aircraft's position is described in polar coordinates as r(t) = 5000 meters (constant radius) and θ(t) = 0.02t radians, where t is time in seconds. At t = 10 seconds, what is the transverse component of the aircraft's velocity?",
-      "media": "",
-      "choices": [
-        "50 m/s",
-        "100 m/s",
-        "150 m/s",
-        "200 m/s"
-      ],
-      "correct_answer": "B",
-      "media_size": 50
-    },
-    {
-      "number": "20",
-      "category": "Strength",
-      "question": "According to the shear diagram, find the maximum moment. None of the lines are parabolic.",
-      "media": "Strength_20.jpg",
-      "choices": [
-        "-6.25 kN",
-        "20 kN",
-        "10 kN",
-        "12.5 kN"
-      ],
-      "correct_answer": "C",
-      "media_size": 50
-    },
-    {
-      "number": "21",
-      "category": "Materials",
-      "question": "A composite material with a strain of 0.12 and an elastic modulus of 300 kPa is composed of three materials listed in the table. Determine the strength of Component 3.",
-      "media": "Materials_21.jpg",
-      "choices": [
-        "60 kPa",
-        "100 kPa",
-        "170 kPa",
-        "220 kPa"
-      ],
-      "correct_answer": "A",
-      "media_size": 50
-    },
-    {
-      "number": "22",
-      "category": "Fluids",
-      "question": "Castle Geyser at Yellowstone National Park shoots water 250 ft into the air. What is the minimum gauge pressure in psi at the base?",
-      "media": "",
-      "choices": [
-        "290 psi",
-        "108 psi",
-        "245 psi",
-        "173 psi"
-      ],
-      "correct_answer": "B",
-      "media_size": 50
-    },
-    {
-      "number": "23",
-      "category": "Surveying",
-      "question": "Earthwork for a roadway is cut and filled at the following stations. What is approximately the total volume of earthwork to be cut?",
-      "media": "Surveying_23.jpg",
-      "choices": [
-        "9,000 ft^2",
-        "12,500 ft^2",
-        "8,450 ft^2",
-        "10,500 ft^2"
-      ],
-      "correct_answer": "A",
-      "media_size": 50
-    },
-    {
-      "number": "24",
-      "category": "Envir",
-      "question": "Approximate the thickness b of a confined aquifer if it’s transmissivity is 325 sqft/day and it’s hydraulic conductivity is 5.7 ft/day",
-      "media": "",
-      "choices": [
-        "60 ft",
-        "18 ft",
-        "24 ft",
-        "55 ft"
-      ],
-      "correct_answer": "A",
-      "media_size": 50
-    },
-    {
-      "number": "25",
-      "category": "Struc",
-      "question": "For the plate shown, find the effective net area for the sake of tension design. The plate is 3/4 inch thick and has holes to accomodate 1/2 inch diameter bolts.",
-      "media": "Struc_25.jpg",
-      "choices": [
-        "12.5 in^2",
-        "11.2 in^2",
-        "20 in^2",
-        "10.85 in^2"
-      ],
-      "correct_answer": "B",
-      "media_size": 50
-    },
-    {
-      "number": "26",
-      "category": "Geotech",
-      "question": "A soil boring is taken to a depth of 9 feet. Groundwater is found at 7 feet, and the soil density is found to be 115 pcf. What is the effective vertical stress of the soil at the same elevation as where the soil boring was terminated?",
-      "media": "",
-      "choices": [
-        "124.8 psf",
-        "1035 psf",
-        "910.2 psf",
-        "1150 psf"
-      ],
-      "correct_answer": "C",
-      "media_size": 50
-    },
-    {
-      "number": "27",
-      "category": "Transp",
-      "question": "Determine the approximate load equivalency factor for a 24,000 lbs tandem-axel truck.",
-      "media": "",
-      "choices": [
-        "3.03",
-        "0",
-        "0.26",
-        "8.88"
-      ],
-      "correct_answer": "C",
-      "media_size": 50
-    },
-    {
-      "number": "28",
-      "category": "Constr",
-      "question": "What does “free float” mean?",
-      "media": "",
-      "choices": [
-        "The period during which a construction task can be rescheduled to accommodate additional resource allocation without affecting the critical path.",
-        "The duration allocated for non-critical tasks to be completed without requiring additional manpower or resources.",
-        "The amount of time a specific task within a project can last without impacting the rest of the project.",
-        "None of the above"
-      ],
-      "correct_answer": "C",
-      "media_size": 50
-    },
-    {
-      "number": "29",
-      "category": "Math",
-      "question": "What is the solution to the following differential equation? dx/dy+2y=0",
-      "media": "",
-      "choices": [
-        "y=C1e^−2x",
-        "y=C1sin(2x)",
-        "y=C2x^2",
-        "y=C3e^2x"
-      ],
-      "correct_answer": "A",
-      "media_size": 50
-    },
-    {
-      "number": "30",
-      "category": "Ethics",
-      "question": "Who is defined as “an individual who is qualified to practice engineering by reason of engineering education, training, experience, and examination in the application of engineering principles and the interpretation of engineering data”",
-      "media": "",
-      "choices": [
-        "An Engineering Intern",
-        "A Professional Engineer",
-        "An Engineering Graduate",
-        "None of the Above"
-      ],
-      "correct_answer": "B",
-      "media_size": 50
-    },
-    {
-      "number": "31",
-      "category": "Econ",
-      "question": "The cost of manufacturing a product in a workshop is given by C=12,000+0.08P, where P is the number of products manufactured. If each product sells for $5.00, how many items must be produced to break even?",
-      "media": "",
-      "choices": [
-        "1,001",
-        "3,333",
-        "2,667",
-        "2,150"
-      ],
-      "correct_answer": "C",
-      "media_size": 50
-    },
-    {
-      "number": "32",
-      "category": "Statics",
-      "question": "A construction crane is lifting a wide flange member as shown in the diagram. Determine the tension force in each of the two cables supporting the load.",
-      "media": "Statics_32.jpg",
-      "choices": [
-        "990.1 lb",
-        "1,434 lb",
-        "720 lb",
-        "553 lb"
-      ],
-      "correct_answer": "A",
-      "media_size": 50
-    },
-    {
-      "number": "33",
-      "category": "Dynamics",
-      "question": "A 4 kg object moves across a frictionless surface at 10 m/s and collides with a stationary 6 kg mass. If the collision is perfectly elastic, calculate the velocity of the moving object and the stationary object after the collision.",
-      "media": "",
-      "choices": [
-        "Velocity of the 4 kg object: 5 m/s Velocity of the 6 kg object: 5 m/s",
-        "Velocity of the 4 kg object after impact: -2 m/s Velocity of the 6 kg object after impact: 8 m/s",
-        "Velocity of the 4 kg object: 10 m/s Velocity of the 6 kg object: 0 m/s",
-        "Velocity of the 4 kg object: -4 m/s Velocity of the 6 kg object: 12 m/s"
-      ],
-      "correct_answer": "B",
-      "media_size": 50
-    },
-    {
-      "number": "34",
-      "category": "Strength",
-      "question": "A slender steel column with a circular cross-section has a diameter of 50 mm and a length of 3 m. The column is pinned at both ends and made of steel with a Young's modulus E=200 GPa. Using Euler's formula, determine the critical buckling load Pcr for the column. Assume the column is perfectly straight and the load is applied axially.",
-      "media": "",
-      "choices": [
-        "810.6 kN",
-        "405.3 kN",
-        "101.3 kN",
-        "202.6 kN"
-      ],
-      "correct_answer": "B",
-      "media_size": 50
-    },
-    {
-      "number": "35",
-      "category": "Materials",
-      "question": "A fragile Alumina sample has a stress intensity factor of 4,250 psi·in^(1/2). Determine the applied tensile stress in psi if the sample has an internal crack with a crack length parameter a=2.5 inches.",
-      "media": "",
-      "choices": [
-        "1,521 psi",
-        "1,455 psi",
-        "1,517 psi",
-        "1,600 psi"
-      ],
-      "correct_answer": "C",
-      "media_size": 50
-    },
-    {
-      "number": "36",
-      "category": "Fluids",
-      "question": "A tank is filled with water at height H of 50 ft. A hole is punched in one of the walls at a depth h of 12 ft below the water surface. What is most nearly the distance x from the foot of the tank at which the stream strikes the floor.",
-      "media": "Fluids_36.jpg",
-      "choices": [
-        "24 ft",
-        "98 ft",
-        "37 ft",
-        "43 ft"
-      ],
-      "correct_answer": "D",
-      "media_size": 50
-    },
-    {
-      "number": "37",
-      "category": "Surveying",
-      "question": "A surveyor is given the latitude and longitude coordinates for a trapezoidal portion of a parking lot. In this area of the lot, the length of one degree of latitude is 355,200 ft, and the length of one degree of longitude is 298,165 ft. Find the approximate area of the plot in square feet.",
-      "media": "Surveying_37.jpg",
-      "choices": [
-        "14,500 ft^2",
-        "15,000 ft^2",
-        "10,000 ft^2",
-        "12,000 ft^2"
-      ],
-      "correct_answer": "D",
-      "media_size": 50
-    },
-    {
-      "number": "38",
-      "category": "Envir",
-      "question": "A wastewater sample has a BOD deoxygenation rate constant of 0.25 per day at 20°C. The wastewater treatment plant operates at 30°C, and the temperation correction coefficient is 1.047. Find the deoxygenation rate constant at 30°C.",
-      "media": "",
-      "choices": [
-        "0.25/day",
-        "0.38/day",
-        "0.4/day",
-        "0.5/day"
-      ],
-      "correct_answer": "C",
-      "media_size": 50
-    },
-    {
-      "number": "39",
-      "category": "Struc",
-      "question": "A concrete slab is upheld by four short reinforced concrete columns. Given the loading on the concrete slab and assuming that each reinforcing bar is the same size, determine the best size of bar to be used.",
-      "media": "Struc_40.jpg",
-      "choices": [
-        "#5",
-        "#6",
-        "#7",
-        "#9"
-      ],
-      "correct_answer": "B",
-      "media_size": 50
-    },
-    {
-      "number": "40",
-      "category": "Geotech",
-      "question": "A soil sample is analyzed and has a volume of 764.35 cubic inches with a weight of 49.9 lbs which decreases to 40.2 lbs after being placed in the oven. What is the saturated unit weight of the soil sample if the specific gravity is 3.2 and the void ratio is 0.9?",
-      "media": "",
-      "choices": [
-        "150 pcf",
-        "120.6 pcf",
-        "198.3 pcf",
-        "134.65 pcf"
-      ],
-      "correct_answer": "D",
-      "media_size": 50
-    },
-    {
-      "number": "41",
-      "category": "Transp",
-      "question": "A highway has a horizontal curve with a PI of sta 9+03, an intersection angle of 19°50’00”, and a radius of 1,545 ft. Where is PC located on the curve?",
-      "media": "",
-      "choices": [
-        "sta 5+66",
-        "sta 5+75",
-        "sta 6+33",
-        "sta 7+17"
-      ],
-      "correct_answer": "C",
-      "media_size": 50
-    },
-    {
-      "number": "42",
-      "category": "Constr",
-      "question": "What does the term \"critical path\" refer to?",
-      "media": "",
-      "choices": [
-        "The sequence of tasks that determines the shortest time to complete the project.",
-        "The list of tasks requiring the most expensive resources.",
-        "The pathway for heavy machinery access on the construction site.",
-        "The schedule for safety inspections during the project."
-      ],
-      "correct_answer": "A",
-      "media_size": 50
-    },
-    {
-      "number": "43",
-      "category": "Math",
-      "question": "Evaluate the integral ∫4^(x+2)+e^x dx",
-      "media": "",
-      "choices": [
-        "e^x+4x+C",
-        "e^x+4^(x+2)/ln(4)+C",
-        "xe^x+16⋅4^x+C",
-        "4x+2/ln(4)+e^x+C"
-      ],
-      "correct_answer": "D",
-      "media_size": 50
-    },
-    {
-      "number": "44",
-      "category": "Ethics",
-      "question": "You are a licensed professional engineer (PE) working for a consulting firm. A client requests that you sign and seal engineering drawings for a project you did not personally prepare or supervise. The drawings were prepared by a junior engineer who is not licensed, and you have not had the opportunity to thoroughly review the work due to time constraints. The client insists that your seal is needed urgently to meet a permitting deadline. What should you do, and why?",
-      "media": "",
-      "choices": [
-        "Refuse to sign and seal the drawings until you have thoroughly reviewed and verified their accuracy and compliance with applicable codes and standards.",
-        "Delegate the review to another unlicensed engineer and then sign and seal the drawings based on their assurance.",
-        "Sign and seal the drawings immediately to meet the client’s deadline, trusting the junior engineer’s work.",
-        "Sign and seal the drawings but include a disclaimer that you did not prepare or review them."
-      ],
-      "correct_answer": "A",
-      "media_size": 50
-    },
-    {
-      "number": "45",
-      "category": "Econ",
-      "question": "A person aims to save for a home down payment, targeting $80,000 in 4 years. How much must she invest each year in a standard index fund with a historical annual return of 8%? Ignore inflation.",
-      "media": "",
-      "choices": [
-        "$17,672.48",
-        "$20,150.49",
-        "$15,011.32",
-        "$20,000"
-      ],
-      "correct_answer": "A",
-      "media_size": 50
-    },
-    {
-      "number": "46",
-      "category": "Statics",
-      "question": "Find the vertical reactions at each end of the beam in pounds.",
-      "media": "Statics_47.jpg",
-      "choices": [
-        "R_A = 1,111 lbs R_B = 389 lbs",
-        "R_A = 1,389 lbs R_B = 111 lbs",
-        "R_A = 500 lbs R_B = 1,000 lbs",
-        "R_A = 1,250 lbs R_B = 250 lbs"
-      ],
-      "correct_answer": "B",
-      "media_size": 50
-    },
-    {
-      "number": "47",
-      "category": "Dynamics",
-      "question": "A 3-kg block slides on a frictionless surface under a constant force of 15 N. How long (in seconds) will it take for the block to reach a speed of 12 m/s?",
-      "media": "",
-      "choices": [
-        "3.6 seconds",
-        "1.2 seconds",
-        "4.8 seconds",
-        "2.4 seconds"
-      ],
-      "correct_answer": "D",
-      "media_size": 50
-    },
-    {
-      "number": "48",
-      "category": "Strength",
-      "question": "A simply supported beam has a variable distributed load applied to it. What is most nearly the maximum deflection in the beam in inches and how many feet along the beam does the maximum deflection occur? The beam has a Modulus of Elasticity of 29,000 ksi and a Moment of Inertia of 156 in^4. Ignore the beam’s self-weight.",
-      "media": "Strength_49.jpg",
-      "choices": [
-        "v_max = -2x10^-2 in x = 10.5 ft",
-        "v_max = -3.5x10^-5 in x = 6 ft",
-        "v_max = -7x10^-3 x = 19 ft",
-        "v_max = -8x10^-3 in x = 12 ft"
-      ],
-      "correct_answer": "D",
-      "media_size": 50
-    },
-    {
-      "number": "49",
-      "category": "Materials",
-      "question": "For a plain carbon steel sample with a tensile strength of 8,500 psi, calculate its estimated Brinell hardness.",
-      "media": "",
-      "choices": [
-        "16.8",
-        "17",
-        "18.9",
-        "20"
-      ],
-      "correct_answer": "B",
-      "media_size": 50
-    },
-    {
-      "number": "50",
-      "category": "Fluids",
-      "question": "A spherical object with a radius of 0.5 meters is fully submerged in a tank of water (density = 1000 kg/m³) and is tethered to the bottom of the tank with a cable. What is most nearly the tension in the cable? The object has a mass of 400 kg. Assume the acceleration due to gravity is 9.8 m/s².",
-      "media": "",
-      "choices": [
-        "1100 N",
-        "1200 N",
-        "1400 N",
-        "1500 N"
-      ],
-      "correct_answer": "B",
-      "media_size": 50
-    }
-  ]
+    "problems": [
+        {
+            "number": "1",
+            "category": "Math",
+            "question": "The following equation defines what kind of shape? \\( (x-3)^2 + \\frac{y^2}{16} = 1 \\)",
+            "media": "",
+            "choices": [
+                "Circle",
+                "Ellipse",
+                "Hyperbola",
+                "Parabola"
+            ],
+            "correct_answer": "B"
+        },
+        {
+            "number": "2",
+            "category": "Ethics",
+            "question": "Which of the following is NOT an Obligation of Licensees to the Public according to 2024-25 Model Rules, Section 240.15?",
+            "media": "",
+            "choices": [
+                "Licensees shall be cognizant that their first and foremost responsibility is to safeguard the health, safety, and welfare of the public when performing services for clients and employers.",
+                "Licensees shall express a professional opinion publicly only when it is founded upon an adequate knowledge of the facts and a competent evaluation of the subject matter.",
+                "Licensees shall not knowingly provide false or incomplete information regarding an applicant in obtaining licensure.",
+                "Licensees shall issue no statements, criticisms, or arguments on engineering and surveying matters that are inspired or paid for by interested parties especially when they explicitly identify the interested parties on whose behalf they are speaking and reveal any interest they have in the matters."
+            ],
+            "correct_answer": "D"
+        },
+        {
+            "number": "3",
+            "category": "Econ",
+            "question": "An engineer borrows $20,000 from the bank to purchase a piece of machinery. They must pay the lender $500 for each year the loan is in existence, what is the simple interest rate?",
+            "media": "",
+            "choices": [
+                "8%",
+                "4%",
+                "3.60%",
+                "2.50%"
+            ],
+            "correct_answer": "D"
+        },
+        {
+            "number": "4",
+            "category": "Statics",
+            "question": "If three nonparallel forces hold a rigid body in equilibrium, then",
+            "media": "",
+            "choices": [
+                "They are equal",
+                "They are concurrent",
+                "They form a triangle",
+                "They are colinear"
+            ],
+            "correct_answer": "B"
+        },
+        {
+            "number": "5",
+            "category": "Dynamics",
+            "question": "A train is traveling at \\( 29 \\text{ m/s} \\) along a railroad. The engineer suddenly applies the brakes and the train begins to decelerate at \\( 1.6 \\text{ m/s}^2 \\). How long does it take for the train to come to a complete stop?",
+            "media": "",
+            "choices": [
+                "14 seconds",
+                "7.5 seconds",
+                "18 seconds",
+                "25 seconds"
+            ],
+            "correct_answer": "C"
+        },
+        {
+            "number": "6",
+            "category": "Strength",
+            "question": "A composite rod consists of two segments: Segment A is 1.5 m long with a cross-sectional area of 0.0004 m² and Young's modulus of 150 GPa, and Segment B is 2.5 m long with a cross-sectional area of 0.0006 m² and Young's modulus of 200 GPa. The rod is subjected to a tensile force of 75 kN. Calculate the total elongation of the rod.",
+            "media": "",
+            "choices": [
+                "2.1 mm",
+                "3.4375 mm",
+                "0.00789 m",
+                "12.5 mm"
+            ],
+            "correct_answer": "B"
+        },
+        {
+            "number": "7",
+            "category": "Materials",
+            "question": "An axial load is applied to a 20 centimeter long cylindrical piece of steel. Due to the axial load, the steel is stretched to 24.3 centimeters where it fractures. What is the percent elongation of the member?",
+            "media": "",
+            "choices": [
+                "23.40%",
+                "21.50%",
+                "18.90%",
+                "16%"
+            ],
+            "correct_answer": "B"
+        },
+        {
+            "number": "8",
+            "category": "Fluids",
+            "question": "A simple U-shaped manometer is attached to an air pipe and measures a pressure of 20 mmHg. The pressure in psi of the air is",
+            "media": "",
+            "choices": [
+                "0.387 psi",
+                "20 psi",
+                "9.783 psi",
+                "1.47 psi"
+            ],
+            "correct_answer": "C"
+        },
+        {
+            "number": "9",
+            "category": "Surveying",
+            "question": "A surveyor determines an azimuth of 135° 45' 30\". Calculate the bearing.",
+            "media": "",
+            "choices": [
+                "N45°25' 34\"W",
+                "S44° 14' 30\"E",
+                "S35° 16' 13\"W",
+                "N135° 45' 30\"E"
+            ],
+            "correct_answer": "B"
+        },
+        {
+            "number": "10",
+            "category": "Envir",
+            "question": "What is the flow rate (cfs) of a 35-acre parcel of land that has a rainfall intensity of 1.5 in/hr, and a rational method runoff coefficient of 0.2?",
+            "media": "",
+            "choices": [
+                "7.875 cfs",
+                "10.5 cfs",
+                "9 cfs",
+                "4.125 cfs"
+            ],
+            "correct_answer": "B"
+        },
+        {
+            "number": "11",
+            "category": "Struc",
+            "question": "An interior floor system has W24X55 sections spaced 6 feet on center. The floor system supports a floor dead load of 40 PSF and a floor live load of 90 PSF. Find the governing load in lbs/ft that each beam must support. Ignore the beam’s self-weight and use ASD load combinations.",
+            "media": "Struc_11.jpg",
+            "choices": [
+                "780 lbs/ft",
+                "824 lbs/ft",
+                "360 lbs/ft",
+                "130 lbs/ft"
+            ],
+            "correct_answer": "A"
+        },
+        {
+            "number": "12",
+            "category": "Geotech",
+            "question": "A shallow strip footing is being designed in a soil which has a density of 113.5 pcf. Assuming a sandy soil (cohesion is negligible), and given Nc=37.16, Nq=22.46, Nγ=19.12, and an allowable bearing capacity of 3,566.4 lbs with a factor of safety of 4, what is the best width of the footing that must be designed at 4 ft below the surface?",
+            "media": "",
+            "choices": [
+                "2’ - 0”",
+                "3’ - 9”",
+                "4’ - 2”",
+                "3’ - 6”"
+            ],
+            "correct_answer": "B"
+        },
+        {
+            "number": "13",
+            "category": "Transp",
+            "question": "Find the approximate value for demand flow rate on a 3-lane freeway situated on rolling terrain. The demand volume is 1,345 veh/h. Assume the peak-hour factor is 0.74 and the proportion of single unit trucks is 0.1.",
+            "media": "",
+            "choices": [
+                "655 pc/h/ln",
+                "712 pc/h/ln",
+                "725 pc/h/ln",
+                "749 pc/h/ln"
+            ],
+            "correct_answer": "C"
+        },
+        {
+            "number": "14",
+            "category": "Constr",
+            "question": "A hospital’s construction is budgeted around $1.5 million. At the end of the project, the actual cost of the project was found to be $1.24 million. What is most nearly the Cost Performance Index for the project?",
+            "media": "",
+            "choices": [
+                "1.49",
+                "1.21",
+                "2.5",
+                "12.09"
+            ],
+            "correct_answer": "B"
+        },
+        {
+            "number": "15",
+            "category": "Math",
+            "question": "What is the second derivative of \\( f(x) = 2x^3 - 5x + \\sin(x) \\)",
+            "media": "",
+            "choices": [
+                "\\( f''(x) = 18x^2 - 5 \\)",
+                "f’’(x)=0",
+                "f′′(x)=12x−sin(x)",
+                "6x^2+12x−5+cos(x)−sin(x)"
+            ],
+            "correct_answer": "C"
+        },
+        {
+            "number": "16",
+            "category": "Ethics",
+            "question": "Why is engineering considered a profession rather than an occupation?",
+            "media": "",
+            "choices": [
+                "It is based on a large knowledge base requiring extensive training.",
+                "It is self-regulating.",
+                "It is regulated by ethical standards.",
+                "All of the above"
+            ],
+            "correct_answer": "D"
+        },
+        {
+            "number": "17",
+            "category": "Econ",
+            "question": "A 3-year US Treasury bond has a monthly interest rate of 6.8%. If you invest $15,000 initially, what will be the bond's value at maturity?",
+            "media": "",
+            "choices": [
+                "$25,200.00",
+                "$36,912.69",
+                "$15,000.00",
+                "$48,000.00"
+            ],
+            "correct_answer": "B"
+        },
+        {
+            "number": "18",
+            "category": "Statics",
+            "question": "Determine the x-coordinate centroid of the area bounded by the x-axis, x=π, and the function y=sin(x).",
+            "media": "",
+            "choices": [
+                "π/5",
+                "π/4",
+                "π/2",
+                "π/8"
+            ],
+            "correct_answer": "C"
+        },
+        {
+            "number": "19",
+            "category": "Dynamics",
+            "question": "A radar tracking system is monitoring an aircraft flying in a circular path around a control tower. The aircraft's position is described in polar coordinates as r(t) = 5000 meters (constant radius) and θ(t) = 0.02t radians, where t is time in seconds. At t = 10 seconds, what is the transverse component of the aircraft's velocity?",
+            "media": "",
+            "choices": [
+                "50 m/s",
+                "100 m/s",
+                "150 m/s",
+                "200 m/s"
+            ],
+            "correct_answer": "B"
+        },
+        {
+            "number": "20",
+            "category": "Strength",
+            "question": "According to the shear diagram, find the maximum moment. None of the lines are parabolic.",
+            "media": "Strength_20.jpg",
+            "choices": [
+                "-6.25 kN",
+                "20 kN",
+                "10 kN",
+                "12.5 kN"
+            ],
+            "correct_answer": "C"
+        },
+        {
+            "number": "21",
+            "category": "Materials",
+            "question": "A composite material with a strain of 0.12 and an elastic modulus of 300 kPa is composed of three materials listed in the table. Determine the strength of Component 3.",
+            "media": "Materials_21.jpg",
+            "choices": [
+                "60 kPa",
+                "100 kPa",
+                "170 kPa",
+                "220 kPa"
+            ],
+            "correct_answer": "A"
+        },
+        {
+            "number": "22",
+            "category": "Fluids",
+            "question": "Castle Geyser at Yellowstone National Park shoots water 250 ft into the air. What is the minimum gauge pressure in psi at the base?",
+            "media": "",
+            "choices": [
+                "290 psi",
+                "108 psi",
+                "245 psi",
+                "173 psi"
+            ],
+            "correct_answer": "B"
+        },
+        {
+            "number": "23",
+            "category": "Surveying",
+            "question": "Earthwork for a roadway is cut and filled at the following stations. What is approximately the total volume of earthwork to be cut?",
+            "media": "Surveying_23.jpg",
+            "choices": [
+                "9,000 ft^2",
+                "12,500 ft^2",
+                "8,450 ft^2",
+                "10,500 ft^2"
+            ],
+            "correct_answer": "A"
+        },
+        {
+            "number": "24",
+            "category": "Envir",
+            "question": "Approximate the thickness b of a confined aquifer if it’s transmissivity is 325 sqft/day and it’s hydraulic conductivity is 5.7 ft/day",
+            "media": "",
+            "choices": [
+                "60 ft",
+                "18 ft",
+                "24 ft",
+                "55 ft"
+            ],
+            "correct_answer": "A"
+        },
+        {
+            "number": "25",
+            "category": "Struc",
+            "question": "For the plate shown, find the effect net area for the sake of tension design. The plate is 3/4 inch thick and has holes to accomodate 1/2 inch diameter bolts.",
+            "media": "Struc_25.jpg",
+            "choices": [
+                "12.5 in^2",
+                "11.2 in^2",
+                "20 in^2",
+                "10.85 in^2"
+            ],
+            "correct_answer": "B"
+        },
+        {
+            "number": "26",
+            "category": "Geotech",
+            "question": "A soil boring is taken to a depth of 9 feet. Groundwater is found at 7 feet, and the soil density is found to be 115 pcf. What is the effective vertical stress of the soil at the same elevation as where the soil boring was terminated?",
+            "media": "",
+            "choices": [
+                "124.8 psf",
+                "1035 psf",
+                "910.2 psf",
+                "1150 psf"
+            ],
+            "correct_answer": "C"
+        },
+        {
+            "number": "27",
+            "category": "Transp",
+            "question": "Determine the approximate load equivalency factor for a 24,000 lbs tandem-axel truck.",
+            "media": "",
+            "choices": [
+                "3.03",
+                "0",
+                "0.26",
+                "8.88"
+            ],
+            "correct_answer": "C"
+        },
+        {
+            "number": "28",
+            "category": "Constr",
+            "question": "What does “free float” mean?",
+            "media": "",
+            "choices": [
+                "The period during which a construction task can be rescheduled to accommodate additional resource allocation without affecting the critical path.",
+                "The duration allocated for non-critical tasks to be completed without requiring additional manpower or resources.",
+                "The amount of time a specific task within a project can last without impacting the rest of the project.",
+                "None of the above"
+            ],
+            "correct_answer": "C"
+        },
+        {
+            "number": "29",
+            "category": "Math",
+            "question": "What is the solution to the following differential equation? dx/dy+2y=0",
+            "media": "",
+            "choices": [
+                "y=C1e^−2x",
+                "y=C1sin(2x)",
+                "y=C2x^2",
+                "y=C3e^2x"
+            ],
+            "correct_answer": "A"
+        },
+        {
+            "number": "30",
+            "category": "Ethics",
+            "question": "Who is defined as “an individual who is qualified to practice engineering by reason of engineering education, training, experience, and examination in the application of engineering principles and the interpretation of engineering data”",
+            "media": "",
+            "choices": [
+                "An Engineering Intern",
+                "A Professional Engineer",
+                "An Engineering Graduate",
+                "None of the Above"
+            ],
+            "correct_answer": "B"
+        },
+        {
+            "number": "31",
+            "category": "Econ",
+            "question": "The cost of manufacturing a product in a workshop is given by C=12,000+0.08P, where P is the number of products manufactured. If each product sells for $5.00, how many items must be produced to break even?",
+            "media": "",
+            "choices": [
+                "1,001",
+                "3,333",
+                "2,667",
+                "2,150"
+            ],
+            "correct_answer": "C"
+        },
+        {
+            "number": "32",
+            "category": "Statics",
+            "question": "A construction crane is lifting a wide flange member as shown in the diagram. Determine the tension force in each of the two cables supporting the load.",
+            "media": "Statics_32.jpg",
+            "choices": [
+                "990.1 lb",
+                "1,434 lb",
+                "720 lb",
+                "553 lb"
+            ],
+            "correct_answer": "A"
+        },
+        {
+            "number": "33",
+            "category": "Dynamics",
+            "question": "A 4 kg object moves across a frictionless surface at 10 m/s and collides with a stationary 6 kg mass. If the collision is perfectly elastic, calculate the velocity of the moving object and the stationary object after the collision.",
+            "media": "",
+            "choices": [
+                "Velocity of the 4 kg object: 5 m/s Velocity of the 6 kg object: 5 m/s",
+                "Velocity of the 4 kg object after impact: -2 m/s Velocity of the 6 kg object after impact: 8 m/s",
+                "Velocity of the 4 kg object: 10 m/s Velocity of the 6 kg object: 0 m/s",
+                "Velocity of the 4 kg object: -4 m/s Velocity of the 6 kg object: 12 m/s"
+            ],
+            "correct_answer": "B"
+        },
+        {
+            "number": "34",
+            "category": "Strength",
+            "question": "A slender steel column with a circular cross-section has a diameter of 50 mm and a length of 3 m. The column is pinned at both ends and made of steel with a Young's modulus E=200 GPa. Using Euler's formula, determine the critical buckling load Pcr for the column. Assume the column is perfectly straight and the load is applied axially.",
+            "media": "",
+            "choices": [
+                "810.6 kN",
+                "405.3 kN",
+                "101.3 kN",
+                "202.6 kN"
+            ],
+            "correct_answer": "B"
+        },
+        {
+            "number": "35",
+            "category": "Materials",
+            "question": "A fragile Alumina sample has a stress intensity factor of 4,250 psi·in^(1/2). Determine the applied tensile stress in psi if the sample has an internal crack with a crack length parameter a=2.5 inches.",
+            "media": "",
+            "choices": [
+                "1,521 psi",
+                "1,455 psi",
+                "1,517 psi",
+                "1,600 psi"
+            ],
+            "correct_answer": "C"
+        },
+        {
+            "number": "36",
+            "category": "Fluids",
+            "question": "A tank is filled with water at height H of 50 ft. A hole is punched in one of the walls at a depth h of 12 ft below the water surface. What is most nearly the distance x from the foot of the tank at which the stream strikes the floor.",
+            "media": "Fluids_36.jpg",
+            "choices": [
+                "24 ft",
+                "98 ft",
+                "37 ft",
+                "43 ft"
+            ],
+            "correct_answer": "D"
+        },
+        {
+            "number": "37",
+            "category": "Surveying",
+            "question": "A surveyor is given the latitude and longitude coordinates for a trapezoidal portion of a parking lot. In this area of the lot, the length of one degree of latitude is 355,200 ft, and the length of one degree of longitude is 298,165 ft. Find the approximate area of the plot in square feet.",
+            "media": "Surveying_37.jpg",
+            "choices": [
+                "14,500 ft^2",
+                "15,000 ft^2",
+                "10,000 ft^2",
+                "12,000 ft^2"
+            ],
+            "correct_answer": "D"
+        },
+        {
+            "number": "38",
+            "category": "Envir",
+            "question": "A wastewater sample has a BOD deoxygenation rate constant of 0.25 per day at 20°C. The wastewater treatment plant operates at 30°C, and the temperation correction coefficient is 1.047. Find the deoxygenation rate constant at 30°C.",
+            "media": "",
+            "choices": [
+                "0.25/day",
+                "0.38/day",
+                "0.4/day",
+                "0.5/day"
+            ],
+            "correct_answer": "C"
+        },
+        {
+            "number": "39",
+            "category": "Struc",
+            "question": "A concrete slab is upheld by four short reinforced concrete columns. Given the loading on the concrete slab and assuming that each reinforcing bar is the same size, determine the best size of bar to be used.",
+            "media": "Struc_40.jpg",
+            "choices": [
+                "#5",
+                "#6",
+                "#7",
+                "#9"
+            ],
+            "correct_answer": "B"
+        },
+        {
+            "number": "40",
+            "category": "Geotech",
+            "question": "A soil sample is analyzed and has a volume of 764.35 cubic inches with a weight of 49.9 lbs which decreases to 40.2 lbs after being placed in the oven. What is the saturated unit weight of the soil sample if the specific gravity is 3.2 and the void ratio is 0.9?",
+            "media": "",
+            "choices": [
+                "150 pcf",
+                "120.6 pcf",
+                "198.3 pcf",
+                "134.65 pcf"
+            ],
+            "correct_answer": "D"
+        },
+        {
+            "number": "41",
+            "category": "Transp",
+            "question": "A highway has a horizontal curve with a PI of sta 9+03, an intersection angle of 19°50’00”, and a radius of 1,545 ft. Where is PC located on the curve?",
+            "media": "",
+            "choices": [
+                "sta 5+66",
+                "sta 5+75",
+                "sta 6+33",
+                "sta 7+17"
+            ],
+            "correct_answer": "C"
+        },
+        {
+            "number": "42",
+            "category": "Constr",
+            "question": "What does the term \"critical path\" refer to?",
+            "media": "",
+            "choices": [
+                "The sequence of tasks that determines the shortest time to complete the project.",
+                "The list of tasks requiring the most expensive resources.",
+                "The pathway for heavy machinery access on the construction site.",
+                "The schedule for safety inspections during the project."
+            ],
+            "correct_answer": "A"
+        },
+        {
+            "number": "43",
+            "category": "Math",
+            "question": "Evaluate the integral ∫4^(x+2)+e^x dx",
+            "media": "",
+            "choices": [
+                "e^x+4x+C",
+                "e^x+4^(x+2)/ln(4)+C",
+                "xe^x+16⋅4^x+C",
+                "4x+2/ln(4)+e^x+C"
+            ],
+            "correct_answer": "D"
+        },
+        {
+            "number": "44",
+            "category": "Ethics",
+            "question": "You are a licensed professional engineer (PE) working for a consulting firm. A client requests that you sign and seal engineering drawings for a project you did not personally prepare or supervise. The drawings were prepared by a junior engineer who is not licensed, and you have not had the opportunity to thoroughly review the work due to time constraints. The client insists that your seal is needed urgently to meet a permitting deadline. What should you do, and why?",
+            "media": "",
+            "choices": [
+                "Refuse to sign and seal the drawings until you have thoroughly reviewed and verified their accuracy and compliance with applicable codes and standards.",
+                "Delegate the review to another unlicensed engineer and then sign and seal the drawings based on their assurance.",
+                "Sign and seal the drawings immediately to meet the client’s deadline, trusting the junior engineer’s work.",
+                "Sign and seal the drawings but include a disclaimer that you did not prepare or review them."
+            ],
+            "correct_answer": "A"
+        },
+        {
+            "number": "45",
+            "category": "Econ",
+            "question": "A person aims to save for a home down payment, targeting $80,000 in 4 years. How much must she invest each year in a standard index fund with a historical annual return of 8%? Ignore inflation.",
+            "media": "",
+            "choices": [
+                "$17,672.48",
+                "$20,150.49",
+                "$15,011.32",
+                "$20,000"
+            ],
+            "correct_answer": "A"
+        },
+        {
+            "number": "46",
+            "category": "Statics",
+            "question": "Find the vertical reactions at each end of the beam in pounds.",
+            "media": "Statics_47.jpg",
+            "choices": [
+                "R_A = 1,111 lbs R_B = 389 lbs",
+                "R_A = 1,389 lbs R_B = 111 lbs",
+                "R_A = 500 lbs R_B = 1,000 lbs",
+                "R_A = 1,250 lbs R_B = 250 lbs"
+            ],
+            "correct_answer": "B"
+        },
+        {
+            "number": "47",
+            "category": "Dynamics",
+            "question": "A 3-kg block slides on a frictionless surface under a constant force of 15 N. How long (in seconds) will it take for the block to reach a speed of 12 m/s?",
+            "media": "",
+            "choices": [
+                "3.6 seconds",
+                "1.2 seconds",
+                "4.8 seconds",
+                "2.4 seconds"
+            ],
+            "correct_answer": "D"
+        },
+        {
+            "number": "48",
+            "category": "Strength",
+            "question": "A simply supported beam has a variable distributed load applied to it. What is most nearly the maximum deflection in the beam in inches and how many feet along the beam does the maximum deflection occur? The beam has a Modulus of Elasticity of 29,000 ksi and a Moment of Inertia of 156 in^4. Ignore the beam’s self-weight.",
+            "media": "Strength_49.jpg",
+            "choices": [
+                "v_max = -2x10^-2 in x = 10.5 ft",
+                "v_max = -3.5x10^-5 in x = 6 ft",
+                "v_max = -7x10^-3 x = 19 ft",
+                "v_max = -8x10^-3 in x = 12 ft"
+            ],
+            "correct_answer": "D"
+        },
+        {
+            "number": "49",
+            "category": "Materials",
+            "question": "For a plain carbon steel sample with a tensile strength of 8,500 psi, calculate its estimated Brinell hardness.",
+            "media": "",
+            "choices": [
+                "16.8",
+                "17",
+                "18.9",
+                "20"
+            ],
+            "correct_answer": "B"
+        },
+        {
+            "number": "50",
+            "category": "Fluids",
+            "question": "A spherical object with a radius of 0.5 meters is fully submerged in a tank of water (density = 1000 kg/m³) and is tethered to the bottom of the tank with a cable. What is most nearly the tension in the cable? The object has a mass of 400 kg. Assume the acceleration due to gravity is 9.8 m/s².",
+            "media": "",
+            "choices": [
+                "1100 N",
+                "1200 N",
+                "1400 N",
+                "1500 N"
+            ],
+            "correct_answer": "B"
+        }
+    ]
 }
