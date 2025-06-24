@@ -1,4 +1,4 @@
-# FE Exam Practice Software
+# FE Civil Exam Practice Software
 
 A Python-based practice software that simulates the NCEES FE (Fundamentals of Engineering) Civil Exam environment. This application helps engineering students prepare for their FE exam by providing a similar interface and practice problems.
 
