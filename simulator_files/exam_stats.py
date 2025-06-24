@@ -3,6 +3,7 @@ import time
 from typing import Dict, List
 from dataclasses import dataclass, asdict
 from datetime import datetime
+import os
 
 @dataclass
 class ExamResult:
@@ -19,14 +20,14 @@ class ExamStats:
 
     def _load_stats(self):
         try:
-            with open('exam_stats.json', 'r') as f:
+            with open(os.path.join(os.path.dirname(__file__), 'exam_stats.json'), 'r') as f:
                 data = json.load(f)
                 self.results = [ExamResult(**result) for result in data['results']]
         except FileNotFoundError:
             self.results = []
 
     def save_stats(self):
-        with open('exam_stats.json', 'w') as f:
+        with open(os.path.join(os.path.dirname(__file__), 'exam_stats.json'), 'w') as f:
             json.dump({
                 'results': [asdict(result) for result in self.results]
             }, f, indent=4)

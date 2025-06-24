@@ -1,5 +1,6 @@
 import json
 import random
+import os
 from typing import Dict, List, Optional
 
 class Problem:
@@ -31,7 +32,7 @@ class ProblemManager:
 
     def _load_problems_from_database(self):
         try:
-            with open('problems_database.json', 'r', encoding='utf-8') as file:
+            with open(os.path.join(os.path.dirname(__file__), 'problems_database.json'), 'r', encoding='utf-8') as file:
                 data = json.load(file)
                 for problem_data in data['problems']:
                     problem = Problem(
@@ -45,10 +46,10 @@ class ProblemManager:
                     )
                     self.all_problems.append(problem)
         except FileNotFoundError:
-            print("Error: problems_database.json not found!")
+            print(f"Error: {os.path.join(os.path.dirname(__file__), 'problems_database.json')} not found!")
             self.all_problems = []
         except json.JSONDecodeError:
-            print("Error: Invalid JSON format in problems_database.json!")
+            print(f"Error: Invalid JSON format in {os.path.join(os.path.dirname(__file__), 'problems_database.json')}!")
             self.all_problems = []
 
     def set_categories(self, categories: List[str]):

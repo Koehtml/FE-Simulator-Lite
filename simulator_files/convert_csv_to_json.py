@@ -1,6 +1,7 @@
 import csv
 import json
 import re
+import os
 
 def clean_text(text):
     if not isinstance(text, str):
@@ -41,7 +42,7 @@ def convert_csv_to_json():
     }
     
     # Write to JSON file with proper encoding
-    with open('problems_database.json', 'w', encoding='utf-8') as jsonfile:
+    with open(os.path.join(os.path.dirname(__file__), 'problems_database.json'), 'w', encoding='utf-8') as jsonfile:
         json.dump(json_data, jsonfile, indent=4, ensure_ascii=False)
 
 if __name__ == "__main__":

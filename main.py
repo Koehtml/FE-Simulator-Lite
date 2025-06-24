@@ -3,22 +3,22 @@ from tkinter import ttk, messagebox
 from PIL import Image, ImageTk
 import json
 import time
-from problem_manager import ProblemManager, Problem
-from calculator import ScientificCalculator
-from exam_stats import ExamStats
-from latex_renderer import LaTeXRenderer
+from simulator_files.problem_manager import ProblemManager, Problem
+from simulator_files.calculator import ScientificCalculator
+from simulator_files.exam_stats import ExamStats
+from simulator_files.latex_renderer import LaTeXRenderer
 import os
 import re
 from io import BytesIO
 from datetime import datetime
 
 # Write to a log file to track execution
-with open("debug.log", "w") as f:
+with open("simulator_files/debug.log", "w") as f:
     f.write("Starting program...\n")
 
 class FEExamSimulator(tk.Tk):
     def __init__(self, test_type="timed", num_questions=5, selected_categories=None):
-        with open("debug.log", "a") as f:
+        with open("simulator_files/debug.log", "a") as f:
             f.write("Initializing FEExamSimulator...\n")
         super().__init__()
         self.title("FE Exam Practice Software")
@@ -173,7 +173,7 @@ class FEExamSimulator(tk.Tk):
         handbook_frame.grid_columnconfigure(0, weight=1)
         
         # Initialize PDF viewer without a default PDF
-        from custom_pdf_viewer import CustomPDFViewer
+        from simulator_files.custom_pdf_viewer import CustomPDFViewer
         self.pdf_viewer = CustomPDFViewer(handbook_frame)
         self.pdf_viewer.grid(row=0, column=0, sticky="nsew")
         
@@ -450,7 +450,7 @@ class FEExamSimulator(tk.Tk):
         viewer_window.geometry("800x600")
         
         # Create a PDF viewer without a default PDF
-        from pdf_viewer import PDFViewer
+        from simulator_files.pdf_viewer import PDFViewer
         viewer = PDFViewer(viewer_window)
         viewer.pack(fill=tk.BOTH, expand=True)
         
@@ -659,7 +659,7 @@ class FEExamSimulator(tk.Tk):
 
 class Dashboard(tk.Tk):
     def __init__(self):
-        with open("debug.log", "a") as f:
+        with open("simulator_files/debug.log", "a") as f:
             f.write("Initializing Dashboard...\n")
         super().__init__()
         self.title("FE Exam Practice Dashboard")
@@ -939,11 +939,11 @@ class Dashboard(tk.Tk):
         exam.mainloop()
 
 if __name__ == "__main__":
-    with open("debug.log", "a") as f:
+    with open("simulator_files/debug.log", "a") as f:
         f.write("In main block...\n")
     dashboard = Dashboard()
-    with open("debug.log", "a") as f:
+    with open("simulator_files/debug.log", "a") as f:
         f.write("Created Dashboard, starting mainloop...\n")
     dashboard.mainloop()
-    with open("debug.log", "a") as f:
+    with open("simulator_files/debug.log", "a") as f:
         f.write("Program finished.\n") 
