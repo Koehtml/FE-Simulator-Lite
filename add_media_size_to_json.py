@@ -2,7 +2,7 @@ import json
 import argparse
 
 parser = argparse.ArgumentParser(description='Adjust media_size for all problems in problems_database.json.')
-parser.add_argument('--size', type=int, default=50, help='Desired media_size value (default: 100)')
+parser.add_argument('--size', type=int, default=40, help='Desired media_size value (default: 100)')
 args = parser.parse_args()
 
 with open('problems_database.json', 'r', encoding='utf-8') as f:

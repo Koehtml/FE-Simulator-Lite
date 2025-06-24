@@ -59,4 +59,9 @@ class ExamStats:
             'exams_taken': total_exams,
             'average_score': total_score / total_exams,
             'average_time_per_question': total_time / total_questions if total_questions > 0 else 0
-        } 
+        }
+
+    def clear_statistics(self):
+        """Clear all exam statistics and save to file."""
+        self.results = []
+        self.save_stats() 

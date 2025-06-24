@@ -10,6 +10,7 @@ from latex_renderer import LaTeXRenderer
 import os
 import re
 from io import BytesIO
+from datetime import datetime
 
 # Write to a log file to track execution
 with open("debug.log", "w") as f:
@@ -597,6 +598,122 @@ class Dashboard(tk.Tk):
         ttk.Label(stats_frame, text=f"Practice Exams Taken: {stats['exams_taken']}").pack(anchor="w", padx=10, pady=5)
         ttk.Label(stats_frame, text=f"Average Score: {stats['average_score']:.1f}%").pack(anchor="w", padx=10, pady=5)
         ttk.Label(stats_frame, text=f"Average Time per Question: {stats['average_time_per_question']/60:.1f} minutes").pack(anchor="w", padx=10, pady=5)
+        
+        # Add separator
+        ttk.Separator(stats_frame, orient='horizontal').pack(fill='x', padx=10, pady=10)
+        
+        # Add exam history section
+        history_label = ttk.Label(stats_frame, text="Previous Exams:", font=('Arial', 10, 'bold'))
+        history_label.pack(anchor="w", padx=10, pady=(10, 5))
+        
+        # Create frame for the listbox and scrollbar
+        list_frame = ttk.Frame(stats_frame)
+        list_frame.pack(fill='both', expand=True, padx=10, pady=5)
+        
+        # Create listbox for exam history
+        self.exam_history_listbox = tk.Listbox(
+            list_frame,
+            height=8,
+            font=('Arial', 9),
+            selectmode='none'  # Disable selection
+        )
+        self.exam_history_listbox.pack(side='left', fill='both', expand=True)
+        
+        # Create scrollbar
+        scrollbar = ttk.Scrollbar(list_frame, orient='vertical', command=self.exam_history_listbox.yview)
+        scrollbar.pack(side='right', fill='y')
+        self.exam_history_listbox.configure(yscrollcommand=scrollbar.set)
+        
+        # Populate the exam history
+        self.populate_exam_history()
+        
+        # Add clear statistics button
+        clear_button = tk.Button(
+            stats_frame,
+            text="Clear All Statistics",
+            font=('Arial', 10),
+            bg='#dc3545',  # Red color for destructive action
+            fg='white',
+            activebackground='#c82333',
+            activeforeground='white',
+            relief=tk.RAISED,
+            padx=10,
+            pady=5,
+            command=self.clear_statistics
+        )
+        clear_button.pack(anchor="w", padx=10, pady=10)
+
+    def populate_exam_history(self):
+        """Populate the exam history listbox with previous exam results."""
+        # Clear existing items
+        self.exam_history_listbox.delete(0, tk.END)
+        
+        # Get exam results (most recent first)
+        results = self.exam_stats.results[::-1]  # Reverse to show newest first
+        
+        if not results:
+            self.exam_history_listbox.insert(tk.END, "No previous exams found.")
+            return
+        
+        for result in results:
+            # Format the date
+            date_obj = datetime.strptime(result.date, "%Y-%m-%d %H:%M:%S")
+            formatted_date = date_obj.strftime("%m/%d/%Y %I:%M %p")
+            
+            # Format time taken
+            minutes = result.time_taken / 60
+            time_str = f"{minutes:.1f} min"
+            
+            # Create the display string
+            exam_info = f"{formatted_date} | {result.num_questions} Q | {result.score:.1f}% | {time_str} | {result.test_type}"
+            
+            self.exam_history_listbox.insert(tk.END, exam_info)
+
+    def clear_statistics(self):
+        """Clear all exam statistics with confirmation."""
+        # Show confirmation dialog
+        result = messagebox.askyesno(
+            "Clear Statistics",
+            "Are you sure you want to clear all exam statistics?\n\nThis action cannot be undone.",
+            icon='warning'
+        )
+        
+        if result:
+            # Clear the statistics
+            self.exam_stats.clear_statistics()
+            
+            # Show confirmation message
+            messagebox.showinfo(
+                "Statistics Cleared",
+                "All exam statistics have been cleared successfully."
+            )
+            
+            # Refresh the dashboard to show updated statistics
+            self.refresh_dashboard()
+
+    def refresh_dashboard(self):
+        """Refresh the dashboard to show updated statistics."""
+        # Destroy current widgets and recreate them
+        for widget in self.winfo_children():
+            widget.destroy()
+        
+        # Recreate the dashboard
+        self.grid_columnconfigure(0, weight=1)  # Left pane
+        self.grid_columnconfigure(1, weight=1)  # Right pane
+        self.grid_rowconfigure(0, weight=1)
+        self.grid_rowconfigure(1, weight=0)  # Button row
+        
+        # Create left pane (Statistics)
+        self.create_stats_pane()
+        
+        # Create right pane (Test Settings)
+        self.create_settings_pane()
+        
+        # Create start button
+        self.create_start_button()
+        
+        # Refresh exam history
+        self.populate_exam_history()
 
     def create_settings_pane(self):
         settings_frame = ttk.LabelFrame(self, text="Test Settings")
