@@ -22,8 +22,10 @@ class Problem:
 class ProblemManager:
     def __init__(self, num_questions: int = 50):
         self.problems: List[Problem] = []
+        self.all_problems: List[Problem] = []  # Store all problems
         self.current_index = 0
         self.num_questions = num_questions
+        self.selected_categories = None
         self._load_problems_from_database()
         self._shuffle_problems()
 
@@ -41,17 +43,27 @@ class ProblemManager:
                         correct_answer=problem_data["correct_answer"],
                         media_size=problem_data.get("media_size", 100)  # Use get() to default to 100 if not present
                     )
-                    self.problems.append(problem)
+                    self.all_problems.append(problem)
         except FileNotFoundError:
             print("Error: problems_database.json not found!")
-            self.problems = []
+            self.all_problems = []
         except json.JSONDecodeError:
             print("Error: Invalid JSON format in problems_database.json!")
-            self.problems = []
+            self.all_problems = []
+
+    def set_categories(self, categories: List[str]):
+        """Set the selected categories and filter problems accordingly"""
+        self.selected_categories = categories
+        self.problems = [p for p in self.all_problems if p.category in categories]
+        self._shuffle_problems()
 
     def _shuffle_problems(self):
         """Shuffle and ensure exactly num_questions problems"""
-        # First shuffle the entire list
+        # If no categories are set, use all problems
+        if self.selected_categories is None:
+            self.problems = self.all_problems.copy()
+        
+        # First shuffle the filtered list
         random.shuffle(self.problems)
         
         # If we have fewer problems than requested, use all of them
@@ -87,7 +99,7 @@ class ProblemManager:
 
     def total_problems(self) -> int:
         """Return the total number of problems in the current exam"""
-        return len(self.problems)
+        return len(self.problems) 
 
     def reshuffle_problems(self):
         """Reshuffle the problems and reset the current index"""

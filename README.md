@@ -24,7 +24,6 @@ A Python-based practice software that simulates the NCEES FE (Fundamentals of En
 
 ## Usage
 
-- Select your desired engineering discipline
 - Start a practice session
 - Navigate through problems using the provided interface
 - Submit answers and review your performance

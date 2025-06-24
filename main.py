@@ -17,7 +17,7 @@ with open("debug.log", "w") as f:
     f.write("Starting program...\n")
 
 class FEExamSimulator(tk.Tk):
-    def __init__(self, test_type="timed", num_questions=5):
+    def __init__(self, test_type="timed", num_questions=5, selected_categories=None):
         with open("debug.log", "a") as f:
             f.write("Initializing FEExamSimulator...\n")
         super().__init__()
@@ -87,6 +87,13 @@ class FEExamSimulator(tk.Tk):
 
         # Load the first problem
         self.load_current_problem()
+        
+        # Bind keyboard shortcuts
+        self.bind_keyboard_shortcuts()
+
+        # Set selected categories
+        if selected_categories:
+            self.problem_manager.set_categories(selected_categories)
 
     def create_top_bar(self):
         top_frame = ttk.Frame(self, style='TopBar.TFrame')
@@ -280,12 +287,12 @@ class FEExamSimulator(tk.Tk):
         problem = self.problem_manager.get_current_problem()
         if not problem:
             return
-            
+
         # Update question number
         current = self.problem_manager.current_index + 1
         total = self.problem_manager.total_problems()
         self.question_number.config(text=f"Question {current} of {total}")
-        
+
         # Display the question with LaTeX rendering
         question_text = self.latex_renderer.convert_latex_to_unicode(problem.question)
         self.problem_text.insert(tk.END, f"{question_text}\n")
@@ -332,7 +339,7 @@ class FEExamSimulator(tk.Tk):
                     self.problem_text.insert(tk.END, f"\n[Media file not found: {problem.media}]")
             except Exception as e:
                 self.problem_text.insert(tk.END, f"\n[Error loading media: {str(e)}]")
-        
+
         # Reset the answer variable to clear any previous selection
         self.answer_var.set("_unset_")
 
@@ -346,7 +353,7 @@ class FEExamSimulator(tk.Tk):
             answer_text = self.latex_renderer.convert_latex_to_unicode(choice)
             btn = tk.Radiobutton(self.answers_frame,
                                  text=answer_text,
-                                 variable=self.answer_var,
+                                variable=self.answer_var,
                                  value=choice,
                                  anchor='w',
                                  justify='left',
@@ -561,6 +568,95 @@ class FEExamSimulator(tk.Tk):
         elif current_index in self.user_answers:
             del self.user_answers[current_index]
 
+    def bind_keyboard_shortcuts(self):
+        """Bind keyboard shortcuts for better user experience"""
+        # Navigation shortcuts
+        self.bind("<Left>", lambda event: self.prev_question())
+        self.bind("<Right>", lambda event: self.next_question())
+        self.bind("<Up>", lambda event: self.prev_question())
+        self.bind("<Down>", lambda event: self.next_question())
+        
+        # Answer selection shortcuts (A, B, C, D keys)
+        self.bind("<Key-a>", lambda event: self.select_answer_by_key("A"))
+        self.bind("<Key-b>", lambda event: self.select_answer_by_key("B"))
+        self.bind("<Key-c>", lambda event: self.select_answer_by_key("C"))
+        self.bind("<Key-d>", lambda event: self.select_answer_by_key("D"))
+        self.bind("<Key-A>", lambda event: self.select_answer_by_key("A"))
+        self.bind("<Key-B>", lambda event: self.select_answer_by_key("B"))
+        self.bind("<Key-C>", lambda event: self.select_answer_by_key("C"))
+        self.bind("<Key-D>", lambda event: self.select_answer_by_key("D"))
+        
+        # Number keys for answer selection (1, 2, 3, 4)
+        self.bind("<Key-1>", lambda event: self.select_answer_by_key("A"))
+        self.bind("<Key-2>", lambda event: self.select_answer_by_key("B"))
+        self.bind("<Key-3>", lambda event: self.select_answer_by_key("C"))
+        self.bind("<Key-4>", lambda event: self.select_answer_by_key("D"))
+        
+        # Flag question shortcut (F key)
+        self.bind("<Key-f>", lambda event: self.mark_for_review())
+        self.bind("<Key-F>", lambda event: self.mark_for_review())
+        
+        # Calculator shortcut (C key)
+        self.bind("<Control-c>", lambda event: self.open_calculator())
+        self.bind("<Control-C>", lambda event: self.open_calculator())
+        
+        # Question navigator shortcut (N key)
+        self.bind("<Control-n>", lambda event: self.show_question_navigator())
+        self.bind("<Control-N>", lambda event: self.show_question_navigator())
+        
+        # Submit exam shortcut (Ctrl+S)
+        self.bind("<Control-s>", lambda event: self.check_exam_completion())
+        self.bind("<Control-S>", lambda event: self.check_exam_completion())
+        
+        # Return to dashboard shortcut (Ctrl+Q)
+        self.bind("<Control-q>", lambda event: self.return_to_dashboard())
+        self.bind("<Control-Q>", lambda event: self.return_to_dashboard())
+        
+        # Space bar to toggle flag
+        self.bind("<space>", lambda event: self.mark_for_review())
+        
+        # Enter key to go to next question
+        self.bind("<Return>", lambda event: self.next_question())
+        
+        # Backspace to go to previous question
+        self.bind("<BackSpace>", lambda event: self.prev_question())
+    
+    def select_answer_by_key(self, answer_key):
+        """Select an answer using keyboard shortcuts"""
+        # Find the index of the answer (A=0, B=1, C=2, D=3)
+        answer_index = ord(answer_key) - ord('A')
+        
+        # Check if the answer index is valid
+        if 0 <= answer_index < len(self.answer_buttons):
+            # Set the answer variable
+            self.answer_var.set(self.answer_buttons[answer_index]['text'])
+            
+            # Update the UI to reflect the selection
+            self.update_answer_selection()
+    
+    def update_answer_selection(self):
+        """Update the UI to reflect the current answer selection"""
+        # Get the current problem
+        problem = self.problem_manager.get_current_problem()
+        if not problem:
+            return
+            
+        current_index = self.problem_manager.current_index
+        
+        # Store the answer
+        selected_answer = self.answer_var.get()
+        if selected_answer:
+            self.user_answers[current_index] = selected_answer
+            self.answered_questions.add(current_index)
+        else:
+            # Remove from answered questions if no answer selected
+            if current_index in self.user_answers:
+                del self.user_answers[current_index]
+            self.answered_questions.discard(current_index)
+        
+        # Update progress
+        self.update_progress()
+
 class Dashboard(tk.Tk):
     def __init__(self):
         with open("debug.log", "a") as f:
@@ -693,6 +789,11 @@ class Dashboard(tk.Tk):
 
     def refresh_dashboard(self):
         """Refresh the dashboard to show updated statistics."""
+        # Store current category selections
+        current_categories = {}
+        if hasattr(self, 'category_vars'):
+            current_categories = {category: var.get() for category, var in self.category_vars.items()}
+        
         # Destroy current widgets and recreate them
         for widget in self.winfo_children():
             widget.destroy()
@@ -708,6 +809,12 @@ class Dashboard(tk.Tk):
         
         # Create right pane (Test Settings)
         self.create_settings_pane()
+        
+        # Restore category selections
+        if hasattr(self, 'category_vars') and current_categories:
+            for category, value in current_categories.items():
+                if category in self.category_vars:
+                    self.category_vars[category].set(value)
         
         # Create start button
         self.create_start_button()
@@ -731,6 +838,60 @@ class Dashboard(tk.Tk):
         question_choices = ttk.Combobox(settings_frame, textvariable=self.num_questions, state="readonly")
         question_choices['values'] = tuple(range(5, 55, 5))  # 5 to 50 in steps of 5
         question_choices.pack(anchor="w", padx=20)
+        
+        # Category selection
+        ttk.Label(settings_frame, text="\nCategories (Select all that apply):").pack(anchor="w", padx=10, pady=5)
+        
+        # Create frame for category checkboxes in two columns
+        category_frame = ttk.Frame(settings_frame)
+        category_frame.pack(fill="x", padx=20, pady=5)
+        
+        # Define all FE exam categories
+        self.categories = [
+            "Math", "Ethics", "Econ", "Statics", "Dynamics", "Strength", 
+            "Materials", "Fluids", "Surveying", "Envir", "Struc", 
+            "Geotech", "Transp", "Constr"
+        ]
+        
+        # Create category variables and checkboxes
+        self.category_vars = {}
+        for i, category in enumerate(self.categories):
+            var = tk.BooleanVar(value=True)  # Default to selected
+            self.category_vars[category] = var
+            
+            # Determine column (0 or 1) and row
+            col = i % 2
+            row = i // 2
+            
+            # Create checkbox
+            cb = ttk.Checkbutton(
+                category_frame, 
+                text=category, 
+                variable=var
+            )
+            cb.grid(row=row, column=col, sticky="w", padx=(0, 20), pady=2)
+        
+        # Add "Select All" and "Clear All" buttons
+        button_frame = ttk.Frame(settings_frame)
+        button_frame.pack(fill="x", padx=20, pady=5)
+        
+        ttk.Button(button_frame, text="Select All", command=self.select_all_categories).pack(side=tk.LEFT, padx=(0, 5))
+        ttk.Button(button_frame, text="Clear All", command=self.clear_all_categories).pack(side=tk.LEFT, padx=(0, 5))
+        ttk.Button(button_frame, text="Select Default", command=self.select_default_categories).pack(side=tk.LEFT)
+
+    def select_all_categories(self):
+        """Select all category checkboxes"""
+        for var in self.category_vars.values():
+            var.set(True)
+    
+    def clear_all_categories(self):
+        """Clear all category checkboxes"""
+        for var in self.category_vars.values():
+            var.set(False)
+    
+    def select_default_categories(self):
+        """Select default categories (all)"""
+        self.select_all_categories()
 
     def create_start_button(self):
         start_button = tk.Button(
@@ -764,9 +925,17 @@ class Dashboard(tk.Tk):
         test_type = self.test_type.get()
         num_questions = int(self.num_questions.get())
         
+        # Get selected categories
+        selected_categories = [category for category, var in self.category_vars.items() if var.get()]
+        
+        # Validate that at least one category is selected
+        if not selected_categories:
+            messagebox.showerror("Error", "Please select at least one category for the exam.")
+            return
+        
         # Create and start the exam with the selected settings
         self.destroy()
-        exam = FEExamSimulator(test_type=test_type, num_questions=num_questions)
+        exam = FEExamSimulator(test_type=test_type, num_questions=num_questions, selected_categories=selected_categories)
         exam.mainloop()
 
 if __name__ == "__main__":

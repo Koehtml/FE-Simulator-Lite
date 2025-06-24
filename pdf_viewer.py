@@ -109,7 +109,7 @@ class PDFViewer(ttk.Frame):
         """Handle canvas click event for PDF loading"""
         if not self.pdf_document:
             self.browse_pdf()
-
+    
     def browse_pdf(self):
         """Open a file dialog to browse for a PDF file"""
         file_path = filedialog.askopenfilename(
@@ -448,4 +448,4 @@ class PDFViewer(ttk.Frame):
             self.update_page()
 
     def update_page(self):
-        self.display_page() 
+            self.display_page() 

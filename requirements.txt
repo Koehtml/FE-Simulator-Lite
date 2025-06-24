@@ -1,7 +1,7 @@
 PyMuPDF==1.23.6
 Pillow==10.0.0
 matplotlib==3.7.1
-numpy>=1.21.0
+numpy>=1.21.0 
 sympy>=1.12
 ipython>=8.0.0
 # LaTeX rendering dependencies
