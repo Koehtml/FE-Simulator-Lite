@@ -54,7 +54,7 @@ def check_required_files():
     print("Checking required files...")
     
     required_files = [
-        'main.py',
+        'FE_Simulator.py',
         'problems_database.json',
         'exam_stats.json',
         'media/',

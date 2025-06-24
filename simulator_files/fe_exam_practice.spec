@@ -11,7 +11,7 @@ datas = [
 
 # Collect all Python modules
 a = Analysis(
-    ['main.py'],
+    ['FE_Simulator.py'],
     pathex=[],
     binaries=[],
     datas=datas,

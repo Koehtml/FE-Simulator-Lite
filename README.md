@@ -19,7 +19,7 @@ A Python-based practice software that simulates the NCEES FE (Fundamentals of En
    ```
 3. Run the application:
    ```bash
-   python main.py
+   python FE_Simulator.py
    ```
 
 ## Usage
