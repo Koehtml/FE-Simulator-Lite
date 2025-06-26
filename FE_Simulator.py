@@ -8,17 +8,55 @@ from simulator_files.calculator import ScientificCalculator
 from simulator_files.exam_stats import ExamStats
 from simulator_files.latex_renderer import LaTeXRenderer
 import os
+import sys
 import re
 from io import BytesIO
 from datetime import datetime
 
+# ADD THIS DEBUG CODE AT THE TOP
+print("=== DEBUG: Script is starting ===")
+print(f"Current working directory: {os.getcwd()}")
+print(f"Script location: {os.path.dirname(__file__)}")
+print(f"Is frozen (EXE): {getattr(sys, 'frozen', False)}")
+if getattr(sys, 'frozen', False):
+    print(f"MEIPASS: {sys._MEIPASS}")
+
+# Create a simple test file to verify we can write
+try:
+    test_file = "test_debug.txt"
+    with open(test_file, "w") as f:
+        f.write("Debug test successful\n")
+    print(f"Successfully created test file: {test_file}")
+except Exception as e:
+    print(f"Error creating test file: {e}")
+
+# https://stackoverflow.com/questions/31836104/pyinstaller-and-onefile-how-to-include-an-image-in-the-exe-file
+def resource_path(relative_path):
+    """ Get absolute path to resource, works for dev and for PyInstaller """
+    try:
+        # PyInstaller creates a temp folder and stores path in _MEIPASS
+        base_path = sys._MEIPASS
+    except Exception:
+        base_path = os.path.abspath(".")
+
+    return os.path.join(base_path, relative_path)
+
+def get_debug_log_path():
+    if getattr(sys, 'frozen', False):
+        # Running as compiled EXE - write to user's home directory
+        home_dir = os.path.expanduser("~")
+        return os.path.join(home_dir, 'fe_simulator_debug.log')
+    else:
+        # Running as script - write to simulator_files directory
+        return os.path.join(os.path.dirname(__file__), 'simulator_files', 'debug.log')
+
 # Write to a log file to track execution
-with open("simulator_files/debug.log", "w") as f:
+with open(get_debug_log_path(), "w") as f:
     f.write("Starting program...\n")
 
 class FEExamSimulator(tk.Tk):
     def __init__(self, test_type="timed", num_questions=5, selected_categories=None):
-        with open("simulator_files/debug.log", "a") as f:
+        with open(get_debug_log_path(), "a") as f:
             f.write("Initializing FEExamSimulator...\n")
         super().__init__()
         self.title("FE Exam Practice Software")
@@ -303,8 +341,18 @@ class FEExamSimulator(tk.Tk):
                 # Add a newline before the media
                 self.problem_text.insert(tk.END, "\n\n")
                 
-                # Load and display the media file
-                media_path = os.path.join("media", problem.media)
+                # Load and display the media file - Updated for PyInstaller compatibility
+                if getattr(sys, 'frozen', False):
+                    # Running as EXE
+                    media_path = os.path.join(sys._MEIPASS, "media", problem.media)
+                else:
+                    # Running as script
+                    media_path = os.path.join("media", problem.media)
+                
+                # Debug output
+                print(f"Looking for media file: {problem.media}")
+                print(f"Full media path: {media_path}")
+                print(f"File exists: {os.path.exists(media_path)}")
                 
                 # Handle case-insensitive file extension
                 if not os.path.exists(media_path):
@@ -314,6 +362,7 @@ class FEExamSimulator(tk.Tk):
                         alt_path = base + case_ext
                         if os.path.exists(alt_path):
                             media_path = alt_path
+                            print(f"Found file with different case: {alt_path}")
                             break
                 
                 # Handle spaces in filename
@@ -321,8 +370,10 @@ class FEExamSimulator(tk.Tk):
                     alt_path = media_path.replace("_", " ")
                     if os.path.exists(alt_path):
                         media_path = alt_path
+                        print(f"Found file with spaces: {alt_path}")
                 
                 if os.path.exists(media_path):
+                    print(f"Successfully loading media from: {media_path}")
                     img = Image.open(media_path)
                     # Scale image based on media_size value (default to 100 if not present)
                     scale_factor = problem.media_size / 100 if hasattr(problem, 'media_size') else 1.0
@@ -336,8 +387,10 @@ class FEExamSimulator(tk.Tk):
                     # Keep a reference to prevent garbage collection
                     self.problem_text.media_image = photo
                 else:
+                    print(f"Media file not found: {media_path}")
                     self.problem_text.insert(tk.END, f"\n[Media file not found: {problem.media}]")
             except Exception as e:
+                print(f"Error loading media: {str(e)}")
                 self.problem_text.insert(tk.END, f"\n[Error loading media: {str(e)}]")
 
         # Reset the answer variable to clear any previous selection
@@ -659,7 +712,7 @@ class FEExamSimulator(tk.Tk):
 
 class Dashboard(tk.Tk):
     def __init__(self):
-        with open("simulator_files/debug.log", "a") as f:
+        with open(get_debug_log_path(), "a") as f:
             f.write("Initializing Dashboard...\n")
         super().__init__()
         self.title("FE Exam Practice Dashboard")
@@ -939,11 +992,11 @@ class Dashboard(tk.Tk):
         exam.mainloop()
 
 if __name__ == "__main__":
-    with open("simulator_files/debug.log", "a") as f:
+    with open(get_debug_log_path(), "a") as f:
         f.write("In main block...\n")
     dashboard = Dashboard()
-    with open("simulator_files/debug.log", "a") as f:
+    with open(get_debug_log_path(), "a") as f:
         f.write("Created Dashboard, starting mainloop...\n")
     dashboard.mainloop()
-    with open("simulator_files/debug.log", "a") as f:
+    with open(get_debug_log_path(), "a") as f:
         f.write("Program finished.\n") 
