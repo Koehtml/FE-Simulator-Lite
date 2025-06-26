@@ -16,7 +16,7 @@ This is a Python-based practice software that simulates the NCEES FE (Fundamenta
 
 ## Setup and How to Use
 
-NOTE: BEFORE TAKING AN EXAM, SEE QUESTIONS 1 AND 2 IN THE FAQ BELOW. 
+NOTE: BEFORE TAKING AN EXAM, SEE THE FAQ BELOW. 
 
 1. Download all files from Github (find the blue "<> Code" button on this page: https://github.com/Koehtml/FE-Simulator/tree/main and click "download ZIP")
 2. Go to the downloads folder on your computer, right click on "FE-Simulator-main.zip" and click "extract all"
