@@ -1,6 +1,6 @@
 README (Last updated 6/26/2025)
 
-# FE Civil Exam Practice Software
+# FE Civil Exam Simulator
 
 Created by Thomas Koehl
 Follow me on LinkedIn! https://www.linkedin.com/in/thomaskale/
