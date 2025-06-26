@@ -1,6 +1,6 @@
 # FE Civil Exam Practice Software
 
-Created by Thomas Koehl.
+Created by Thomas Koehl
 Follow me on LinkedIn! https://www.linkedin.com/in/thomaskale/
 
 This is a Python-based practice software that simulates the NCEES FE (Fundamentals of Engineering) Civil Exam environment. This application helps engineering students prepare for their FE exam by providing a similar interface and practice problems.
@@ -14,15 +14,7 @@ This is a Python-based practice software that simulates the NCEES FE (Fundamenta
 
 ## Setup
 
-1. Ensure you have Python 3.8 or higher installed
-2. Install required dependencies:
-   ```bash
-   pip install -r requirements.txt
-   ```
-3. Run the application:
-   ```bash
-   python FE_Simulator.py
-   ```
+1. Download all files from Github (find the blue "<> Code" button on this page: 
 
 ## Usage
 
