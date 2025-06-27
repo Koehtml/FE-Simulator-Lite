@@ -35,9 +35,9 @@ NOTE: BEFORE TAKING AN EXAM, SEE THE FAQ BELOW.
 
 ## FAQ
 
-1. Why doesn't the FE Reference Manual show up? Why does it say "Click here to load a PDF file"?
+1. I want the Reference Manual to show up on the left where it says "Click here to load a PDF file". How do I do that?
    
-The reason is because NCEES wouldn't give me permission to use their Reference Manual. This is a bit of a loophole. In order to have the Reference Manual show up in your exam, go to the NCEES website (https://help.ncees.org/article/87-ncees-exam-reference-handbooks), log in to your account, and download the correct Manual (as of July 1st, 2025 you should be using Reference Handbook version 10.5).
+If you want the Reference Manual to show up, go to the NCEES website (https://help.ncees.org/article/87-ncees-exam-reference-handbooks), log in to your MyNCEES account, and download the latest Reference Manual.
 Next, go to the Simulator, click on the PDF window, and navigate on your computer to the Reference Manual PDF. It should then show up in the Simulator.
 
 2. What are the controls in the PDF viewer?
