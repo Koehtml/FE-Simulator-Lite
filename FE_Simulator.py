@@ -12,6 +12,7 @@ import sys
 import re
 from io import BytesIO
 from datetime import datetime
+import webbrowser
 
 # ADD THIS DEBUG CODE AT THE TOP
 print("=== DEBUG: Script is starting ===")
@@ -724,14 +725,18 @@ class Dashboard(tk.Tk):
         # Configure the main window grid
         self.grid_columnconfigure(0, weight=1)  # Left pane
         self.grid_columnconfigure(1, weight=1)  # Right pane
-        self.grid_rowconfigure(0, weight=1)
-        self.grid_rowconfigure(1, weight=0)  # Button row
+        self.grid_rowconfigure(0, weight=1)  # Main content
+        self.grid_rowconfigure(1, weight=0)  # Review section
+        self.grid_rowconfigure(2, weight=0)  # Button row
         
         # Create left pane (Statistics)
         self.create_stats_pane()
         
         # Create right pane (Test Settings)
         self.create_settings_pane()
+        
+        # Create review section
+        self.create_review_section()
         
         # Create start button
         self.create_start_button()
@@ -854,14 +859,18 @@ class Dashboard(tk.Tk):
         # Recreate the dashboard
         self.grid_columnconfigure(0, weight=1)  # Left pane
         self.grid_columnconfigure(1, weight=1)  # Right pane
-        self.grid_rowconfigure(0, weight=1)
-        self.grid_rowconfigure(1, weight=0)  # Button row
+        self.grid_rowconfigure(0, weight=1)  # Main content
+        self.grid_rowconfigure(1, weight=0)  # Review section
+        self.grid_rowconfigure(2, weight=0)  # Button row
         
         # Create left pane (Statistics)
         self.create_stats_pane()
         
         # Create right pane (Test Settings)
         self.create_settings_pane()
+        
+        # Create review section
+        self.create_review_section()
         
         # Restore category selections
         if hasattr(self, 'category_vars') and current_categories:
@@ -932,6 +941,54 @@ class Dashboard(tk.Tk):
         ttk.Button(button_frame, text="Clear All", command=self.clear_all_categories).pack(side=tk.LEFT, padx=(0, 5))
         ttk.Button(button_frame, text="Select Default", command=self.select_default_categories).pack(side=tk.LEFT)
 
+    def create_review_section(self):
+        """Create a section for users to leave reviews"""
+        review_frame = ttk.LabelFrame(self, text="Leave a Review")
+        review_frame.grid(row=1, column=0, columnspan=2, sticky="ew", padx=10, pady=(0, 10))
+        
+        # Add description text
+        description_text = "Help us improve The FE Simulator by sharing your feedback!"
+        ttk.Label(review_frame, text=description_text, font=('Arial', 10)).pack(pady=(10, 5))
+        
+        # Create a frame for the review button
+        button_frame = ttk.Frame(review_frame)
+        button_frame.pack(pady=(5, 10))
+        
+        # Create the review button with a link-like appearance
+        review_button = tk.Button(
+            button_frame,
+            text="📝 Leave a Review",
+            font=('Arial', 11, 'bold'),
+            bg='#007bff',  # Blue color for link-like appearance
+            fg='white',
+            activebackground='#0056b3',
+            activeforeground='white',
+            relief=tk.FLAT,
+            padx=15,
+            pady=8,
+            cursor='hand2',  # Hand cursor to indicate it's clickable
+            command=self.open_review_form
+        )
+        review_button.pack()
+        
+        # Add hover effects
+        def on_enter(e):
+            review_button['background'] = '#0056b3'
+            
+        def on_leave(e):
+            review_button['background'] = '#007bff'
+            
+        review_button.bind("<Enter>", on_enter)
+        review_button.bind("<Leave>", on_leave)
+
+    def open_review_form(self):
+        """Open the review form in the default web browser"""
+        review_url = "https://the-fe-simulator-review-form.notion.site/?v=2235f061bd4b8099933f000c22923947&source=copy_link"
+        try:
+            webbrowser.open(review_url)
+        except Exception as e:
+            messagebox.showerror("Error", f"Could not open the review form. Please visit:\n{review_url}")
+
     def select_all_categories(self):
         """Select all category checkboxes"""
         for var in self.category_vars.values():
@@ -971,7 +1028,7 @@ class Dashboard(tk.Tk):
         start_button.bind("<Enter>", on_enter)
         start_button.bind("<Leave>", on_leave)
         
-        start_button.grid(row=1, column=0, columnspan=2, pady=20)
+        start_button.grid(row=2, column=0, columnspan=2, pady=20)
 
     def start_exam(self):
         # Get test settings
