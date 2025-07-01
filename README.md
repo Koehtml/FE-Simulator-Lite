@@ -5,6 +5,8 @@ README (Last updated 6/26/2025)
 Created by Thomas Koehl
 Follow me on LinkedIn! https://www.linkedin.com/in/thomaskale/
 
+Leave a review here: https://the-fe-simulator-review-form.notion.site/?v=2235f061bd4b8099933f000c22923947&source=copy_link
+
 This is a Python-based practice software that simulates the NCEES FE (Fundamentals of Engineering) Civil Exam environment. This application helps engineering students prepare for their FE exam by providing a similar interface and practice problems.
 
 ## Features
