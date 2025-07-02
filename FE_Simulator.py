@@ -983,7 +983,7 @@ class Dashboard(tk.Tk):
 
     def open_review_form(self):
         """Open the review form in the default web browser"""
-        review_url = "https://the-fe-simulator-review-form.notion.site/?v=2235f061bd4b8099933f000c22923947&source=copy_link"
+        review_url = "https://veiled-cart-658.notion.site/2235f061bd4b80d3834ce1b84135ef82"
         try:
             webbrowser.open(review_url)
         except Exception as e:
