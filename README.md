@@ -20,20 +20,16 @@ This is a Python-based practice software that simulates the NCEES FE (Fundamenta
 
 NOTE: BEFORE TAKING AN EXAM, SEE THE FAQ BELOW. 
 
-1. Download all files from Github (find the blue "<> Code" button on this page: https://github.com/Koehtml/FE-Simulator/tree/main and click "download ZIP")
-2. Go to the downloads folder on your computer, right click on "FE-Simulator-main.zip" and click "extract all"
-3. Go back to the downloads folder and open the folder "FE-Simulator-main"
-4. Navigate to the "dist" folder
-5. Click on the application file (It should have a little wide-flange beam icon.)
-6. Windows Defender might pop up saying "Windows protected your PC". Click "More info" and click "Run anyway". 
-  That is...unless you don't trust me...
-  which is fair. 
-  You've probably never met me. 
-  If you don't feel comfortable running my software at this point, no pressure. You don't have to use it. 
-  You can just click "Don't run" and ignore the rest of the steps.
-7. If you're still here and want to try it, click "Run Anyway".
-8. The Dashboard will show up. Here you can see your exam results and choose your test settings (i.e. timed vs untimed test, number of questions, which categories)
-9. Once you're ready, click "Take Practice Exam" and you're off to the races.
+1. Download all files from Github (find the blue "<> Code" button on this page: https://github.com/Koehtml/FE-Simulator/tree/main and click "download ZIP").
+2. Go to the downloads folder and open the folder "FE-Simulator-main" (you don't have to extract the zip folder).
+3. Navigate to the "dist" folder
+4. Click on the application file (It should have a little wide-flange beam icon.)
+5. Windows Defender might pop up saying "Windows protected your PC". Click "More info" and click "Run anyway". 
+  (If you don't feel comfortable running my software because of this, no pressure. You don't have to use it. 
+  You can just click "Don't run" and ignore the rest of the steps.)
+6. If you're still want to try it, click "Run Anyway".
+7. The Dashboard will show up. Here you can see your exam results and choose your test settings (i.e. timed vs untimed test, number of questions, which categories)
+8. Once you're ready, click "Take Practice Exam" and you're off to the races.
 
 ## FAQ
 
