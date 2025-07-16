@@ -98,6 +98,10 @@ class FEExamSimulator(tk.Tk):
         # Initialize the problem manager
         self.problem_manager = ProblemManager(num_questions=self.num_questions)
         
+        # Set selected categories BEFORE loading the first problem
+        if selected_categories:
+            self.problem_manager.set_categories(selected_categories)
+        
         # Initialize LaTeX renderer
         self.latex_renderer = LaTeXRenderer()
         
@@ -129,10 +133,6 @@ class FEExamSimulator(tk.Tk):
         
         # Bind keyboard shortcuts
         self.bind_keyboard_shortcuts()
-
-        # Set selected categories
-        if selected_categories:
-            self.problem_manager.set_categories(selected_categories)
 
     def create_top_bar(self):
         top_frame = ttk.Frame(self, style='TopBar.TFrame')
@@ -242,7 +242,7 @@ class FEExamSimulator(tk.Tk):
         self.answer_buttons = []
         
         # Add trace to track answer selection
-        self.answer_var.trace_add("write", self.on_answer_selected)
+        self._trace_id = self.answer_var.trace_add("write", self.on_answer_selected)
         
         # Create a frame for navigation buttons at the bottom of the window
         nav_frame = ttk.Frame(self)
@@ -394,6 +394,9 @@ class FEExamSimulator(tk.Tk):
                 print(f"Error loading media: {str(e)}")
                 self.problem_text.insert(tk.END, f"\n[Error loading media: {str(e)}]")
 
+        # Temporarily remove the trace to prevent unwanted callbacks
+        self.answer_var.trace_remove("write", self._trace_id)
+        
         # Reset the answer variable to clear any previous selection
         self.answer_var.set("_unset_")
 
@@ -420,6 +423,9 @@ class FEExamSimulator(tk.Tk):
             if self.problem_manager.current_index in self.user_answers:
                 if choice == self.user_answers[self.problem_manager.current_index]:
                     self.answer_var.set(choice)
+        
+        # Restore the trace after setting up the answer choices
+        self._trace_id = self.answer_var.trace_add("write", self.on_answer_selected)
         
         # Update progress
         self.update_progress()
