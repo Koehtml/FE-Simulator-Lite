@@ -78,9 +78,9 @@ class FEExamSimulator(tk.Tk):
         # Set color scheme
         self.configure(bg='#f0f0f0')
         style = ttk.Style()
-        style.configure('TopBar.TFrame', background='#C64F00')  # Dark Orange
-        style.configure('TopBar.TLabel', background='#C64F00', foreground='white', font=('Arial', 9))
-        style.configure('SecondaryBar.TFrame', background='#E25A00')  # Lighter Orange
+        style.configure('TopBar.TFrame', background='#0269B6')  # Science Blue
+        style.configure('TopBar.TLabel', background='#0269B6', foreground='white', font=('Arial', 9))
+        style.configure('SecondaryBar.TFrame', background='#8AB9EE')  # Jordy Blue
         style.configure('Tool.TButton', padding=2, font=('Arial', 12))
         style.configure('Calculator.TButton', padding=2, font=('Arial', 11))
         style.configure('Flag.TButton', padding=2, font=('Arial', 11))
@@ -140,13 +140,13 @@ class FEExamSimulator(tk.Tk):
         
         # Software title and username
         title_label = ttk.Label(top_frame, 
-                              text="The FE Simulator ~ PROTOTYPE! - - - Guest User",
+                              text="The FE Civil Simulator ~ PROTOTYPE! - - - Guest User",
                               style='TopBar.TLabel')
-        title_label.pack(side=tk.LEFT, padx=15, pady=3)  # Reduced padding
+        title_label.pack(side=tk.LEFT, padx=15, pady=2)  # Reduced padding for thinner bar
         
         # Right side container for timer and progress
         right_container = ttk.Frame(top_frame, style='TopBar.TFrame')
-        right_container.pack(side=tk.RIGHT, padx=15, pady=2)  # Reduced padding
+        right_container.pack(side=tk.RIGHT, padx=15, pady=2)  # Reduced padding for thinner bar
         
         # Timer
         self.timer_label = ttk.Label(right_container, 
@@ -184,7 +184,7 @@ class FEExamSimulator(tk.Tk):
                                   text="Calculator",
                                   style='Calculator.TButton',
                                   command=self.open_calculator)
-        calculator_btn.pack(side=tk.LEFT, padx=20, pady=5)
+        calculator_btn.pack(side=tk.LEFT, padx=20, pady=2)
         calculator_btn.configure(width=9)  # Set width to make button square
         
         # Flag button (right)
@@ -192,7 +192,7 @@ class FEExamSimulator(tk.Tk):
                              text="Flag for Review 🚩",
                              style='Flag.TButton',
                              command=self.mark_for_review)
-        self.flag_btn.pack(side=tk.RIGHT, padx=20, pady=5)
+        self.flag_btn.pack(side=tk.RIGHT, padx=20, pady=2)
         self.flag_btn.configure(width=17)  # Set width to make button square
 
     def create_main_content(self):
@@ -200,9 +200,9 @@ class FEExamSimulator(tk.Tk):
         main_frame = ttk.Frame(self)
         main_frame.grid(row=2, column=0, sticky="nsew", padx=10, pady=5)
         
-        # Configure column weights for 35% handbook, 65% problem area
-        main_frame.grid_columnconfigure(0, weight=40, uniform="column")  # Reference handbook
-        main_frame.grid_columnconfigure(1, weight=60, uniform="column")  # Problem area
+        # Configure column weights for 50/50 handbook/problem area
+        main_frame.grid_columnconfigure(0, weight=50, uniform="column")  # Reference handbook
+        main_frame.grid_columnconfigure(1, weight=50, uniform="column")  # Problem area
         main_frame.grid_rowconfigure(0, weight=1)  # Make content expand vertically
         
         # Reference Handbook (left side)
@@ -248,15 +248,15 @@ class FEExamSimulator(tk.Tk):
         nav_frame = ttk.Frame(self)
         nav_frame.grid(row=3, column=0, sticky="ew", padx=10, pady=5)
         nav_frame.grid_columnconfigure(0, weight=1)  # Left side
-        nav_frame.grid_columnconfigure(1, weight=1)  # Right side
-        
-        # Previous button on the left
-        self.prev_btn = ttk.Button(nav_frame, text="Previous Question", command=self.prev_question, style='Large.TButton')
-        self.prev_btn.grid(row=0, column=0, sticky="w", padx=5)
+        nav_frame.grid_columnconfigure(1, weight=0)  # Right side (no weight for buttons)
         
         # Next/Submit button on the right
         self.next_btn = ttk.Button(nav_frame, text="Next Question", command=self.next_question, style='Large.TButton')
         self.next_btn.grid(row=0, column=1, sticky="e", padx=5)
+        
+        # Previous button next to the Next button
+        self.prev_btn = ttk.Button(nav_frame, text="Previous Question", command=self.prev_question, style='Large.TButton')
+        self.prev_btn.grid(row=0, column=0, sticky="e", padx=(0, 10))
         
         # Remove the old navigation buttons frame
         self.nav_buttons_frame = None
@@ -888,31 +888,43 @@ class Dashboard(tk.Tk):
         settings_frame = ttk.LabelFrame(self, text="Test Settings")
         settings_frame.grid(row=0, column=1, sticky="nsew", padx=10, pady=10)
         
+        # Configure grid for two columns
+        settings_frame.grid_columnconfigure(0, weight=1)  # Left side (test type and questions)
+        settings_frame.grid_columnconfigure(1, weight=1)  # Right side (categories)
+        
+        # Left side - Test type and number of questions
+        left_frame = ttk.Frame(settings_frame)
+        left_frame.grid(row=0, column=0, sticky="nsew", padx=(10, 5), pady=10)
+        
         # Test type selection
-        ttk.Label(settings_frame, text="Test Type:").pack(anchor="w", padx=10, pady=5)
+        ttk.Label(left_frame, text="Test Type:").pack(anchor="w", padx=10, pady=5)
         self.test_type = tk.StringVar(value="timed")
-        ttk.Radiobutton(settings_frame, text="Timed Test", variable=self.test_type, value="timed").pack(anchor="w", padx=20)
-        ttk.Radiobutton(settings_frame, text="Non-timed Test", variable=self.test_type, value="non-timed").pack(anchor="w", padx=20)
+        ttk.Radiobutton(left_frame, text="Timed Test", variable=self.test_type, value="timed").pack(anchor="w", padx=20)
+        ttk.Radiobutton(left_frame, text="Non-timed Test", variable=self.test_type, value="non-timed").pack(anchor="w", padx=20)
         
         # Number of questions selection
-        ttk.Label(settings_frame, text="\nNumber of Questions:").pack(anchor="w", padx=10, pady=5)
+        ttk.Label(left_frame, text="\nNumber of Questions:").pack(anchor="w", padx=10, pady=5)
         self.num_questions = tk.StringVar(value="5")
-        question_choices = ttk.Combobox(settings_frame, textvariable=self.num_questions, state="readonly")
+        question_choices = ttk.Combobox(left_frame, textvariable=self.num_questions, state="readonly")
         question_choices['values'] = tuple(range(5, 55, 5))  # 5 to 50 in steps of 5
         question_choices.pack(anchor="w", padx=20)
         
+        # Right side - Category selection
+        right_frame = ttk.Frame(settings_frame)
+        right_frame.grid(row=0, column=1, sticky="nsew", padx=(5, 10), pady=10)
+        
         # Category selection
-        ttk.Label(settings_frame, text="\nCategories (Select all that apply):").pack(anchor="w", padx=10, pady=5)
+        ttk.Label(right_frame, text="Categories (Select all that apply):").pack(anchor="w", padx=10, pady=5)
         
         # Create frame for category checkboxes in two columns
-        category_frame = ttk.Frame(settings_frame)
-        category_frame.pack(fill="x", padx=20, pady=5)
+        category_frame = ttk.Frame(right_frame)
+        category_frame.pack(fill="x", padx=10, pady=5)
         
         # Define all FE exam categories
         self.categories = [
-            "Math", "Ethics", "Econ", "Statics", "Dynamics", "Strength", 
-            "Materials", "Fluids", "Surveying", "Envir", "Struc", 
-            "Geotech", "Transp", "Constr"
+            "Math", "Ethics, Professional Practice and Licensure", "ENGR Economics", "Statics", "Dynamics", "Strength of Materials", 
+            "Materials", "Fluid Mechanics", "Surveying", "Environmental ENGR", "Structural ENGR", 
+            "Geotechnical ENGR", "Transportation ENGR", "Construction ENGR"
         ]
         
         # Create category variables and checkboxes
@@ -934,12 +946,11 @@ class Dashboard(tk.Tk):
             cb.grid(row=row, column=col, sticky="w", padx=(0, 20), pady=2)
         
         # Add "Select All" and "Clear All" buttons
-        button_frame = ttk.Frame(settings_frame)
-        button_frame.pack(fill="x", padx=20, pady=5)
+        button_frame = ttk.Frame(right_frame)
+        button_frame.pack(fill="x", padx=10, pady=5)
         
         ttk.Button(button_frame, text="Select All", command=self.select_all_categories).pack(side=tk.LEFT, padx=(0, 5))
         ttk.Button(button_frame, text="Clear All", command=self.clear_all_categories).pack(side=tk.LEFT, padx=(0, 5))
-        ttk.Button(button_frame, text="Select Default", command=self.select_default_categories).pack(side=tk.LEFT)
 
     def create_review_section(self):
         """Create a section for users to leave reviews"""
@@ -948,7 +959,7 @@ class Dashboard(tk.Tk):
         
         # Add description text
         description_text = "Help us improve The FE Simulator by sharing your feedback!"
-        ttk.Label(review_frame, text=description_text, font=('Arial', 10)).pack(pady=(10, 5))
+        ttk.Label(review_frame, text=description_text, font=('Arial', 10)).pack(pady=(10, 1))
         
         # Create a frame for the review button
         button_frame = ttk.Frame(review_frame)
