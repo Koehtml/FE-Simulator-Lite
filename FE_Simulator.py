@@ -14,22 +14,11 @@ from io import BytesIO
 from datetime import datetime
 import webbrowser
 
-# ADD THIS DEBUG CODE AT THE TOP
-print("=== DEBUG: Script is starting ===")
-print(f"Current working directory: {os.getcwd()}")
-print(f"Script location: {os.path.dirname(__file__)}")
-print(f"Is frozen (EXE): {getattr(sys, 'frozen', False)}")
+# Debug information for troubleshooting
 if getattr(sys, 'frozen', False):
-    print(f"MEIPASS: {sys._MEIPASS}")
-
-# Create a simple test file to verify we can write
-try:
-    test_file = "test_debug.txt"
-    with open(test_file, "w") as f:
-        f.write("Debug test successful\n")
-    print(f"Successfully created test file: {test_file}")
-except Exception as e:
-    print(f"Error creating test file: {e}")
+    print(f"Running as compiled EXE from: {sys._MEIPASS}")
+else:
+    print(f"Running as script from: {os.path.dirname(__file__)}")
 
 # https://stackoverflow.com/questions/31836104/pyinstaller-and-onefile-how-to-include-an-image-in-the-exe-file
 def resource_path(relative_path):
@@ -115,6 +104,108 @@ class FEExamSimulator(tk.Tk):
         self.create_top_bar()
         
         # Create the secondary bar
+        self.create_secondary_bar()
+        
+        # Create the main content area
+        self.create_main_content()
+
+        # Initialize timer if test is timed
+        if self.test_type == "timed":
+            self.remaining_time = 3 * 60 * self.num_questions  # 3 minutes per question
+            self.grace_period = 5  # 5 second grace period
+            self.update_grace_period()
+        else:
+            self.timer_label.config(text="Non-timed Test")
+
+        # Load the first problem
+        self.load_current_problem()
+        
+        # Bind keyboard shortcuts
+        self.bind_keyboard_shortcuts()
+
+    @classmethod
+    def from_saved_state(cls, exam_state):
+        """Create a simulator instance from a saved exam state"""
+        # Create instance with saved settings
+        instance = cls.__new__(cls)
+        instance.test_type = exam_state['test_type']
+        instance.num_questions = exam_state['num_questions']
+        
+        # Initialize basic attributes
+        instance.answered_questions = set(exam_state['answered_questions'])
+        instance.flagged_questions = set(exam_state['flagged_questions'])
+        # Ensure user_answers keys are integers
+        instance.user_answers = {int(k): v for k, v in exam_state['user_answers'].items()}
+        instance.start_time = exam_state['start_time']
+        
+        # Initialize the main window
+        super(cls, instance).__init__()
+        instance.title("FE Exam Practice Software")
+        instance.state('zoomed')
+        
+        # Set color scheme
+        instance.configure(bg='#f0f0f0')
+        style = ttk.Style()
+        style.configure('TopBar.TFrame', background='#0269B6')  # Science Blue
+        style.configure('TopBar.TLabel', background='#0269B6', foreground='white', font=('Arial', 9))
+        style.configure('SecondaryBar.TFrame', background='#8AB9EE')  # Jordy Blue
+        style.configure('Tool.TButton', padding=2, font=('Arial', 12))
+        style.configure('Calculator.TButton', padding=2, font=('Arial', 11))
+        style.configure('Flag.TButton', padding=2, font=('Arial', 11))
+        style.configure('Current.TButton', background='#4CAF50', foreground='black')
+        style.configure('Flagged.TButton', background='#FFC107', foreground='black')
+        style.configure('Large.TRadiobutton', font=('Arial', 11))
+        style.configure('Large.TButton', font=('Arial', 12))
+        
+        # Initialize LaTeX renderer
+        instance.latex_renderer = LaTeXRenderer()
+        
+        # Configure the main window grid
+        instance.grid_columnconfigure(0, weight=1)
+        instance.grid_rowconfigure(0, weight=0)  # Top bar
+        instance.grid_rowconfigure(1, weight=0)  # Secondary bar
+        instance.grid_rowconfigure(2, weight=1)  # Main content
+
+        # Create the UI components
+        instance.create_top_bar()
+        instance.create_secondary_bar()
+        instance.create_main_content()
+
+        # Initialize problem manager with saved problems (after UI is created)
+        instance.problem_manager = ProblemManager(num_questions=instance.num_questions)
+        instance.problem_manager.selected_categories = exam_state['selected_categories']
+        
+        # Reconstruct problems from saved state
+        instance.problem_manager.problems = []
+        for problem_data in exam_state['problems']:
+            problem = Problem(
+                number=problem_data[0],
+                category=problem_data[1],
+                question=problem_data[2],
+                media=problem_data[3],
+                choices=problem_data[4],
+                correct_answer=problem_data[5],
+                media_size=problem_data[6]
+            )
+            instance.problem_manager.problems.append(problem)
+        
+        # Set current index
+        instance.problem_manager.current_index = exam_state['current_index']
+
+        # Initialize timer if test is timed (after UI is created)
+        if instance.test_type == "timed":
+            instance.remaining_time = exam_state['remaining_time']
+            instance.update_timer()
+        else:
+            instance.timer_label.config(text="Non-timed Test")
+
+        # Load the current problem
+        instance.load_current_problem()
+        
+        # Bind keyboard shortcuts
+        instance.bind_keyboard_shortcuts()
+        
+        return instance
         self.create_secondary_bar()
         
         # Create the main content area
@@ -257,6 +348,10 @@ class FEExamSimulator(tk.Tk):
         # Previous button next to the Next button
         self.prev_btn = ttk.Button(nav_frame, text="Previous Question", command=self.prev_question, style='Large.TButton')
         self.prev_btn.grid(row=0, column=0, sticky="e", padx=(0, 10))
+        
+        # Pause button on the left
+        self.pause_btn = ttk.Button(nav_frame, text="⏸️ Pause Exam", command=self.pause_exam, style='Large.TButton')
+        self.pause_btn.grid(row=0, column=0, sticky="w", padx=5)
         
         # Remove the old navigation buttons frame
         self.nav_buttons_frame = None
@@ -616,7 +711,78 @@ class FEExamSimulator(tk.Tk):
         if self.flagged_questions:
             message += f"\nYou flagged {len(self.flagged_questions)} question(s) for review."
         
+        # Clear paused exam file if it exists
+        state_file = os.path.join(os.path.dirname(__file__), 'simulator_files', 'paused_exam.json')
+        if os.path.exists(state_file):
+            os.remove(state_file)
+        
         messagebox.showinfo("Exam Results", message)
+        self.return_to_dashboard()
+
+    def pause_exam(self):
+        """Pause the exam and return to dashboard"""
+        # Create pause confirmation dialog
+        pause_window = tk.Toplevel(self)
+        pause_window.title("Pause Exam")
+        pause_window.geometry("400x200")
+        pause_window.transient(self)
+        pause_window.grab_set()
+        
+        # Center the window
+        pause_window.update_idletasks()
+        width = pause_window.winfo_width()
+        height = pause_window.winfo_height()
+        x = (pause_window.winfo_screenwidth() // 2) - (width // 2)
+        y = (pause_window.winfo_screenheight() // 2) - (height // 2)
+        pause_window.geometry(f'{width}x{height}+{x}+{y}')
+        
+        # Add message
+        message_label = ttk.Label(pause_window, 
+                                text="If you would like to pause the practice exam, click \"OK\". You can resume it at any time.",
+                                wraplength=350,
+                                justify='center',
+                                font=('Arial', 11))
+        message_label.pack(pady=30)
+        
+        # Add buttons
+        button_frame = ttk.Frame(pause_window)
+        button_frame.pack(pady=20)
+        
+        ok_button = ttk.Button(button_frame, text="OK", command=lambda: self.save_and_pause_exam(pause_window))
+        ok_button.pack(side=tk.LEFT, padx=10)
+        
+        continue_button = ttk.Button(button_frame, text="Continue Exam", command=pause_window.destroy)
+        continue_button.pack(side=tk.LEFT, padx=10)
+
+    def save_and_pause_exam(self, pause_window):
+        """Save exam state and return to dashboard"""
+        # Calculate remaining time if timed
+        remaining_time = None
+        if self.test_type == "timed":
+            remaining_time = self.remaining_time
+        
+        # Save exam state
+        exam_state = {
+            'test_type': self.test_type,
+            'num_questions': self.num_questions,
+            'current_index': self.problem_manager.current_index,
+            'user_answers': self.user_answers,
+            'answered_questions': list(self.answered_questions),
+            'flagged_questions': list(self.flagged_questions),
+            'remaining_time': remaining_time,
+            'start_time': self.start_time,
+            'selected_categories': self.problem_manager.selected_categories,
+            'problems': [(p.number, p.category, p.question, p.media, p.choices, p.correct_answer, p.media_size) for p in self.problem_manager.problems]
+        }
+        
+        # Save to file
+        import json
+        state_file = os.path.join(os.path.dirname(__file__), 'simulator_files', 'paused_exam.json')
+        with open(state_file, 'w') as f:
+            json.dump(exam_state, f)
+        
+        # Close pause window and return to dashboard
+        pause_window.destroy()
         self.return_to_dashboard()
 
     def on_answer_selected(self, *args):
@@ -732,8 +898,9 @@ class Dashboard(tk.Tk):
         self.grid_columnconfigure(0, weight=1)  # Left pane
         self.grid_columnconfigure(1, weight=1)  # Right pane
         self.grid_rowconfigure(0, weight=1)  # Main content
-        self.grid_rowconfigure(1, weight=0)  # Review section
-        self.grid_rowconfigure(2, weight=0)  # Button row
+        self.grid_rowconfigure(1, weight=0)  # Paused test section
+        self.grid_rowconfigure(2, weight=0)  # Review section
+        self.grid_rowconfigure(3, weight=0)  # Button row
         
         # Create left pane (Statistics)
         self.create_stats_pane()
@@ -741,11 +908,100 @@ class Dashboard(tk.Tk):
         # Create right pane (Test Settings)
         self.create_settings_pane()
         
+        # Create paused test section
+        self.create_paused_test_section()
+        
         # Create review section
         self.create_review_section()
         
         # Create start button
         self.create_start_button()
+
+    def create_paused_test_section(self):
+        """Create a section for paused test information"""
+        # Check if there's a paused exam
+        import json
+        state_file = os.path.join(os.path.dirname(__file__), 'simulator_files', 'paused_exam.json')
+        
+        if not os.path.exists(state_file):
+            return  # No paused exam, don't create the section
+        
+        try:
+            with open(state_file, 'r') as f:
+                exam_state = json.load(f)
+        except:
+            return  # Invalid file, don't create the section
+        
+        # Create the paused test frame
+        paused_frame = ttk.LabelFrame(self, text="Paused Test")
+        paused_frame.grid(row=1, column=0, columnspan=2, sticky="ew", padx=10, pady=(0, 10))
+        
+        # Calculate exam progress
+        total_questions = exam_state['num_questions']
+        answered_questions = len(exam_state['user_answers'])
+        remaining_questions = total_questions - answered_questions
+        
+        # Create info labels
+        info_frame = ttk.Frame(paused_frame)
+        info_frame.pack(fill="x", padx=10, pady=10)
+        
+        # Test type and questions info
+        test_type_text = "Timed" if exam_state['test_type'] == "timed" else "Non-timed"
+        ttk.Label(info_frame, text=f"Test Type: {test_type_text}").pack(anchor="w")
+        ttk.Label(info_frame, text=f"Total Questions: {total_questions}").pack(anchor="w")
+        ttk.Label(info_frame, text=f"Questions Remaining: {remaining_questions}").pack(anchor="w")
+        
+        # Time remaining info (if timed)
+        if exam_state['test_type'] == "timed" and exam_state['remaining_time'] is not None:
+            remaining_time = exam_state['remaining_time']
+            hours = remaining_time // 3600
+            minutes = (remaining_time % 3600) // 60
+            seconds = remaining_time % 60
+            time_text = f"Time Remaining: {hours:02d}:{minutes:02d}:{seconds:02d}"
+            ttk.Label(info_frame, text=time_text).pack(anchor="w")
+        
+        # Resume button
+        resume_button = tk.Button(
+            paused_frame,
+            text="▶️ Resume Exam",
+            font=('Arial', 12, 'bold'),
+            bg='#007bff',  # Blue
+            fg='white',
+            activebackground='#0056b3',
+            activeforeground='white',
+            relief=tk.RAISED,
+            padx=15,
+            pady=8,
+            command=self.resume_exam
+        )
+        resume_button.pack(pady=(10, 10))
+        
+        # Add hover effects
+        def on_enter(e):
+            resume_button['background'] = '#0056b3'
+            
+        def on_leave(e):
+            resume_button['background'] = '#007bff'
+            
+        resume_button.bind("<Enter>", on_enter)
+        resume_button.bind("<Leave>", on_leave)
+
+    def resume_exam(self):
+        """Resume a paused exam"""
+        import json
+        state_file = os.path.join(os.path.dirname(__file__), 'simulator_files', 'paused_exam.json')
+        
+        try:
+            with open(state_file, 'r') as f:
+                exam_state = json.load(f)
+        except:
+            messagebox.showerror("Error", "Could not load paused exam data.")
+            return
+        
+        # Close dashboard and create simulator with saved state
+        self.destroy()
+        exam = FEExamSimulator.from_saved_state(exam_state)
+        exam.mainloop()
 
     def create_stats_pane(self):
         stats_frame = ttk.LabelFrame(self, text="Your Statistics")
@@ -866,14 +1122,18 @@ class Dashboard(tk.Tk):
         self.grid_columnconfigure(0, weight=1)  # Left pane
         self.grid_columnconfigure(1, weight=1)  # Right pane
         self.grid_rowconfigure(0, weight=1)  # Main content
-        self.grid_rowconfigure(1, weight=0)  # Review section
-        self.grid_rowconfigure(2, weight=0)  # Button row
+        self.grid_rowconfigure(1, weight=0)  # Paused test section
+        self.grid_rowconfigure(2, weight=0)  # Review section
+        self.grid_rowconfigure(3, weight=0)  # Button row
         
         # Create left pane (Statistics)
         self.create_stats_pane()
         
         # Create right pane (Test Settings)
         self.create_settings_pane()
+        
+        # Create paused test section
+        self.create_paused_test_section()
         
         # Create review section
         self.create_review_section()
@@ -926,11 +1186,11 @@ class Dashboard(tk.Tk):
         category_frame = ttk.Frame(right_frame)
         category_frame.pack(fill="x", padx=10, pady=5)
         
-        # Define all FE exam categories
+        # Define all FE exam categories (matching the CSV file names)
         self.categories = [
-            "Math", "Ethics, Professional Practice and Licensure", "ENGR Economics", "Statics", "Dynamics", "Strength of Materials", 
-            "Materials", "Fluid Mechanics", "Surveying", "Environmental ENGR", "Structural ENGR", 
-            "Geotechnical ENGR", "Transportation ENGR", "Construction ENGR"
+            "Math", "Ethics", "Econ", "Statics", "Dynamics", "Strength", 
+            "Materials", "Fluids", "Surveying", "Envir", "Struc", 
+            "Geotech", "Transp", "Constr"
         ]
         
         # Create category variables and checkboxes
@@ -961,7 +1221,7 @@ class Dashboard(tk.Tk):
     def create_review_section(self):
         """Create a section for users to leave reviews"""
         review_frame = ttk.LabelFrame(self, text="Leave a Review")
-        review_frame.grid(row=1, column=0, columnspan=2, sticky="ew", padx=10, pady=(0, 10))
+        review_frame.grid(row=2, column=0, columnspan=2, sticky="ew", padx=10, pady=(0, 10))
         
         # Add description text
         description_text = "Help us improve The FE Simulator by sharing your feedback!"
@@ -1045,7 +1305,7 @@ class Dashboard(tk.Tk):
         start_button.bind("<Enter>", on_enter)
         start_button.bind("<Leave>", on_leave)
         
-        start_button.grid(row=2, column=0, columnspan=2, pady=20)
+        start_button.grid(row=3, column=0, columnspan=2, pady=20)
 
     def start_exam(self):
         # Get test settings
