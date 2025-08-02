@@ -111,7 +111,10 @@ class FEExamSimulator(tk.Tk):
 
         # Initialize timer if test is timed
         if self.test_type == "timed":
-            self.remaining_time = 3 * 60 * self.num_questions  # 3 minutes per question
+            # Calculate timer based on actual number of problems that will be shown
+            actual_problems = self.problem_manager.total_problems()
+            self.remaining_time = 3 * 60 * actual_problems  # 3 minutes per actual question
+            print(f"Timer set for {actual_problems} problems (requested: {self.num_questions})")
             self.grace_period = 5  # 5 second grace period
             self.update_grace_period()
         else:
@@ -231,7 +234,7 @@ class FEExamSimulator(tk.Tk):
         
         # Software title and username
         title_label = ttk.Label(top_frame, 
-                              text="The FE Civil Simulator ~ PROTOTYPE! - - - Guest User",
+                              text="The FE Civil Simulator ~ Lite Version - - - Guest User",
                               style='TopBar.TLabel')
         title_label.pack(side=tk.LEFT, padx=15, pady=2)  # Reduced padding for thinner bar
         
@@ -591,7 +594,8 @@ class FEExamSimulator(tk.Tk):
             self.after(1000, self.update_timer)
         else:
             messagebox.showinfo("Time's Up", "Your exam session has ended!")
-            self.return_to_dashboard()
+            # Save exam results before returning to dashboard
+            self.submit_exam()
 
     def return_to_dashboard(self):
         self.destroy()
