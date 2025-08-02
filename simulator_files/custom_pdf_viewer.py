@@ -27,6 +27,9 @@ class CustomPDFViewer(ttk.Frame):
         self.pan_start_scroll_x = 0
         self.pan_start_scroll_y = 0
         
+        # Callback for when PDF is loaded
+        self.pdf_loaded_callback = None
+        
         # Configure grid
         self.grid_rowconfigure(1, weight=1)  # Main content area
         self.grid_columnconfigure(0, weight=1)
@@ -38,6 +41,10 @@ class CustomPDFViewer(ttk.Frame):
         
         # Show initial message
         self.show_load_message()
+        
+    def set_pdf_loaded_callback(self, callback):
+        """Set callback function to be called when PDF is loaded"""
+        self.pdf_loaded_callback = callback
         
     def create_toolbar(self):
         """Create toolbar with navigation and controls"""
@@ -345,6 +352,10 @@ class CustomPDFViewer(ttk.Frame):
                     # Update UI in main thread
                     self.after(0, self.display_current_page)
                     self.after(0, self.update_toolbar)
+                    
+                    # Call callback if set
+                    if self.pdf_loaded_callback:
+                        self.after(0, self.pdf_loaded_callback)
                     
                 except Exception as e:
                     self.after(0, lambda: messagebox.showerror("Error", f"Failed to load PDF: {str(e)}"))

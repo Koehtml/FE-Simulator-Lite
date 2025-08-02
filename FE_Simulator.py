@@ -116,12 +116,15 @@ class FEExamSimulator(tk.Tk):
             self.remaining_time = 3 * 60 * actual_problems  # 3 minutes per actual question
             print(f"Timer set for {actual_problems} problems (requested: {self.num_questions})")
             self.grace_period = 5  # 5 second grace period
-            self.update_grace_period()
         else:
             self.timer_label.config(text="Non-timed Test")
 
-        # Load the first problem
-        self.load_current_problem()
+        # Initialize exam state
+        self.exam_started = False
+        self.pdf_loaded = False
+        
+        # Show initial message instead of loading first problem
+        self.show_pdf_requirement_message()
         
         # Bind keyboard shortcuts
         self.bind_keyboard_shortcuts()
@@ -195,6 +198,10 @@ class FEExamSimulator(tk.Tk):
         # Set current index
         instance.problem_manager.current_index = exam_state['current_index']
 
+        # Set exam as started since this is resuming from a paused state
+        instance.exam_started = True
+        instance.pdf_loaded = True
+
         # Initialize timer if test is timed (after UI is created)
         if instance.test_type == "timed":
             instance.remaining_time = exam_state['remaining_time']
@@ -244,7 +251,7 @@ class FEExamSimulator(tk.Tk):
         
         # Timer
         self.timer_label = ttk.Label(right_container, 
-                                   text="Time Remaining: 5:59:59",
+                                   text="Time Remaining: ",
                                    style='TopBar.TLabel')
         self.timer_label.pack(anchor='e')
         
@@ -259,7 +266,7 @@ class FEExamSimulator(tk.Tk):
         self.progress.pack(side=tk.LEFT)
         
         self.question_number = ttk.Label(progress_container,
-                                       text="Question 1 of 110",
+                                       text=" ",
                                        style='TopBar.TLabel')
         self.question_number.pack(side=tk.LEFT, padx=(8,0))  # Reduced padding
         
@@ -309,6 +316,9 @@ class FEExamSimulator(tk.Tk):
         from simulator_files.custom_pdf_viewer import CustomPDFViewer
         self.pdf_viewer = CustomPDFViewer(handbook_frame)
         self.pdf_viewer.grid(row=0, column=0, sticky="nsew")
+        
+        # Set callback for when PDF is loaded
+        self.pdf_viewer.set_pdf_loaded_callback(self.on_pdf_loaded)
         
         # Problem Area (right side)
         problem_frame = ttk.LabelFrame(main_frame, text="Practice Problem")
@@ -402,6 +412,10 @@ class FEExamSimulator(tk.Tk):
 
     def prev_question(self):
         """Navigate to the previous question."""
+        # Check if exam has started
+        if not self.exam_started and not self.pdf_loaded:
+            return
+            
         if self.problem_manager.current_index > 0:
             self.problem_manager.current_index -= 1
             self.load_current_problem()
@@ -409,6 +423,10 @@ class FEExamSimulator(tk.Tk):
 
     def next_question(self):
         """Navigate to the next question or submit the exam if on the last question."""
+        # Check if exam has started
+        if not self.exam_started and not self.pdf_loaded:
+            return
+            
         if self.problem_manager.current_index < self.problem_manager.total_problems() - 1:
             self.problem_manager.current_index += 1
             self.load_current_problem()
@@ -417,6 +435,11 @@ class FEExamSimulator(tk.Tk):
             self.check_exam_completion()
 
     def load_current_problem(self):
+        # Check if exam has started (PDF loaded)
+        if not self.exam_started and not self.pdf_loaded:
+            self.show_pdf_requirement_message()
+            return
+            
         # Clear the problem text
         self.problem_text.delete(1.0, tk.END)
         
@@ -573,6 +596,9 @@ class FEExamSimulator(tk.Tk):
             self.grace_period -= 1
             self.after(1000, self.update_grace_period)
         else:
+            # Load the first problem and start the timer
+            self.load_current_problem()
+            self.update_navigation_buttons()
             self.start_timer()
 
     def start_timer(self):
@@ -618,6 +644,12 @@ class FEExamSimulator(tk.Tk):
 
     def update_navigation_buttons(self):
         """Update the state of navigation buttons based on current question."""
+        # Only enable navigation if exam has started
+        if not self.exam_started and not self.pdf_loaded:
+            self.prev_btn.configure(state="disabled")
+            self.next_btn.configure(state="disabled")
+            return
+            
         # Update Previous button
         if self.problem_manager.current_index > 0:
             self.prev_btn.configure(state="normal")
@@ -627,8 +659,10 @@ class FEExamSimulator(tk.Tk):
         # Update Next/Submit button
         if self.problem_manager.current_index < self.problem_manager.total_problems() - 1:
             self.next_btn.configure(text="Next Question")
+            self.next_btn.configure(state="normal")
         else:
             self.next_btn.configure(text="Submit Exam")
+            self.next_btn.configure(state="normal")
 
     def check_exam_completion(self):
         """Check if all questions are answered and show appropriate message."""
@@ -788,6 +822,39 @@ class FEExamSimulator(tk.Tk):
         # Close pause window and return to dashboard
         pause_window.destroy()
         self.return_to_dashboard()
+
+    def show_pdf_requirement_message(self):
+        """Show message requiring PDF to be loaded before exam starts"""
+        # Clear the problem text area
+        self.problem_text.delete(1.0, tk.END)
+        
+        # Display the requirement message
+        message = "Please load a PDF of the Reference Manual to begin the exam."
+        self.problem_text.insert(tk.END, message)
+        self.problem_text.tag_configure("center", justify="center")
+        self.problem_text.tag_add("center", "1.0", "end")
+        
+        # Disable navigation buttons until PDF is loaded
+        self.next_btn.config(state="disabled")
+        self.prev_btn.config(state="disabled")
+        
+    def on_pdf_loaded(self):
+        """Called when a PDF is loaded in the viewer"""
+        if not self.pdf_loaded:
+            self.pdf_loaded = True
+            self.start_exam_after_pdf_load()
+    
+    def start_exam_after_pdf_load(self):
+        """Start the exam after PDF is loaded"""
+        self.exam_started = True
+        
+        if self.test_type == "timed":
+            # Start the grace period countdown
+            self.update_grace_period()
+        else:
+            # For untimed exams, start immediately
+            self.load_current_problem()
+            self.update_navigation_buttons()
 
     def on_answer_selected(self, *args):
         current_index = self.problem_manager.current_index
