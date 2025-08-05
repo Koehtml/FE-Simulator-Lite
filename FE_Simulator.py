@@ -123,11 +123,20 @@ class FEExamSimulator(tk.Tk):
         self.exam_started = False
         self.pdf_loaded = False
         
+        # Flag to prevent timer updates when window is being destroyed
+        self.is_destroying = False
+        
+        # Flag to track if this is a resumed exam
+        self.is_resumed_exam = False
+        
         # Show initial message instead of loading first problem
         self.show_pdf_requirement_message()
         
         # Bind keyboard shortcuts
         self.bind_keyboard_shortcuts()
+        
+        # Bind window close event to prevent accidental exit
+        self.protocol("WM_DELETE_WINDOW", self.on_closing)
 
     @classmethod
     def from_saved_state(cls, exam_state):
@@ -198,42 +207,37 @@ class FEExamSimulator(tk.Tk):
         # Set current index
         instance.problem_manager.current_index = exam_state['current_index']
 
-        # Set exam as started since this is resuming from a paused state
-        instance.exam_started = True
-        instance.pdf_loaded = True
-
-        # Initialize timer if test is timed (after UI is created)
+        # For resumed exams, we need to handle PDF loading for both timed and untimed exams
         if instance.test_type == "timed":
+            # Set flags to require PDF loading
+            instance.exam_started = False
+            instance.pdf_loaded = False
             instance.remaining_time = exam_state['remaining_time']
-            instance.update_timer()
+            instance.grace_period = 5  # 5 second grace period for resumed exams
+            
+            # Show PDF requirement message instead of loading problem
+            instance.show_pdf_requirement_message()
         else:
-            instance.timer_label.config(text="Non-timed Test")
-
-        # Load the current problem
-        instance.load_current_problem()
+            # For untimed exams, also require PDF loading
+            instance.exam_started = False
+            instance.pdf_loaded = False
+            
+            # Show PDF requirement message instead of loading problem
+            instance.show_pdf_requirement_message()
+        
+        # Flag to prevent timer updates when window is being destroyed
+        instance.is_destroying = False
+        
+        # Flag to track if this is a resumed exam
+        instance.is_resumed_exam = True
         
         # Bind keyboard shortcuts
         instance.bind_keyboard_shortcuts()
         
+        # Bind window close event to prevent accidental exit
+        instance.protocol("WM_DELETE_WINDOW", instance.on_closing)
+        
         return instance
-        self.create_secondary_bar()
-        
-        # Create the main content area
-        self.create_main_content()
-
-        # Initialize timer if test is timed
-        if self.test_type == "timed":
-            self.remaining_time = 3 * 60 * self.num_questions  # 3 minutes per question
-            self.grace_period = 5  # 5 second grace period
-            self.update_grace_period()
-        else:
-            self.timer_label.config(text="Non-timed Test")
-
-        # Load the first problem
-        self.load_current_problem()
-        
-        # Bind keyboard shortcuts
-        self.bind_keyboard_shortcuts()
 
     def create_top_bar(self):
         top_frame = ttk.Frame(self, style='TopBar.TFrame')
@@ -591,12 +595,19 @@ class FEExamSimulator(tk.Tk):
 
     def update_grace_period(self):
         """Update the grace period countdown."""
+        if self.is_destroying:
+            return
+            
         if self.grace_period > 0:
-            self.timer_label.config(text=f"Starting in {self.grace_period} seconds...")
+            # Different message for resumed exams
+            if hasattr(self, 'is_resumed_exam') and self.is_resumed_exam:
+                self.timer_label.config(text=f"Resuming in {self.grace_period} seconds...")
+            else:
+                self.timer_label.config(text=f"Starting in {self.grace_period} seconds...")
             self.grace_period -= 1
             self.after(1000, self.update_grace_period)
         else:
-            # Load the first problem and start the timer
+            # Load the current problem and start the timer
             self.load_current_problem()
             self.update_navigation_buttons()
             self.start_timer()
@@ -606,6 +617,9 @@ class FEExamSimulator(tk.Tk):
         self.update_timer()
 
     def update_timer(self):
+        if self.is_destroying:
+            return
+            
         if self.test_type != "timed":
             return
             
@@ -624,6 +638,7 @@ class FEExamSimulator(tk.Tk):
             self.submit_exam()
 
     def return_to_dashboard(self):
+        self.is_destroying = True
         self.destroy()
         dashboard = Dashboard()
         dashboard.mainloop()
@@ -819,8 +834,9 @@ class FEExamSimulator(tk.Tk):
         with open(state_file, 'w') as f:
             json.dump(exam_state, f)
         
-        # Close pause window and return to dashboard
-        pause_window.destroy()
+        # Close pause window if provided and return to dashboard
+        if pause_window:
+            pause_window.destroy()
         self.return_to_dashboard()
 
     def show_pdf_requirement_message(self):
@@ -828,8 +844,14 @@ class FEExamSimulator(tk.Tk):
         # Clear the problem text area
         self.problem_text.delete(1.0, tk.END)
         
-        # Display the requirement message
-        message = "Please load a PDF of the Reference Manual to begin the exam."
+        # Display the requirement message - different for resumed exams
+        if hasattr(self, 'remaining_time') and self.remaining_time > 0:
+            # This is a resumed timed exam
+            message = "Please load a PDF of the Reference Manual to continue the exam."
+        else:
+            # This is a new exam
+            message = "Please load a PDF of the Reference Manual to begin the exam."
+            
         self.problem_text.insert(tk.END, message)
         self.problem_text.tag_configure("center", justify="center")
         self.problem_text.tag_add("center", "1.0", "end")
@@ -852,9 +874,69 @@ class FEExamSimulator(tk.Tk):
             # Start the grace period countdown
             self.update_grace_period()
         else:
-            # For untimed exams, start immediately
+            # For untimed exams, start immediately (no grace period)
             self.load_current_problem()
             self.update_navigation_buttons()
+
+    def on_closing(self):
+        """Handle window close event with confirmation dialog"""
+        # Create confirmation dialog
+        confirm_window = tk.Toplevel(self)
+        confirm_window.title("Exit Confirmation")
+        confirm_window.geometry("400x200")
+        confirm_window.resizable(False, False)
+        
+        # Make window modal
+        confirm_window.transient(self)
+        confirm_window.grab_set()
+        
+        # Center the window
+        confirm_window.update_idletasks()
+        x = (confirm_window.winfo_screenwidth() // 2) - (400 // 2)
+        y = (confirm_window.winfo_screenheight() // 2) - (200 // 2)
+        confirm_window.geometry(f'400x200+{x}+{y}')
+        
+        # Message
+        message_label = ttk.Label(confirm_window, 
+                                text="Do you want to pause your exam and return to the dashboard?",
+                                font=('Arial', 12),
+                                wraplength=350,
+                                justify='center')
+        message_label.pack(pady=20)
+        
+        # Button frame
+        button_frame = ttk.Frame(confirm_window)
+        button_frame.pack(pady=20)
+        
+        # No button (close dialog)
+        no_btn = ttk.Button(button_frame, 
+                           text="No", 
+                           command=confirm_window.destroy,
+                           width=10)
+        no_btn.pack(side=tk.LEFT, padx=5)
+        
+        # Pause exam button
+        pause_btn = ttk.Button(button_frame, 
+                              text="Pause and return to Dashboard", 
+                              command=lambda: [confirm_window.destroy(), self.pause_and_return_to_dashboard()],
+                              width=30)
+        pause_btn.pack(side=tk.LEFT, padx=5)
+        
+        # Focus on No button by default
+        no_btn.focus_set()
+        
+        # Bind Enter key to No button and Escape key to close dialog
+        confirm_window.bind("<Return>", lambda e: confirm_window.destroy())
+        confirm_window.bind("<Escape>", lambda e: confirm_window.destroy())
+
+    def pause_and_return_to_dashboard(self):
+        """Pause the exam and return to dashboard"""
+        # Save the exam state
+        self.save_and_pause_exam(None)  # Pass None since we don't have a pause window
+        
+        # Set destroying flag and return to dashboard
+        self.is_destroying = True
+        self.return_to_dashboard()
 
     def on_answer_selected(self, *args):
         current_index = self.problem_manager.current_index
