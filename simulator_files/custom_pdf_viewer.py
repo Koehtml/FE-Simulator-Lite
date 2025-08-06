@@ -1,9 +1,22 @@
 import tkinter as tk
 from tkinter import ttk, filedialog, messagebox
-import fitz  # PyMuPDF
-from PIL import Image, ImageTk
+try:
+    import fitz  # PyMuPDF
+    print("Successfully imported fitz (PyMuPDF)")
+except ImportError as e:
+    print(f"Failed to import fitz: {e}")
+    fitz = None
+try:
+    from PIL import Image, ImageTk
+    print("Successfully imported PIL modules")
+except ImportError as e:
+    print(f"Failed to import PIL modules: {e}")
+    Image = None
+    ImageTk = None
 import os
+import sys
 import threading
+import traceback
 
 class CustomPDFViewer(ttk.Frame):
     def __init__(self, parent):
@@ -29,6 +42,13 @@ class CustomPDFViewer(ttk.Frame):
         
         # Callback for when PDF is loaded
         self.pdf_loaded_callback = None
+        
+        # Debug logging
+        print("CustomPDFViewer initialized")
+        print(f"Running as frozen: {getattr(sys, 'frozen', False)}")
+        if getattr(sys, 'frozen', False):
+            print(f"Executable path: {sys.executable}")
+            print(f"Bundle directory: {os.path.dirname(sys.executable)}")
         
         # Configure grid
         self.grid_rowconfigure(1, weight=1)  # Main content area
@@ -331,23 +351,37 @@ class CustomPDFViewer(ttk.Frame):
             
     def load_pdf(self):
         """Open file dialog and load PDF"""
+        print("Opening file dialog for PDF selection...")
         file_path = filedialog.askopenfilename(
             title="Select PDF File",
             filetypes=[("PDF files", "*.pdf"), ("All files", "*.*")]
         )
         
+        print(f"Selected file path: {file_path}")
+        
         if file_path:
             self.load_pdf_file(file_path)
+        else:
+            print("No file selected")
             
     def load_pdf_file(self, file_path):
         """Load PDF from file path"""
+        print(f"Loading PDF file: {file_path}")
         try:
             # Load PDF in thread to avoid blocking UI
             def load_thread():
                 try:
+                    if fitz is None:
+                        error_msg = "PyMuPDF (fitz) is not available. Please ensure it is properly installed."
+                        print(error_msg)
+                        self.after(0, lambda: messagebox.showerror("Error", error_msg))
+                        return
+                        
+                    print(f"Opening PDF document: {file_path}")
                     self.pdf_document = fitz.open(file_path)
                     self.total_pages = len(self.pdf_document)
                     self.current_page = 0
+                    print(f"Successfully loaded PDF with {self.total_pages} pages")
                     
                     # Update UI in main thread
                     self.after(0, self.display_current_page)
@@ -355,16 +389,22 @@ class CustomPDFViewer(ttk.Frame):
                     
                     # Call callback if set
                     if self.pdf_loaded_callback:
+                        print("Calling PDF loaded callback")
                         self.after(0, self.pdf_loaded_callback)
                     
                 except Exception as e:
-                    self.after(0, lambda: messagebox.showerror("Error", f"Failed to load PDF: {str(e)}"))
+                    error_msg = f"Failed to load PDF: {str(e)}"
+                    print(error_msg)
+                    print(f"Traceback: {traceback.format_exc()}")
+                    self.after(0, lambda: messagebox.showerror("Error", error_msg))
             
             thread = threading.Thread(target=load_thread, daemon=True)
             thread.start()
             
         except Exception as e:
-            messagebox.showerror("Error", f"Failed to load PDF: {str(e)}")
+            error_msg = f"Failed to load PDF: {str(e)}"
+            print(error_msg)
+            messagebox.showerror("Error", error_msg)
             
     def display_current_page(self):
         """Display the current page"""
@@ -390,6 +430,13 @@ class CustomPDFViewer(ttk.Frame):
             mat = fitz.Matrix(self.zoom_level, self.zoom_level)
             pix = page.get_pixmap(matrix=mat)
             
+            # Check if PIL modules are available
+            if Image is None or ImageTk is None:
+                error_msg = "PIL modules are not available. Please ensure Pillow is properly installed."
+                print(error_msg)
+                messagebox.showerror("Error", error_msg)
+                return
+                
             # Convert to PIL Image
             img = Image.frombytes("RGB", [pix.width, pix.height], pix.samples)
             

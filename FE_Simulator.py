@@ -85,7 +85,16 @@ class FEExamSimulator(tk.Tk):
         style.configure('Large.TButton', font=('Arial', 12))
         
         # Initialize the problem manager
-        self.problem_manager = ProblemManager(num_questions=self.num_questions)
+        try:
+            self.problem_manager = ProblemManager(num_questions=self.num_questions)
+            # Debug logging
+            with open(get_debug_log_path(), "a") as f:
+                f.write(f"Problem manager initialized with {self.problem_manager.total_problems()} problems\n")
+        except Exception as e:
+            # Debug logging
+            with open(get_debug_log_path(), "a") as f:
+                f.write(f"Error initializing problem manager: {str(e)}\n")
+            raise
         
         # Set selected categories BEFORE loading the first problem
         if selected_categories:
@@ -317,12 +326,27 @@ class FEExamSimulator(tk.Tk):
         handbook_frame.grid_columnconfigure(0, weight=1)
         
         # Initialize PDF viewer without a default PDF
-        from simulator_files.custom_pdf_viewer import CustomPDFViewer
-        self.pdf_viewer = CustomPDFViewer(handbook_frame)
-        self.pdf_viewer.grid(row=0, column=0, sticky="nsew")
-        
-        # Set callback for when PDF is loaded
-        self.pdf_viewer.set_pdf_loaded_callback(self.on_pdf_loaded)
+        try:
+            from simulator_files.custom_pdf_viewer import CustomPDFViewer
+            self.pdf_viewer = CustomPDFViewer(handbook_frame)
+            self.pdf_viewer.grid(row=0, column=0, sticky="nsew")
+            
+            # Set callback for when PDF is loaded
+            self.pdf_viewer.set_pdf_loaded_callback(self.on_pdf_loaded)
+            
+            # Debug logging
+            with open(get_debug_log_path(), "a") as f:
+                f.write("PDF viewer initialized successfully\n")
+        except Exception as e:
+            # Debug logging
+            with open(get_debug_log_path(), "a") as f:
+                f.write(f"Error initializing PDF viewer: {str(e)}\n")
+            
+            # Create a simple placeholder if PDF viewer fails
+            placeholder = ttk.Label(handbook_frame, text="PDF Viewer failed to load\nPlease restart the application", 
+                                  justify="center", font=('Arial', 12))
+            placeholder.grid(row=0, column=0, sticky="nsew")
+            self.pdf_viewer = None
         
         # Problem Area (right side)
         problem_frame = ttk.LabelFrame(main_frame, text="Practice Problem")
@@ -439,8 +463,14 @@ class FEExamSimulator(tk.Tk):
             self.check_exam_completion()
 
     def load_current_problem(self):
+        # Debug logging
+        with open(get_debug_log_path(), "a") as f:
+            f.write(f"load_current_problem called - exam_started: {self.exam_started}, pdf_loaded: {self.pdf_loaded}\n")
+        
         # Check if exam has started (PDF loaded)
         if not self.exam_started and not self.pdf_loaded:
+            with open(get_debug_log_path(), "a") as f:
+                f.write("Showing PDF requirement message\n")
             self.show_pdf_requirement_message()
             return
             
@@ -841,6 +871,10 @@ class FEExamSimulator(tk.Tk):
 
     def show_pdf_requirement_message(self):
         """Show message requiring PDF to be loaded before exam starts"""
+        # Debug logging
+        with open(get_debug_log_path(), "a") as f:
+            f.write("show_pdf_requirement_message called\n")
+        
         # Clear the problem text area
         self.problem_text.delete(1.0, tk.END)
         
@@ -859,6 +893,10 @@ class FEExamSimulator(tk.Tk):
         # Disable navigation buttons until PDF is loaded
         self.next_btn.config(state="disabled")
         self.prev_btn.config(state="disabled")
+        
+        # Debug logging
+        with open(get_debug_log_path(), "a") as f:
+            f.write(f"PDF requirement message displayed: {message}\n")
         
     def on_pdf_loaded(self):
         """Called when a PDF is loaded in the viewer"""
