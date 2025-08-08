@@ -14,7 +14,11 @@ def clean_text(text):
 def convert_csv_to_json():
     problems = []
     
-    with open('50 Problems for Beta Version.csv', 'r', encoding='utf-8-sig') as csvfile:
+    # Get the directory where this script is located
+    script_dir = os.path.dirname(__file__)
+    csv_path = os.path.join(script_dir, '50 Problems for Beta Version.csv')
+    
+    with open(csv_path, 'r', encoding='utf-8-sig') as csvfile:
         reader = csv.DictReader(csvfile)
         for row in reader:
             # Clean up the media filename

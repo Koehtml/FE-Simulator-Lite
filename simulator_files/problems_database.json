@@ -199,13 +199,13 @@
     {
       "number": "15",
       "category": "Math",
-      "question": "What is the second derivative of \\\\( f(x) = 2x^3 - 5x + \\\\sin(x) \\\\)",
+      "question": "What is the second derivative of \\ f(x) = 2x^3 - 5x + \\sin(x) \\",
       "media": "",
       "choices": [
-        "\\( f''(x) = 18x^2 - 5 \\)",
-        "\\( f''(x) = 0 \\)",
-        "\\( f''(x) = 12x - \\sin(x) \\)",
-        "\\( f''(x) = 6x^2 + 12x - 5 + \\cos(x) - \\sin(x) \\)"
+        "\\(f''(x) = 18x^2 - 5 \\)",
+        "\\(f\"(x) = 0\\)",
+        "\\(f\"(x) = 12x - sin(x)\\)",
+        "\\(f\"(x) = 6x^2 + 12x - 5 + cos(x) - sin(x)\\)"
       ],
       "correct_answer": "C",
       "media_size": 40
@@ -395,15 +395,15 @@
     {
       "number": "29",
       "category": "Math",
-      "question": "What is the solution to the following differential equation? \\frac{dx}{dy} + 2y = 0",
+      "question": "Determine what is most nearly the max y-coordinate along the curve \\( f(x) = \\sin(x+5) - \\frac{x}{2} \\) between the interval \\( 0 \\le x \\le 5 \\)",
       "media": "",
       "choices": [
-        "\\( y = C_1 e^(-2x) \\)",
-        "\\( y = C_1 \\sin(2x) \\)",
-        "\\( y = C_2 x^2 \\)",
-        "\\( y = C_3 e^{2^x} \\)"
+        "-0.3",
+        "2.3",
+        "4.4",
+        "5.0"
       ],
-      "correct_answer": "A",
+      "correct_answer": "B",
       "media_size": 40
     },
     {
@@ -451,13 +451,13 @@
     {
       "number": "33",
       "category": "Dynamics",
-      "question": "A 4 kg object moves across a frictionless surface at 10 m/s and collides with a stationary 6 kg mass. If the collision is perfectly elastic, calculate the velocity of the moving object and the stationary object after the collision.",
+      "question": "A 4 kg object moves across a frictionless surface at 10 m/s and collides with a stationary 6 kg mass. If the collision is perfectly elastic, calculate the velocity of the stationary 6 kg object after the collision.",
       "media": "",
       "choices": [
-        "Velocity of the 4 kg object: 5 m/s Velocity of the 6 kg object: 5 m/s",
-        "Velocity of the 4 kg object after impact: -2 m/s Velocity of the 6 kg object after impact: 8 m/s",
-        "Velocity of the 4 kg object: 10 m/s Velocity of the 6 kg object: 0 m/s",
-        "Velocity of the 4 kg object: -4 m/s Velocity of the 6 kg object: 12 m/s"
+        "5 m/s",
+        "8 m/s",
+        "0 m/s",
+        "12 m/s"
       ],
       "correct_answer": "B",
       "media_size": 40
@@ -591,13 +591,13 @@
     {
       "number": "43",
       "category": "Math",
-      "question": "Evaluate the integral \\int 4^{x+2} + e^x \\, dx",
+      "question": "Evaluate the integral ∫4x+2+x^3 dx",
       "media": "",
       "choices": [
-        "\\( e^{x} + 4x + C \\)",
-        "\\( e^{x} + (4^{x+2})/(\\ln(4)) + C \\)",
-        "\\(e^{x}\\)",
-        "\\( 2x^2 + 2x + e^{x} + C \\)"
+        "\\(x^2 + 4x + 3x^2 + C\\)",
+        "\\(x^3 + 2x^2 + 4 + C\\)",
+        "\\(x + 4x + x^2 \\)",
+        "\\(x^2 + 4x + x^4/4 + C \\)"
       ],
       "correct_answer": "D",
       "media_size": 40

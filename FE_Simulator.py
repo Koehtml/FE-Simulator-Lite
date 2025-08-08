@@ -254,7 +254,7 @@ class FEExamSimulator(tk.Tk):
         
         # Software title and username
         title_label = ttk.Label(top_frame, 
-                              text="The FE Civil Simulator ~ Lite Version - - - Guest User",
+                              text="The FE Civil Simulator Lite Version ~ Copyright 2025",
                               style='TopBar.TLabel')
         title_label.pack(side=tk.LEFT, padx=15, pady=2)  # Reduced padding for thinner bar
         
@@ -881,10 +881,10 @@ class FEExamSimulator(tk.Tk):
         # Display the requirement message - different for resumed exams
         if hasattr(self, 'remaining_time') and self.remaining_time > 0:
             # This is a resumed timed exam
-            message = "Please load a PDF of the Reference Manual to continue the exam."
+            message = "Please load a PDF of the Reference Manual to begin."
         else:
             # This is a new exam
-            message = "Please load a PDF of the Reference Manual to begin the exam."
+            message = "Please load a PDF of the Reference Manual to begin."
             
         self.problem_text.insert(tk.END, message)
         self.problem_text.tag_configure("center", justify="center")

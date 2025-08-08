@@ -3,6 +3,59 @@ In main block...
 Initializing Dashboard...
 Created Dashboard, starting mainloop...
 Initializing FEExamSimulator...
-Initializing Dashboard...
+Problem manager initialized with 50 problems
+PDF viewer initialized successfully
+show_pdf_requirement_message called
+PDF requirement message displayed: Please load a PDF of the Reference Manual to begin.
+load_current_problem called - exam_started: True, pdf_loaded: True
+load_current_problem called - exam_started: True, pdf_loaded: True
+load_current_problem called - exam_started: True, pdf_loaded: True
+load_current_problem called - exam_started: True, pdf_loaded: True
+load_current_problem called - exam_started: True, pdf_loaded: True
+load_current_problem called - exam_started: True, pdf_loaded: True
+load_current_problem called - exam_started: True, pdf_loaded: True
+load_current_problem called - exam_started: True, pdf_loaded: True
+load_current_problem called - exam_started: True, pdf_loaded: True
+load_current_problem called - exam_started: True, pdf_loaded: True
+load_current_problem called - exam_started: True, pdf_loaded: True
+load_current_problem called - exam_started: True, pdf_loaded: True
+load_current_problem called - exam_started: True, pdf_loaded: True
+load_current_problem called - exam_started: True, pdf_loaded: True
+load_current_problem called - exam_started: True, pdf_loaded: True
+load_current_problem called - exam_started: True, pdf_loaded: True
+load_current_problem called - exam_started: True, pdf_loaded: True
+load_current_problem called - exam_started: True, pdf_loaded: True
+load_current_problem called - exam_started: True, pdf_loaded: True
+load_current_problem called - exam_started: True, pdf_loaded: True
+load_current_problem called - exam_started: True, pdf_loaded: True
+load_current_problem called - exam_started: True, pdf_loaded: True
+load_current_problem called - exam_started: True, pdf_loaded: True
+load_current_problem called - exam_started: True, pdf_loaded: True
+load_current_problem called - exam_started: True, pdf_loaded: True
+load_current_problem called - exam_started: True, pdf_loaded: True
+load_current_problem called - exam_started: True, pdf_loaded: True
+load_current_problem called - exam_started: True, pdf_loaded: True
+load_current_problem called - exam_started: True, pdf_loaded: True
+load_current_problem called - exam_started: True, pdf_loaded: True
+load_current_problem called - exam_started: True, pdf_loaded: True
+load_current_problem called - exam_started: True, pdf_loaded: True
+load_current_problem called - exam_started: True, pdf_loaded: True
+load_current_problem called - exam_started: True, pdf_loaded: True
+load_current_problem called - exam_started: True, pdf_loaded: True
+load_current_problem called - exam_started: True, pdf_loaded: True
+load_current_problem called - exam_started: True, pdf_loaded: True
+load_current_problem called - exam_started: True, pdf_loaded: True
+load_current_problem called - exam_started: True, pdf_loaded: True
+load_current_problem called - exam_started: True, pdf_loaded: True
+load_current_problem called - exam_started: True, pdf_loaded: True
+load_current_problem called - exam_started: True, pdf_loaded: True
+load_current_problem called - exam_started: True, pdf_loaded: True
+load_current_problem called - exam_started: True, pdf_loaded: True
+load_current_problem called - exam_started: True, pdf_loaded: True
+load_current_problem called - exam_started: True, pdf_loaded: True
+load_current_problem called - exam_started: True, pdf_loaded: True
+load_current_problem called - exam_started: True, pdf_loaded: True
+load_current_problem called - exam_started: True, pdf_loaded: True
+load_current_problem called - exam_started: True, pdf_loaded: True
 Initializing Dashboard...
 Program finished.
