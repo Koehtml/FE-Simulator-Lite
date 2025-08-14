@@ -254,7 +254,7 @@ class FEExamSimulator(tk.Tk):
         
         # Software title and username
         title_label = ttk.Label(top_frame, 
-                              text="The FE Civil Simulator Lite Version ~ Copyright 2025",
+                              text="The FE Civil Simulator ~ Copyright 2025",
                               style='TopBar.TLabel')
         title_label.pack(side=tk.LEFT, padx=15, pady=2)  # Reduced padding for thinner bar
         

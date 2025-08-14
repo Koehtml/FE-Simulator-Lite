@@ -446,7 +446,7 @@
         "553 lb"
       ],
       "correct_answer": "A",
-      "media_size": 40
+      "media_size": 50
     },
     {
       "number": "33",
@@ -633,13 +633,13 @@
     {
       "number": "46",
       "category": "Statics",
-      "question": "Find the vertical reactions at each end of the beam in pounds.",
+      "question": "Find the vertical reaction at A on the beam in pounds.",
       "media": "Statics_47.jpg",
       "choices": [
-        "R_A = 1,111 lbs R_B = 389 lbs",
-        "R_A = 1,389 lbs R_B = 111 lbs",
-        "R_A = 500 lbs R_B = 1,000 lbs",
-        "R_A = 1,250 lbs R_B = 250 lbs"
+        "1,111 lbs",
+        "1,389 lbs",
+        "500 lbs",
+        "1,250 lbs"
       ],
       "correct_answer": "B",
       "media_size": 40
@@ -664,10 +664,10 @@
       "question": "A simply supported beam has a variable distributed load applied to it. What is most nearly the maximum deflection in the beam in inches and how many feet along the beam does the maximum deflection occur? The beam has a Modulus of Elasticity of 29,000 ksi and a Moment of Inertia of 156 in^4. Ignore the beam’s self-weight.",
       "media": "Strength_49.jpg",
       "choices": [
-        "v_(max) = -2x10^-2 in, x = 10.5 ft",
-        "v_(max) = -3.5x10^-5 in, x = 6 ft",
-        "v_(max) = -7x10^-3 in, x = 19 ft",
-        "v_(max) = -8x10^-3 in, x = 12 ft"
+        "-2x10^-2 in at 10.5 ft",
+        "-3.5x10^-5 in at 6 ft",
+        "-7x10^-3 in at 19 ft",
+        "-8x10^-3 in at 12 ft"
       ],
       "correct_answer": "D",
       "media_size": 40

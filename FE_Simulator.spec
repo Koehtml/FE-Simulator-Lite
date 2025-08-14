@@ -73,5 +73,5 @@ exe = EXE(
     codesign_identity=None,
     entitlements_file=None,
     icon='icon.ico',
-    distpath=r'C:\Users\tskts\OneDrive\Desktop\FE Simulator auto-py-to-exe output\Lite',
+    distpath=r'C:\Users\tskts\OneDrive\Desktop\FE-Simulator',
 ) 
